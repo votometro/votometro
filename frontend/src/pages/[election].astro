@@ -1,0 +1,28 @@
+---
+export const prerender = false;
+
+import { type SanityDocument } from "@sanity/client";
+import { sanityClient } from "sanity:client";
+import { App } from "../app/App";
+import Layout from "../layouts/Layout.astro";
+
+const ELECTIONS_QUERY = `
+   *[_type == "election" && slug == $slug][0] {
+    title,
+    slug,
+    theses
+  }
+`;
+
+const election = await sanityClient.fetch<SanityDocument>(ELECTIONS_QUERY, {
+  slug: Astro.params.election,
+});
+
+if (!election) {
+  return new Response("Not found", { status: 404 });
+}
+---
+
+<Layout>
+  <App {...election} client:only />
+</Layout>

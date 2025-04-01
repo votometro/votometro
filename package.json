@@ -1,0 +1,5 @@
+{
+  "name": "a-quien-votar-monorepo",
+  "private": true,
+  "packageManager": "pnpm@10.4.1"
+}
