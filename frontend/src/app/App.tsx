@@ -7,7 +7,7 @@ export function App({ title, theses }: AppProps) {
   console.log(theses);
   return (
     <section>
-      <h1>A Quien Votar</h1>
+      <h1>Votometro</h1>
       <h2>{title}</h2>
 
       <h3>Theses</h3>
