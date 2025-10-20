@@ -3,6 +3,211 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-  <h1>Información general</h1>
-  <p>Explicación de <strong>A Quien Votar</strong>.</p>
+  <main class="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20 px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6">Votómetro</h1>
+        <p class="text-xl md:text-2xl mb-8 text-blue-100">
+          Descubre qué partidos políticos están más alineados con tus opiniones
+        </p>
+        <a
+          href="/elecciones"
+          class="inline-block bg-white text-blue-600 font-bold text-lg px-8 py-4 rounded-lg hover:bg-blue-50 transition-colors shadow-lg"
+        >
+          Empezar Votómetro
+        </a>
+      </div>
+    </section>
+
+    <!-- What is Votometro Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
+          ¿Qué es Votómetro?
+        </h2>
+        <p class="text-lg text-gray-700 leading-relaxed mb-4">
+          Votómetro es una herramienta gratuita que te ayuda a tomar una decisión informada al votar.
+          Responde preguntas sobre temas importantes en Perú y descubre qué partidos políticos
+          comparten tus opiniones.
+        </p>
+        <p class="text-lg text-gray-700 leading-relaxed">
+          No te decimos por quién votar, pero te ayudamos a entender mejor las propuestas de
+          cada partido para que puedas elegir de manera consciente.
+        </p>
+      </div>
+    </section>
+
+    <!-- How it Works Section -->
+    <section class="py-16 px-4 bg-gray-50">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
+          ¿Cómo funciona?
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Step 1 -->
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="text-4xl font-bold text-blue-600 mb-4">1</div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              Responde preguntas
+            </h3>
+            <p class="text-gray-700">
+              Contesta preguntas sobre temas políticos importantes en Perú.
+              Puedes responder de acuerdo, neutral o en desacuerdo.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="text-4xl font-bold text-blue-600 mb-4">2</div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              Comparamos posiciones
+            </h3>
+            <p class="text-gray-700">
+              Comparamos tus respuestas con las posiciones oficiales de los
+              partidos políticos en las mismas preguntas.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="text-4xl font-bold text-blue-600 mb-4">3</div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              Mira tu resultado
+            </h3>
+            <p class="text-gray-700">
+              Recibe un resultado que muestra qué tan alineado estás con
+              cada partido en una escala de 0 a 100%.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
+          ¿Por qué usar Votómetro?
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Feature 1 -->
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                100% Neutral
+              </h3>
+              <p class="text-gray-700">
+                No favorecemos a ningún partido. Comparamos objetivamente tus respuestas
+                con las posiciones oficiales.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                Tus datos son privados
+              </h3>
+              <p class="text-gray-700">
+                No guardamos tus respuestas ni información personal. Todo se procesa
+                localmente en tu navegador.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                Rápido y fácil
+              </h3>
+              <p class="text-gray-700">
+                Completa el cuestionario en menos de 10 minutos y obtén
+                tu resultado al instante.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                Información transparente
+              </h3>
+              <p class="text-gray-700">
+                Puedes ver las respuestas de cada partido y entender por qué
+                obtuviste cada resultado.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+          ¿Listo para descubrir tu afinidad política?
+        </h2>
+        <p class="text-xl text-blue-100 mb-8">
+          Empieza ahora y toma una decisión informada en las próximas elecciones
+        </p>
+        <a
+          href="/elecciones"
+          class="inline-block bg-white text-blue-600 font-bold text-lg px-8 py-4 rounded-lg hover:bg-blue-50 transition-colors shadow-lg"
+        >
+          Empezar Votómetro
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12 px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="mb-6">
+          <a href="/preguntas-frecuentes" class="text-blue-400 hover:text-blue-300 font-semibold">
+            Preguntas Frecuentes
+          </a>
+        </div>
+        <p class="mb-4">
+          Votómetro es una herramienta educativa para promover la participación
+          ciudadana informada.
+        </p>
+        <p class="text-sm text-gray-400">
+          Los resultados son orientativos y no constituyen una recomendación de voto.
+        </p>
+      </div>
+    </footer>
+  </main>
 </Layout>

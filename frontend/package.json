@@ -24,8 +24,10 @@
     "styled-components": "^6.1.16"
   },
   "devDependencies": {
+    "@astrojs/tailwind": "6.0.2",
     "@cloudflare/workers-types": "^4.20250327.0",
     "@sanity/client": "^6.28.4",
+    "tailwindcss": "^3",
     "wrangler": "^4.6.0"
   }
 }

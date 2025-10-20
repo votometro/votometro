@@ -1,0 +1,351 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <main class="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-12 px-4">
+      <div class="max-w-4xl mx-auto">
+        <a href="/" class="inline-block mb-4 text-blue-100 hover:text-white transition-colors">
+          ← Volver al inicio
+        </a>
+        <h1 class="text-4xl md:text-5xl font-bold">Preguntas Frecuentes</h1>
+        <p class="text-xl text-blue-100 mt-4">
+          Todo lo que necesitas saber sobre Votómetro
+        </p>
+      </div>
+    </header>
+
+    <!-- FAQ Content -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <!-- General Questions -->
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b-2 border-blue-600 pb-2">
+            General
+          </h2>
+
+          <div class="space-y-6">
+            <!-- Q1 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Qué es Votómetro?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Votómetro es una herramienta de orientación electoral que te ayuda a descubrir qué partidos
+                políticos están más alineados con tus opiniones. Mediante un cuestionario sobre temas políticos
+                importantes en Perú, comparamos tus respuestas con las posiciones oficiales de los partidos.
+              </p>
+            </div>
+
+            <!-- Q2 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Cómo funciona Votómetro?
+              </h3>
+              <p class="text-gray-700 leading-relaxed mb-3">
+                El proceso es simple:
+              </p>
+              <ol class="list-decimal list-inside text-gray-700 space-y-2">
+                <li>Respondes preguntas sobre temas políticos importantes</li>
+                <li>Comparamos tus respuestas con las posiciones de los partidos</li>
+                <li>Recibes un resultado que muestra tu afinidad con cada partido en porcentaje</li>
+                <li>Puedes ver en detalle qué respuestas coinciden o difieren con cada partido</li>
+              </ol>
+            </div>
+
+            <!-- Q3 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Es gratuito?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Sí, Votómetro es completamente gratuito. No necesitas registrarte ni proporcionar
+                información personal para usarlo.
+              </p>
+            </div>
+
+            <!-- Q4 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Cuánto tiempo toma completar el cuestionario?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                El cuestionario generalmente toma entre 5 y 10 minutos en completarse, dependiendo
+                de cuánto tiempo dediques a leer cada pregunta.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy & Data Questions -->
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b-2 border-blue-600 pb-2">
+            Privacidad y Datos
+          </h2>
+
+          <div class="space-y-6">
+            <!-- Q5 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Guardamos tus respuestas?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                No. Tus respuestas se procesan localmente en tu navegador y no se envían a ningún
+                servidor. No guardamos ninguna información sobre tus respuestas ni tus resultados.
+              </p>
+            </div>
+
+            <!-- Q6 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Necesito crear una cuenta?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                No. Puedes usar Votómetro sin registrarte, sin proporcionar tu correo electrónico
+                ni ningún otro dato personal.
+              </p>
+            </div>
+
+            <!-- Q7 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Puedo compartir mis resultados?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Puedes compartir tus resultados si lo deseas, pero ten en cuenta que tus respuestas
+                y resultados no se guardan en nuestros servidores. Si cierras la página, perderás
+                tu resultado.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- About the Results -->
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b-2 border-blue-600 pb-2">
+            Sobre los Resultados
+          </h2>
+
+          <div class="space-y-6">
+            <!-- Q8 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Qué significa el porcentaje de coincidencia?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                El porcentaje muestra qué tan alineadas están tus respuestas con las posiciones de
+                cada partido. Un 100% significa que coincides completamente con ese partido en todas
+                las preguntas respondidas, mientras que 0% significa que no coincides en nada.
+              </p>
+            </div>
+
+            <!-- Q9 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Debo votar por el partido con el que tengo mayor coincidencia?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                No necesariamente. Votómetro es solo una herramienta de orientación. El resultado
+                te ayuda a entender mejor las posiciones de los partidos, pero tu decisión de voto
+                debe considerar muchos otros factores como la trayectoria de los candidatos, la
+                viabilidad electoral, y tus propias prioridades.
+              </p>
+            </div>
+
+            <!-- Q10 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Es Votómetro completamente neutral?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Sí. No favorecemos a ningún partido político. Simplemente comparamos tus respuestas
+                con las posiciones oficiales que cada partido ha declarado públicamente. El algoritmo
+                de comparación es transparente y objetivo.
+              </p>
+            </div>
+
+            <!-- Q11 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿De dónde obtienen las posiciones de los partidos?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Las posiciones de los partidos provienen de sus planes de gobierno oficiales,
+                declaraciones públicas, entrevistas con representantes del partido, y documentos
+                oficiales. Hacemos todo lo posible para que la información sea precisa y actual.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Questions -->
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b-2 border-blue-600 pb-2">
+            Técnico
+          </h2>
+
+          <div class="space-y-6">
+            <!-- Q12 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿En qué dispositivos funciona Votómetro?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Votómetro funciona en cualquier dispositivo con un navegador web moderno: computadoras,
+                tablets y teléfonos móviles. La interfaz es responsive y se adapta a cualquier tamaño
+                de pantalla.
+              </p>
+            </div>
+
+            <!-- Q13 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Necesito conexión a internet?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Solo necesitas conexión a internet para cargar la aplicación inicialmente. Una vez
+                cargada, el cuestionario funciona completamente offline ya que todo se procesa en tu
+                navegador.
+              </p>
+            </div>
+
+            <!-- Q14 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Qué navegadores son compatibles?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Votómetro funciona en todos los navegadores modernos: Chrome, Firefox, Safari, Edge
+                y Opera. Recomendamos usar la versión más actualizada de tu navegador para la mejor
+                experiencia.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- About Elections -->
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b-2 border-blue-600 pb-2">
+            Sobre las Elecciones
+          </h2>
+
+          <div class="space-y-6">
+            <!-- Q15 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Para qué elecciones está disponible Votómetro?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Votómetro está disponible para diferentes elecciones en Perú. Puedes ver las elecciones
+                activas disponibles en la página principal. Actualizamos la herramienta antes de cada
+                proceso electoral importante.
+              </p>
+            </div>
+
+            <!-- Q16 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Todos los partidos están incluidos?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Incluimos todos los partidos que participan oficialmente en la elección y que han
+                presentado planes de gobierno o declaraciones públicas suficientes para determinar
+                sus posiciones en los temas del cuestionario.
+              </p>
+            </div>
+
+            <!-- Q17 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Con qué frecuencia actualizan la información?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Actualizamos la información de los partidos regularmente durante el período electoral,
+                especialmente si hay cambios significativos en sus posiciones o nuevas declaraciones
+                importantes.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact & Feedback -->
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b-2 border-blue-600 pb-2">
+            Contacto y Retroalimentación
+          </h2>
+
+          <div class="space-y-6">
+            <!-- Q18 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Cómo puedo reportar un error?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Si encuentras un error en la información de algún partido o en el funcionamiento
+                de la aplicación, por favor contáctanos a través de nuestro correo electrónico
+                o redes sociales. Tu retroalimentación nos ayuda a mejorar.
+              </p>
+            </div>
+
+            <!-- Q19 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Puedo sugerir nuevas preguntas?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Sí, valoramos tus sugerencias. Si crees que hay temas importantes que deberían
+                estar incluidos en el cuestionario, puedes enviarnos tus ideas. Evaluamos todas
+                las sugerencias para futuras actualizaciones.
+              </p>
+            </div>
+
+            <!-- Q20 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                ¿Quién está detrás de Votómetro?
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                Votómetro es un proyecto independiente creado para promover la participación
+                ciudadana informada. No estamos afiliados a ningún partido político ni organización
+                electoral.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl font-bold text-white mb-6">
+          ¿Tienes más preguntas?
+        </h2>
+        <p class="text-xl text-blue-100 mb-8">
+          Empieza a usar Votómetro y descubre tu afinidad política
+        </p>
+        <a
+          href="/"
+          class="inline-block bg-white text-blue-600 font-bold text-lg px-8 py-4 rounded-lg hover:bg-blue-50 transition-colors shadow-lg"
+        >
+          Ir al inicio
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12 px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <p class="mb-4">
+          Votómetro es una herramienta educativa para promover la participación
+          ciudadana informada.
+        </p>
+        <p class="text-sm text-gray-400">
+          Los resultados son orientativos y no constituyen una recomendación de voto.
+        </p>
+      </div>
+    </footer>
+  </main>
+</Layout>

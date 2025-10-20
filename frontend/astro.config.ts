@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
+import tailwind from "@astrojs/tailwind";
 
 import sanity from "@sanity/astro";
 
@@ -13,6 +14,7 @@ export default defineConfig({
 
   integrations: [
     react(),
+    tailwind(),
     sanity({
       projectId: "h9gt2zpk",
       dataset: "production",
