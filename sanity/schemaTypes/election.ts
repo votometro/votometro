@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export const electionType = defineType({
   name: 'election',
@@ -25,15 +25,15 @@ export const electionType = defineType({
           title: 'Thesis',
           fields: [
             {
-              name: 'title',
+              name: 'text',
               type: 'string',
-              title: 'Title',
+              title: 'Text',
               validation: (Rule) => Rule.required(),
             },
             {
-              name: 'description',
+              name: 'subtitle',
               type: 'text',
-              title: 'Description',
+              title: 'Subtitle',
             },
           ],
         },
