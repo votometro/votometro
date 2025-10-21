@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, forwardRef } from "react";
 import type { Answer, AnswerValue, Thesis } from "./types";
+import { cn } from "../lib/cn";
 
 interface QuizProps {
   title: string;
@@ -13,16 +14,122 @@ const ANSWER_OPTIONS: { value: AnswerValue; label: string }[] = [
   { value: -1, label: "En desacuerdo" },
 ];
 
-export function Quiz({ title, theses, onComplete }: QuizProps) {
-  const [answers, setAnswers] = useState<Answer[]>([]);
-  const [currentThesisIndex, setCurrentThesisIndex] = useState<number>(0);
+// Slide component
+interface SlideProps {
+  children: React.ReactNode;
+  footer?: React.ReactNode;
+  className?: string;
+}
+
+const Slide = forwardRef<HTMLDivElement, SlideProps>(
+  ({ children, footer, className }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className="h-full snap-start px-4 pt-6 pb-3 flex flex-col md:items-center"
+      >
+        <div className={cn(
+          "flex-1 md:flex-none md:w-full md:max-w-[600px] md:aspect-[16/10] bg-surface rounded-3xl p-8 flex flex-col justify-between",
+          className
+        )}>
+          {children}
+        </div>
+        {footer && (
+          <div className="w-full md:max-w-[900px] mt-3 text-center">
+            {footer}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+
+Slide.displayName = "Slide";
+
+// Button component for position/answer buttons
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick: () => void;
+  variant?: "default" | "selected" | "primary";
+  className?: string;
+}
+
+const Button = ({ children, onClick, variant = "default", className, disabled = false }: ButtonProps & { disabled?: boolean }) => {
+  const variantClasses = {
+    default: "bg-background text-text-primary",
+    selected: "bg-primary text-text-inverse",
+    primary: "bg-primary text-text-inverse",
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={cn(
+        "w-full md:w-auto md:flex-shrink-0 py-4 px-6 rounded-lg font-semibold transition-all hover:opacity-80 active:scale-95 cursor-pointer",
+        variantClasses[variant],
+        className
+      )}
+    >
+      {children}
+    </button>
+  );
+};
+
+// Hook for managing slide navigation state
+const useSlideNavigation = (slideRefs: React.MutableRefObject<(HTMLDivElement | null)[]>) => {
+  const [isNavigating, setIsNavigating] = useState(false);
+  const delayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const navigateToNextSlide = (targetIndex: number, delay = 300) => {
+    // Clear any pending navigation timeouts
+    if (delayTimeoutRef.current) {
+      clearTimeout(delayTimeoutRef.current);
+    }
+    if (animationTimeoutRef.current) {
+      clearTimeout(animationTimeoutRef.current);
+    }
+
+    setIsNavigating(true);
+
+    // Wait for delay, then scroll to the target slide
+    delayTimeoutRef.current = setTimeout(() => {
+      slideRefs.current[targetIndex]?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      // Reset navigation state after animation completes
+      animationTimeoutRef.current = setTimeout(() => {
+        setIsNavigating(false);
+      }, 300);
+    }, delay);
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (delayTimeoutRef.current) {
+        clearTimeout(delayTimeoutRef.current);
+      }
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  return { isNavigating, navigateToNextSlide };
+};
+
+// Hook for tracking which slide is currently in view
+const useCurrentSlide = (
+  scrollContainerRef: React.MutableRefObject<HTMLDivElement | null>,
+  slideRefs: React.MutableRefObject<(HTMLDivElement | null)[]>,
+  currentThesisIndex: number
+) => {
   const [viewSlideIndex, setViewSlideIndex] = useState<number>(0);
-  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-  const isComplete = currentThesisIndex >= theses.length;
-
-  // Track which slide is currently in view using scroll position
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
@@ -58,7 +165,22 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
     return () => {
       scrollContainer.removeEventListener('scroll', handleScroll);
     };
-  }, [currentThesisIndex]); // Re-run when new slides are added
+  }, [currentThesisIndex, scrollContainerRef, slideRefs]);
+
+  return viewSlideIndex;
+};
+
+export function Quiz({ title, theses, onComplete }: QuizProps) {
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  const [currentThesisIndex, setCurrentThesisIndex] = useState<number>(0);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const isComplete = currentThesisIndex >= theses.length;
+
+  // Use custom hooks for navigation and slide tracking
+  const { isNavigating, navigateToNextSlide } = useSlideNavigation(slideRefs);
+  const viewSlideIndex = useCurrentSlide(scrollContainerRef, slideRefs, currentThesisIndex);
 
   const handleAnswer = (thesisIndex: number, value: AnswerValue) => {
     // Update or add answer
@@ -81,14 +203,8 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
       setCurrentThesisIndex(currentThesisIndex + 1);
     }
 
-    // Scroll to next slide after 500ms
-    setTimeout(() => {
-      const nextSlideIndex = thesisIndex + 1;
-      slideRefs.current[nextSlideIndex]?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 300);
+    // Navigate to next slide with delay
+    navigateToNextSlide(thesisIndex + 1);
   };
 
   const handleSkip = (thesisIndex: number) => {
@@ -104,14 +220,8 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
       setCurrentThesisIndex(currentThesisIndex + 1);
     }
 
-    // Scroll to next slide
-    setTimeout(() => {
-      const nextSlideIndex = thesisIndex + 1;
-      slideRefs.current[nextSlideIndex]?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 300);
+    // Navigate to next slide with delay
+    navigateToNextSlide(thesisIndex + 1);
   };
 
   const handleComplete = () => {
@@ -131,27 +241,29 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
     <div className="h-[100dvh] flex flex-col">
       {/* Header */}
       <header className="z-10">
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-background">
-            {/* Progress bar wrapper with padding for larger click area */}
-            <div className="pt-4 pb-5">
-              <div className="w-1/2 h-1 bg-surface rounded-full overflow-hidden mx-auto relative">
-                {/* Gray layer: Answered progress (background) */}
-                <div
-                  className="absolute inset-0 h-full bg-gray-300 transition-all duration-300"
-                  style={{ width: `${answeredProgress}%` }}
-                />
-                {/* Blue layer: Current view/scroll position (foreground) */}
-                <div
-                  className="absolute inset-0 h-full bg-primary transition-all duration-300"
-                  style={{ width: `${viewProgress}%` }}
-                />
-              </div>
+        <div className="bg-background">
+          {/* Progress bar wrapper with padding for larger click area */}
+          <div className="pt-4 pb-5">
+            <div className="w-1/2 h-1 bg-surface rounded-full overflow-hidden mx-auto relative">
+              {/* Gray layer: Answered progress (background) */}
+              <div
+                className="absolute inset-0 h-full bg-gray-300 transition-all duration-300"
+                style={{ width: `${answeredProgress}%` }}
+              />
+              {/* Blue layer: Current view/scroll position (foreground) */}
+              <div
+                className="absolute inset-0 h-full bg-primary transition-all duration-300"
+                style={{ width: `${viewProgress}%` }}
+              />
             </div>
-            {/* Title container */}
-            <div className="px-6">
-              <h1 className="text-xl text-text-primary mb-1">Votómetro</h1>
-              <p className="text-sm text-text-primary font-bold">{title}</p>
+          </div>
+          {/* Title container - centered */}
+          <div className="px-6">
+            <div className="md:mx-auto md:max-w-[900px] md:flex md:justify-center">
+              <div className="md:inline-block md:text-center">
+                <h1 className="text-xl text-text-primary mb-1">Votómetro</h1>
+                <p className="text-sm text-text-primary font-bold">{title}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -169,95 +281,77 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
           const answer = answers.find((a) => a.thesisIndex === index);
 
           return (
-            <div
+            <Slide
               key={index}
               ref={(el) => (slideRefs.current[index] = el)}
-              className="h-full snap-start px-4 pt-6 pb-3 flex flex-col"
-            >
-              <div className="max-w-2xl mx-auto flex-1 bg-surface rounded-3xl p-8 flex flex-col justify-between">
-                {/* Top: Subtitle and thesis text */}
-                <div>
-                  {/* Subtitle with progress */}
-                  <p className="text-sm leading-0 text-text-primary font-bold mb-6">
-                    {index + 1} / {theses.length}
-                    {thesis.subtitle && ` ${thesis.subtitle}`}
-                  </p>
-
-                  {/* Main thesis text */}
-                  <h2 className="text-2xl md:text-3xl text-text-primary">
-                    {thesis.text}
-                  </h2>
-                </div>
-
-                {/* Bottom: Answer buttons */}
-                <div className="space-y-3">
-                  {ANSWER_OPTIONS.map((option) => {
-                    const isSelected = answer?.value === option.value;
-
-                    return (
-                      <button
-                        key={option.value}
-                        onClick={() => handleAnswer(index, option.value)}
-                        className={`
-                          w-full py-4 px-6 rounded-lg font-semibold transition-all
-                          ${isSelected
-                            ? "bg-primary text-text-inverse"
-                            : "bg-background text-text-primary"
-                          }
-                          hover:opacity-80 active:scale-95 cursor-pointer
-                        `}
-                      >
-                        {option.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Skip button - outside and below card */}
-              <div className="max-w-2xl mx-auto w-full mt-3 text-center">
+              footer={
                 <button
                   onClick={() => handleSkip(index)}
+                  disabled={isNavigating}
                   className="inline-block py-2 px-6 rounded-lg font-semibold text-text-muted hover:text-text-secondary transition-all active:scale-95 cursor-pointer"
                 >
                   Saltar tesis
                 </button>
+              }
+            >
+              {/* Top: Subtitle and thesis text */}
+              <div>
+                {/* Subtitle with progress */}
+                <p className="text-sm leading-0 text-hyped-blue font-bold mb-6">
+                  {index + 1} / {theses.length}
+                  {thesis.subtitle && ` ${thesis.subtitle}`}
+                </p>
+
+                {/* Main thesis text */}
+                <h2 className="text-2xl md:text-3xl text-text-primary">
+                  {thesis.text}
+                </h2>
               </div>
-            </div>
+
+              {/* Bottom: Answer buttons */}
+              <div className="space-y-3 md:space-y-0 md:flex md:gap-3 md:justify-start">
+                {ANSWER_OPTIONS.map((option) => {
+                  const isSelected = answer?.value === option.value;
+
+                  return (
+                    <Button
+                      key={option.value}
+                      onClick={() => handleAnswer(index, option.value)}
+                      variant={isSelected ? "selected" : "default"}
+                      disabled={isNavigating}
+                    >
+                      {option.label}
+                    </Button>
+                  );
+                })}
+              </div>
+            </Slide>
           );
         })}
 
         {/* Final slide with "Ver resultados" button */}
         {isComplete && (
-          <div
-            ref={(el) => (slideRefs.current[theses.length] = el)}
-            className="h-full snap-start px-4 pt-6 pb-3 flex flex-col"
-          >
-            <div className="max-w-2xl mx-auto flex-1 bg-surface rounded-3xl p-8 flex flex-col justify-between">
-              {/* Top: Caption and completion message */}
-              <div>
-                {/* Caption consistent with quiz slides */}
-                <p className="text-sm leading-0 text-text-primary font-bold mb-6">
-                  Resultados
-                </p>
+          <Slide ref={(el) => (slideRefs.current[theses.length] = el)}>
+            {/* Top: Caption and completion message */}
+            <div>
+              {/* Caption consistent with quiz slides */}
+              <p className="text-sm leading-0 text-text-primary font-bold mb-6">
+                Resultados
+              </p>
 
-                {/* Completion message */}
-                <h2 className="text-2xl md:text-3xl text-text-primary">
-                  Tus resultados están listos
-                </h2>
-              </div>
-
-              {/* Bottom: Button */}
-              <div>
-                <button
-                  onClick={handleComplete}
-                  className="w-full py-4 px-6 rounded-lg font-semibold transition-all bg-primary text-text-inverse hover:opacity-80 active:scale-95 cursor-pointer"
-                >
-                  Ver resultados
-                </button>
-              </div>
+              {/* Completion message */}
+              <h2 className="text-2xl md:text-3xl text-text-primary">
+                Tus resultados están listos
+              </h2>
             </div>
-          </div>
+
+            {/* Bottom: Button */}
+            <div>
+              <Button onClick={handleComplete} variant="primary" disabled={isNavigating}>
+                Ver resultados
+              </Button>
+            </div>
+          </Slide>
         )}
       </div>
     </div>

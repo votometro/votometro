@@ -13,11 +13,13 @@
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "astro": "^5.14.7",
+    "clsx": "^2.1.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-is": "^19.1.0",
     "sanity": "^3.82.0",
-    "styled-components": "^6.1.16"
+    "styled-components": "^6.1.16",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20251014.0",
