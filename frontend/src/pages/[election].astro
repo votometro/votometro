@@ -3,14 +3,17 @@ export const prerender = false;
 
 import { type SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
-import { Quiz } from "../app/Quiz";
+import { Election } from "../app/Election";
 import Layout from "../layouts/Layout.astro";
 
 const ELECTIONS_QUERY = `
    *[_type == "election" && slug == $slug][0] {
     title,
     slug,
-    theses
+    theses[] {
+      text,
+      subtitle
+    }
   }
 `;
 
@@ -24,5 +27,5 @@ if (!election) {
 ---
 
 <Layout>
-  <Quiz {...election} client:only />
+  <Election {...election} client:only />
 </Layout>
