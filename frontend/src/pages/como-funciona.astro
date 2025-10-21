@@ -1,0 +1,680 @@
+---
+import Layout from "../layouts/Layout.astro"
+---
+
+<Layout>
+	<main class="min-h-screen bg-white">
+		<!-- Header with back button -->
+		<header
+			class="fixed top-0 right-0 left-0 z-50 px-6 py-4 flex justify-between items-center bg-white border-b border-gray-100"
+		>
+			<a
+				href="/"
+				class="text-gray-900 hover:text-gray-600 font-medium transition-colors"
+			>
+				← Volver al inicio
+			</a>
+			<a
+				href="/elecciones"
+				class="bg-black text-white font-medium text-sm px-6 py-3 rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"
+			>
+				Empezar Votómetro
+			</a>
+		</header>
+
+		<!-- Hero Section -->
+		<section class="pt-32 pb-20 px-4">
+			<div class="max-w-6xl mx-auto">
+				<h1
+					class="text-6xl md:text-8xl font-bold text-gray-900 mb-8 leading-tight tracking-tight"
+				>
+					Cómo funciona
+				</h1>
+				<p class="text-xl md:text-2xl text-gray-600 max-w-3xl">
+					Descubre cómo calculamos tu afinidad con los partidos políticos de
+					manera transparente y objetiva
+				</p>
+			</div>
+		</section>
+
+		<!-- Introduction -->
+		<section class="py-12 px-4 bg-gray-50">
+			<div class="max-w-4xl mx-auto">
+				<p class="text-lg text-gray-700 leading-relaxed mb-4">
+					Votómetro utiliza un algoritmo simple y transparente para calcular qué
+					tan alineadas están tus opiniones con las posiciones de cada partido
+					político. El proceso es completamente objetivo y matemático.
+				</p>
+				<p class="text-lg text-gray-700 leading-relaxed">
+					A continuación, explicamos paso a paso cómo funciona el cálculo.
+				</p>
+			</div>
+		</section>
+
+		<!-- Step 1: Your Answers -->
+		<section class="py-16 px-4">
+			<div class="max-w-4xl mx-auto">
+				<div class="mb-12">
+					<span
+						class="inline-block bg-gray-900 text-white text-sm font-bold px-4 py-2 rounded-full mb-6"
+					>
+						Paso 1
+					</span>
+					<h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">
+						Tus respuestas
+					</h2>
+				</div>
+
+				<div class="space-y-6 mb-12">
+					<p class="text-lg text-gray-700 leading-relaxed">
+						Para cada pregunta del cuestionario, puedes elegir entre tres
+						opciones:
+					</p>
+
+					<div class="grid md:grid-cols-3 gap-6">
+						<div class="bg-green-50 border-2 border-green-200 rounded-2xl p-6">
+							<div class="text-3xl font-bold text-green-700 mb-2">+1</div>
+							<div class="font-bold text-gray-900 mb-2">De acuerdo</div>
+							<p class="text-sm text-gray-600">
+								Apoyas completamente esta posición
+							</p>
+						</div>
+
+						<div class="bg-gray-50 border-2 border-gray-200 rounded-2xl p-6">
+							<div class="text-3xl font-bold text-gray-700 mb-2">0</div>
+							<div class="font-bold text-gray-900 mb-2">Neutral</div>
+							<p class="text-sm text-gray-600">
+								No tienes una opinión clara o te es indiferente
+							</p>
+						</div>
+
+						<div class="bg-red-50 border-2 border-red-200 rounded-2xl p-6">
+							<div class="text-3xl font-bold text-red-700 mb-2">-1</div>
+							<div class="font-bold text-gray-900 mb-2">En desacuerdo</div>
+							<p class="text-sm text-gray-600">
+								Estás en contra de esta posición
+							</p>
+						</div>
+					</div>
+
+					<div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
+						<p class="text-gray-700">
+							<strong class="text-gray-900">Ejemplo:</strong> Si respondes "De acuerdo"
+							a 10 preguntas, "Neutral" a 5 y "En desacuerdo" a 5, tus respuestas
+							se convierten en: 10 × (+1) + 5 × (0) + 5 × (-1)
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Step 2: Party Positions -->
+		<section class="py-16 px-4 bg-gray-50">
+			<div class="max-w-4xl mx-auto">
+				<div class="mb-12">
+					<span
+						class="inline-block bg-gray-900 text-white text-sm font-bold px-4 py-2 rounded-full mb-6"
+					>
+						Paso 2
+					</span>
+					<h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">
+						Posiciones de los partidos
+					</h2>
+				</div>
+
+				<div class="space-y-6">
+					<p class="text-lg text-gray-700 leading-relaxed">
+						Cada partido político también responde a las mismas preguntas con
+						las mismas opciones: De acuerdo (+1), Neutral (0), o En desacuerdo
+						(-1).
+					</p>
+
+					<p class="text-lg text-gray-700 leading-relaxed">
+						Estas respuestas provienen de los planes de gobierno oficiales,
+						declaraciones públicas y entrevistas con representantes del partido.
+					</p>
+
+					<div class="bg-white border-2 border-gray-200 rounded-2xl p-12 mt-8">
+						<h3 class="text-xl font-bold text-gray-900 mb-6">
+							Ejemplo de tabla de respuestas:
+						</h3>
+						<div class="overflow-x-auto">
+							<table class="w-full text-left">
+								<thead>
+									<tr class="border-b-2 border-gray-300">
+										<th class="pb-4 pr-4 text-gray-900 font-bold">Pregunta</th>
+										<th class="pb-4 px-4 text-gray-900 font-bold text-center"
+											>Tú</th
+										>
+										<th class="pb-4 px-4 text-gray-900 font-bold text-center"
+											>Partido A</th
+										>
+										<th class="pb-4 px-4 text-gray-900 font-bold text-center"
+											>Partido B</th
+										>
+									</tr>
+								</thead>
+								<tbody class="text-gray-700">
+									<tr class="border-b border-gray-200">
+										<td class="py-4 pr-4">¿Aumentar el salario mínimo?</td>
+										<td
+											class="py-4 px-4 text-center font-semibold text-green-700"
+											>+1</td
+										>
+										<td
+											class="py-4 px-4 text-center font-semibold text-green-700"
+											>+1</td
+										>
+										<td class="py-4 px-4 text-center font-semibold text-red-700"
+											>-1</td
+										>
+									</tr>
+									<tr class="border-b border-gray-200">
+										<td class="py-4 pr-4">¿Bajar impuestos a las empresas?</td>
+										<td class="py-4 px-4 text-center font-semibold text-red-700"
+											>-1</td
+										>
+										<td
+											class="py-4 px-4 text-center font-semibold text-gray-700"
+											>0</td
+										>
+										<td
+											class="py-4 px-4 text-center font-semibold text-green-700"
+											>+1</td
+										>
+									</tr>
+									<tr>
+										<td class="py-4 pr-4">¿Invertir en educación?</td>
+										<td
+											class="py-4 px-4 text-center font-semibold text-green-700"
+											>+1</td
+										>
+										<td
+											class="py-4 px-4 text-center font-semibold text-green-700"
+											>+1</td
+										>
+										<td
+											class="py-4 px-4 text-center font-semibold text-green-700"
+											>+1</td
+										>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Step 3: Calculating the Match -->
+		<section class="py-16 px-4">
+			<div class="max-w-4xl mx-auto">
+				<div class="mb-12">
+					<span
+						class="inline-block bg-gray-900 text-white text-sm font-bold px-4 py-2 rounded-full mb-6"
+					>
+						Paso 3
+					</span>
+					<h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">
+						Calculando la afinidad
+					</h2>
+				</div>
+
+				<div class="space-y-8">
+					<p class="text-lg text-gray-700 leading-relaxed">
+						Para calcular tu afinidad con cada partido, comparamos tus
+						respuestas con las del partido pregunta por pregunta. El cálculo
+						sigue estos pasos:
+					</p>
+
+					<div class="bg-white border-2 border-gray-200 rounded-2xl p-8">
+						<h3 class="text-2xl font-bold text-gray-900 mb-6">
+							1. Calcular la diferencia por pregunta
+						</h3>
+						<p class="text-gray-700 mb-4">
+							Para cada pregunta, restamos tu respuesta de la respuesta del
+							partido y tomamos el valor absoluto:
+						</p>
+						<div class="bg-gray-50 p-4 rounded-lg font-mono text-sm mb-6">
+							diferencia = |respuesta_partido - tu_respuesta|
+						</div>
+
+						<div class="space-y-3 text-gray-700">
+							<p>
+								• Si ambos responden igual: diferencia = 0 (coincidencia
+								perfecta)
+							</p>
+							<p>
+								• Si uno responde neutral y otro a favor/contra: diferencia = 1
+								(coincidencia parcial)
+							</p>
+							<p>
+								• Si uno está a favor y otro en contra: diferencia = 2
+								(desacuerdo total)
+							</p>
+						</div>
+					</div>
+
+					<div class="bg-white border-2 border-gray-200 rounded-2xl p-8">
+						<h3 class="text-2xl font-bold text-gray-900 mb-6">
+							2. Sumar todas las diferencias
+						</h3>
+						<p class="text-gray-700 mb-4">
+							Sumamos las diferencias de todas las preguntas para obtener la
+							diferencia total:
+						</p>
+						<div class="bg-gray-50 p-4 rounded-lg font-mono text-sm">
+							diferencia_total = suma de todas las diferencias
+						</div>
+					</div>
+
+					<div class="bg-white border-2 border-gray-200 rounded-2xl p-8">
+						<h3 class="text-2xl font-bold text-gray-900 mb-6">
+							3. Calcular el porcentaje de afinidad
+						</h3>
+						<p class="text-gray-700 mb-4">
+							La diferencia máxima posible es 2 × número de preguntas (si estás
+							en desacuerdo en todo). Calculamos la afinidad como:
+						</p>
+						<div class="bg-gray-50 p-4 rounded-lg font-mono text-sm mb-6">
+							afinidad = (1 - diferencia_total / diferencia_máxima) × 100%
+						</div>
+						<p class="text-gray-700">
+							Esto nos da un porcentaje donde 100% significa coincidencia total
+							y 0% significa desacuerdo total.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Example Calculation -->
+		<section class="py-16 px-4 bg-gray-50">
+			<div class="max-w-4xl mx-auto">
+				<div class="mb-12">
+					<span
+						class="inline-block bg-gray-900 text-white text-sm font-bold px-4 py-2 rounded-full mb-6"
+					>
+						Ejemplo
+					</span>
+					<h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">
+						Cálculo paso a paso
+					</h2>
+				</div>
+
+				<div
+					class="bg-white border-2 border-gray-200 rounded-2xl p-12 space-y-6"
+				>
+					<p class="text-lg text-gray-700">
+						Usando el ejemplo anterior con 3 preguntas y el Partido A:
+					</p>
+
+					<div class="space-y-4">
+						<div class="flex items-start gap-4">
+							<div
+								class="bg-gray-900 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold"
+							>
+								1
+							</div>
+							<div>
+								<p class="text-gray-900 font-semibold mb-1">
+									Pregunta 1: ¿Aumentar el salario mínimo?
+								</p>
+								<p class="text-gray-700">
+									Tú: +1, Partido A: +1 → Diferencia: |1 - 1| = 0
+								</p>
+							</div>
+						</div>
+
+						<div class="flex items-start gap-4">
+							<div
+								class="bg-gray-900 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold"
+							>
+								2
+							</div>
+							<div>
+								<p class="text-gray-900 font-semibold mb-1">
+									Pregunta 2: ¿Bajar impuestos a las empresas?
+								</p>
+								<p class="text-gray-700">
+									Tú: -1, Partido A: 0 → Diferencia: |0 - (-1)| = 1
+								</p>
+							</div>
+						</div>
+
+						<div class="flex items-start gap-4">
+							<div
+								class="bg-gray-900 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold"
+							>
+								3
+							</div>
+							<div>
+								<p class="text-gray-900 font-semibold mb-1">
+									Pregunta 3: ¿Invertir en educación?
+								</p>
+								<p class="text-gray-700">
+									Tú: +1, Partido A: +1 → Diferencia: |1 - 1| = 0
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="border-t-2 border-gray-200 pt-6 mt-6">
+						<p class="text-lg text-gray-900 font-bold mb-4">Cálculo final:</p>
+						<div class="space-y-2 text-gray-700">
+							<p>• Diferencia total: 0 + 1 + 0 = 1</p>
+							<p>• Diferencia máxima posible: 2 × 3 preguntas = 6</p>
+							<p>• Afinidad: (1 - 1/6) × 100% = 83.3%</p>
+						</div>
+					</div>
+
+					<div
+						class="bg-green-50 border-l-4 border-green-500 rounded-r-lg mt-6"
+					>
+						<p class="text-gray-900 font-bold text-xl">
+							Tu afinidad con el Partido A es del 83.3%
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Optional Weighting -->
+		<section class="py-16 px-4">
+			<div class="max-w-4xl mx-auto">
+				<div class="mb-12">
+					<span
+						class="inline-block bg-gray-900 text-white text-sm font-bold px-4 py-2 rounded-full mb-6"
+					>
+						Opcional
+					</span>
+					<h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">
+						Ponderar preguntas importantes
+					</h2>
+				</div>
+
+				<div class="space-y-6">
+					<p class="text-lg text-gray-700 leading-relaxed">
+						Puedes marcar algunas preguntas como "más importantes" para ti.
+						Cuando haces esto, esas preguntas cuentan el doble en el cálculo.
+					</p>
+
+					<div class="bg-white border-2 border-gray-200 rounded-2xl p-8">
+						<h3 class="text-xl font-bold text-gray-900 mb-4">Cómo funciona:</h3>
+						<ul class="space-y-3 text-gray-700">
+							<li class="flex items-start gap-3">
+								<span class="text-gray-400">•</span>
+								<span>Las preguntas normales tienen un peso de 1</span>
+							</li>
+							<li class="flex items-start gap-3">
+								<span class="text-gray-400">•</span>
+								<span
+									>Las preguntas marcadas como importantes tienen un peso de 2</span
+								>
+							</li>
+							<li class="flex items-start gap-3">
+								<span class="text-gray-400">•</span>
+								<span
+									>La diferencia de cada pregunta se multiplica por su peso</span
+								>
+							</li>
+							<li class="flex items-start gap-3">
+								<span class="text-gray-400">•</span>
+								<span
+									>La diferencia máxima también se ajusta según los pesos</span
+								>
+							</li>
+						</ul>
+					</div>
+
+					<div class="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
+						<p class="text-gray-900 font-semibold mb-2">¿Por qué es útil?</p>
+						<p class="text-gray-700">
+							Esto te permite dar más importancia a los temas que realmente te
+							importan, haciendo que el resultado refleje mejor tus prioridades
+							políticas.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Transparency Section -->
+		<section class="py-16 px-4 bg-gray-50">
+			<div class="max-w-4xl mx-auto">
+				<h2
+					class="text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center pb-8"
+				>
+					Transparencia y objetividad
+				</h2>
+
+				<div class="grid md:grid-cols-2 gap-6">
+					<div class="bg-white rounded-2xl p-6">
+						<div
+							class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center mb-4"
+						>
+							<svg
+								class="w-5 h-5 text-white"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+							</svg>
+						</div>
+						<h3 class="text-lg font-bold text-gray-900 mb-3">Sin sesgos</h3>
+						<p class="text-gray-600 text-sm leading-relaxed">
+							El algoritmo trata a todos los partidos por igual. No hay
+							manipulación ni favoritismo.
+						</p>
+					</div>
+
+					<div class="bg-white rounded-2xl p-6">
+						<div
+							class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center mb-4"
+						>
+							<svg
+								class="w-5 h-5 text-white"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+								></path>
+							</svg>
+						</div>
+						<h3 class="text-lg font-bold text-gray-900 mb-3">
+							Completamente transparente
+						</h3>
+						<p class="text-gray-600 text-sm leading-relaxed">
+							Puedes ver las respuestas de cada partido y verificar los cálculos
+							tú mismo.
+						</p>
+					</div>
+
+					<div class="bg-white rounded-2xl p-6">
+						<div
+							class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center mb-4"
+						>
+							<svg
+								class="w-5 h-5 text-white"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+								></path>
+							</svg>
+						</div>
+						<h3 class="text-lg font-bold text-gray-900 mb-3">
+							Matemáticamente preciso
+						</h3>
+						<p class="text-gray-600 text-sm leading-relaxed">
+							Usamos una fórmula matemática simple y verificable. No hay "magia"
+							ni algoritmos ocultos.
+						</p>
+					</div>
+
+					<div class="bg-white rounded-2xl p-6">
+						<div
+							class="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center mb-4"
+						>
+							<svg
+								class="w-5 h-5 text-white"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+								></path>
+							</svg>
+						</div>
+						<h3 class="text-lg font-bold text-gray-900 mb-3">
+							Basado en datos oficiales
+						</h3>
+						<p class="text-gray-600 text-sm leading-relaxed">
+							Las respuestas de los partidos provienen de fuentes oficiales y
+							documentos públicos.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ Section -->
+		<section class="py-16 px-4">
+			<div class="max-w-4xl mx-auto">
+				<h2
+					class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center"
+				>
+					Preguntas frecuentes
+				</h2>
+
+				<div class="space-y-8">
+					<div class="border-b border-gray-200 pb-8">
+						<h3 class="text-xl font-bold text-gray-900 mb-4">
+							¿Por qué mi resultado no es 100% con ningún partido?
+						</h3>
+						<p class="text-gray-600 leading-relaxed">
+							Es completamente normal no coincidir 100% con ningún partido. Los
+							partidos políticos tienen posiciones en muchos temas diferentes, y
+							es raro que una persona coincida en absolutamente todo. Un
+							resultado entre 60-80% ya indica una afinidad significativa.
+						</p>
+					</div>
+
+					<div class="border-b border-gray-200 pb-8">
+						<h3 class="text-xl font-bold text-gray-900 mb-4">
+							¿Las respuestas "Neutral" afectan el resultado?
+						</h3>
+						<p class="text-gray-600 leading-relaxed">
+							Sí. Una respuesta neutral (0) está exactamente a mitad de camino
+							entre de acuerdo (+1) y en desacuerdo (-1). Si respondes neutral y
+							un partido está de acuerdo o en desacuerdo, hay una diferencia
+							parcial que afecta el cálculo.
+						</p>
+					</div>
+
+					<div class="border-b border-gray-200 pb-8">
+						<h3 class="text-xl font-bold text-gray-900 mb-4">
+							¿Puedo saltarme preguntas?
+						</h3>
+						<p class="text-gray-600 leading-relaxed">
+							Puedes optar por no responder algunas preguntas. Las preguntas sin
+							responder no se incluyen en el cálculo, por lo que el resultado se
+							basa solo en las preguntas que sí respondiste. Sin embargo,
+							responder más preguntas da un resultado más preciso.
+						</p>
+					</div>
+
+					<div class="border-b border-gray-200 pb-8">
+						<h3 class="text-xl font-bold text-gray-900 mb-4">
+							¿El orden de las preguntas afecta el resultado?
+						</h3>
+						<p class="text-gray-600 leading-relaxed">
+							No. El cálculo es el mismo independientemente del orden en que
+							respondas las preguntas. Todas las preguntas tienen el mismo peso
+							(a menos que las marques como importantes).
+						</p>
+					</div>
+
+					<div class="border-b border-gray-200 pb-8">
+						<h3 class="text-xl font-bold text-gray-900 mb-4">
+							¿Puedo verificar el cálculo yo mismo?
+						</h3>
+						<p class="text-gray-600 leading-relaxed">
+							¡Absolutamente! Después de completar el cuestionario, puedes ver
+							tus respuestas junto con las respuestas de cada partido. Puedes
+							aplicar la fórmula explicada en esta página para verificar que el
+							porcentaje es correcto.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- CTA Section -->
+		<section class="py-32 px-4 bg-gray-900">
+			<div class="max-w-6xl mx-auto text-center">
+				<h2
+					class="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight"
+				>
+					¿Listo para descubrir tu afinidad?
+				</h2>
+				<p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+					Ahora que sabes cómo funciona el cálculo, prueba Votómetro y descubre
+					qué partidos están más alineados con tus opiniones
+				</p>
+				<a
+					href="/elecciones"
+					class="inline-block bg-white text-gray-900 font-semibold text-lg px-10 py-5 rounded-full hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105"
+				>
+					Empezar Votómetro
+				</a>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="bg-black text-gray-400 py-16 px-4">
+			<div class="max-w-6xl mx-auto text-center">
+				<div class="mb-8">
+					<a
+						href="/preguntas-frecuentes"
+						class="text-white hover:text-gray-300 font-medium transition-colors"
+					>
+						Preguntas Frecuentes
+					</a>
+				</div>
+				<p class="mb-4 text-lg">
+					Votómetro es una herramienta educativa para promover la participación
+					ciudadana informada.
+				</p>
+				<p class="text-sm text-gray-500">
+					Los resultados son orientativos y no constituyen una recomendación de
+					voto.
+				</p>
+			</div>
+		</footer>
+	</main>
+</Layout>
