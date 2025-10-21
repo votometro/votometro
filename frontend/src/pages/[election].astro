@@ -3,7 +3,7 @@ export const prerender = false;
 
 import { type SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
-import { App } from "../app/App";
+import { Quiz } from "../app/Quiz";
 import Layout from "../layouts/Layout.astro";
 
 const ELECTIONS_QUERY = `
@@ -24,5 +24,5 @@ if (!election) {
 ---
 
 <Layout>
-  <App {...election} client:only />
+  <Quiz {...election} client:only />
 </Layout>

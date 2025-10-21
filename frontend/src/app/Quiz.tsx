@@ -1,9 +1,9 @@
-interface AppProps {
+interface QuizProps {
   title: string;
   theses: any;
 }
 
-export function App({ title, theses }: AppProps) {
+export function Quiz({ title, theses }: QuizProps) {
   console.log(theses);
   return (
     <section className="min-h-screen py-12 px-4">
