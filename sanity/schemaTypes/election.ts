@@ -25,15 +25,16 @@ export const electionType = defineType({
           title: 'Thesis',
           fields: [
             {
-              name: 'text',
+              name: 'title',
               type: 'string',
-              title: 'Text',
+              title: 'Title',
               validation: (Rule) => Rule.required(),
             },
             {
-              name: 'subtitle',
+              name: 'text',
               type: 'text',
-              title: 'Subtitle',
+              title: 'Text',
+              validation: (Rule) => Rule.required(),
             },
           ],
         },

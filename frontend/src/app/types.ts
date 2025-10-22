@@ -7,8 +7,8 @@ export interface Answer {
 }
 
 export interface Thesis {
+  title: string;
   text: string;
-  subtitle?: string;
 }
 
 export interface PartyAnswer {

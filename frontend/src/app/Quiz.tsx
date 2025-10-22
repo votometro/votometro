@@ -302,12 +302,12 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
                 </button>
               }
             >
-              {/* Top: Subtitle and thesis text */}
+              {/* Top: Title and thesis text */}
               <div>
-                {/* Subtitle with progress */}
+                {/* Title with progress */}
                 <p className="text-sm leading-0 text-hyped-blue font-bold mb-6">
                   {index + 1} / {theses.length}
-                  {thesis.subtitle && ` ${thesis.subtitle}`}
+                  {thesis.title && ` ${thesis.title}`}
                 </p>
 
                 {/* Main thesis text */}
