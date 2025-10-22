@@ -8,6 +8,14 @@ export const partyType = defineType({
     defineField({
       name: 'name',
       type: 'string',
+      title: 'Full Name',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'abbreviation',
+      type: 'string',
+      title: 'Abbreviation',
+      description: 'Short form of the party name (e.g., SPD, CDU, etc.)',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
