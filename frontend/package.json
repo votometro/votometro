@@ -5,12 +5,14 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "typecheck": "astro check",
     "test": "vitest"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.10",
     "@astrojs/react": "^4.4.0",
     "@sanity/astro": "^3.2.6",
+    "@sanity/image-url": "^1.2.0",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "astro": "^5.14.7",
@@ -22,10 +24,12 @@
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.5",
     "@cloudflare/workers-types": "^4.20251014.0",
     "@sanity/client": "^6.28.4",
     "@tailwindcss/vite": "^4.1.15",
     "tailwindcss": "^4.0.0",
+    "typescript": "^5.9.3",
     "vitest": "^3.2.4"
   }
 }
