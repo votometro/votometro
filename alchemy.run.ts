@@ -1,7 +1,9 @@
 import alchemy from "alchemy";
 import { Astro } from "alchemy/cloudflare";
 
-process.loadEnvFile();
+if (!process.env.CI) {
+  process.loadEnvFile();
+}
 
 const app = await alchemy("votometro");
 
