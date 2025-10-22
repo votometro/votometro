@@ -208,10 +208,18 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
   };
 
   const handleSkip = (thesisIndex: number) => {
-    // Remove answer if one exists
+    // Mark as skipped (value: null)
     const existingAnswerIndex = answers.findIndex((a) => a.thesisIndex === thesisIndex);
+    let newAnswers: Answer[];
+
     if (existingAnswerIndex !== -1) {
-      const newAnswers = answers.filter((a) => a.thesisIndex !== thesisIndex);
+      // Update existing answer to skipped
+      newAnswers = [...answers];
+      newAnswers[existingAnswerIndex] = { thesisIndex, value: null };
+      setAnswers(newAnswers);
+    } else {
+      // Add new skipped answer
+      newAnswers = [...answers, { thesisIndex, value: null }];
       setAnswers(newAnswers);
     }
 

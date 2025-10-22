@@ -1,4 +1,4 @@
-export type AnswerValue = -1 | 0 | 1;
+export type AnswerValue = -1 | 0 | 1 | null;
 
 export interface Answer {
   thesisIndex: number;
