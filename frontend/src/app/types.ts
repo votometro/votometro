@@ -20,5 +20,19 @@ export interface PartyAnswer {
 
 export interface Party {
   name: string;
+  abbreviation: string;
+  logo?: any; // Sanity image object
+  description?: string;
+  answers: PartyAnswer[];
+}
+
+export interface PartyParticipation {
+  party: {
+    name: string;
+    abbreviation: string;
+    logo?: any; // Sanity image object
+    logoUrl?: string | null; // Processed image URL
+    description?: string;
+  };
   answers: PartyAnswer[];
 }

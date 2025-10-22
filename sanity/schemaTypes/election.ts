@@ -44,7 +44,7 @@ export const electionType = defineType({
     defineField({
       name: 'partyParticipations',
       type: 'array',
-      title: 'Party Participations',
+      title: 'Party Answers',
       of: [
         {
           type: 'object',

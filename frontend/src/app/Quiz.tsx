@@ -5,7 +5,9 @@ import { cn } from "../lib/cn";
 interface QuizProps {
   title: string;
   theses: Thesis[];
-  onComplete: (answers: Answer[]) => void;
+  initialAnswers?: Answer[];
+  initialScrollPosition?: number;
+  onComplete: (answers: Answer[], scrollPosition: number) => void;
 }
 
 const ANSWER_OPTIONS: { value: AnswerValue; label: string }[] = [
@@ -14,7 +16,6 @@ const ANSWER_OPTIONS: { value: AnswerValue; label: string }[] = [
   { value: -1, label: "En desacuerdo" },
 ];
 
-// Slide component
 interface SlideProps {
   children: React.ReactNode;
   footer?: React.ReactNode;
@@ -76,7 +77,6 @@ const Button = ({ children, onClick, variant = "default", className, disabled = 
   );
 };
 
-// Hook for managing slide navigation state
 const useSlideNavigation = (slideRefs: React.MutableRefObject<(HTMLDivElement | null)[]>) => {
   const [isNavigating, setIsNavigating] = useState(false);
   const delayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -122,10 +122,9 @@ const useSlideNavigation = (slideRefs: React.MutableRefObject<(HTMLDivElement | 
   return { isNavigating, navigateToNextSlide };
 };
 
-// Hook for tracking which slide is currently in view
 const useCurrentSlide = (
-  scrollContainerRef: React.MutableRefObject<HTMLDivElement | null>,
-  slideRefs: React.MutableRefObject<(HTMLDivElement | null)[]>,
+  scrollContainerRef: React.RefObject<HTMLDivElement | null>,
+  slideRefs: React.RefObject<(HTMLDivElement | null)[]>,
   currentThesisIndex: number
 ) => {
   const [viewSlideIndex, setViewSlideIndex] = useState<number>(0);
@@ -170,17 +169,26 @@ const useCurrentSlide = (
   return viewSlideIndex;
 };
 
-export function Quiz({ title, theses, onComplete }: QuizProps) {
-  const [answers, setAnswers] = useState<Answer[]>([]);
-  const [currentThesisIndex, setCurrentThesisIndex] = useState<number>(0);
+export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onComplete }: QuizProps) {
+  const [answers, setAnswers] = useState<Answer[]>(initialAnswers || []);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
+  // Derive currentThesisIndex from answers array
+  const currentThesisIndex = answers.length;
   const isComplete = currentThesisIndex >= theses.length;
 
   // Use custom hooks for navigation and slide tracking
   const { isNavigating, navigateToNextSlide } = useSlideNavigation(slideRefs);
   const viewSlideIndex = useCurrentSlide(scrollContainerRef, slideRefs, currentThesisIndex);
+
+  // Restore scroll position when returning from results
+  useEffect(() => {
+    if (initialScrollPosition !== undefined && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = initialScrollPosition;
+    }
+  }, [initialScrollPosition]);
 
   const handleAnswer = (thesisIndex: number, value: AnswerValue) => {
     const thesisKey = theses[thesisIndex]._key;
@@ -195,14 +203,9 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
       newAnswers[existingAnswerIndex] = { thesisKey, value };
       setAnswers(newAnswers);
     } else {
-      // Add new answer
+      // Add new answer (automatically increments currentThesisIndex via answers.length)
       newAnswers = [...answers, { thesisKey, value }];
       setAnswers(newAnswers);
-    }
-
-    // Advance to next question if this was the current one
-    if (thesisIndex === currentThesisIndex) {
-      setCurrentThesisIndex(currentThesisIndex + 1);
     }
 
     // Navigate to next slide with delay
@@ -222,14 +225,9 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
       newAnswers[existingAnswerIndex] = { thesisKey, value: null };
       setAnswers(newAnswers);
     } else {
-      // Add new skipped answer
+      // Add new skipped answer (automatically increments currentThesisIndex via answers.length)
       newAnswers = [...answers, { thesisKey, value: null }];
       setAnswers(newAnswers);
-    }
-
-    // Advance to next question if this was the current one
-    if (thesisIndex === currentThesisIndex) {
-      setCurrentThesisIndex(currentThesisIndex + 1);
     }
 
     // Navigate to next slide with delay
@@ -237,7 +235,8 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
   };
 
   const handleComplete = () => {
-    onComplete(answers);
+    const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
+    onComplete(answers, scrollPosition);
   };
 
   // Render answered theses + current thesis (+ final slide when complete)
@@ -289,13 +288,14 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
         {/* Gradient fade for cards scrolling below header */}
         <div className="sticky top-0 left-0 right-0 h-4 bg-gradient-to-b from-background to-transparent z-10 pointer-events-none"></div>
         {visibleTheses.map((thesis, index) => {
-          const isCurrentThesis = index === currentThesisIndex;
           const answer = answers.find((a) => a.thesisKey === thesis._key);
 
           return (
             <Slide
               key={index}
-              ref={(el) => (slideRefs.current[index] = el)}
+              ref={(el) => {
+                slideRefs.current[index] = el;
+              }}
               footer={
                 <button
                   onClick={() => handleSkip(index)}
@@ -343,7 +343,11 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
 
         {/* Final slide with "Ver resultados" button */}
         {isComplete && (
-          <Slide ref={(el) => (slideRefs.current[theses.length] = el)}>
+          <Slide
+            ref={(el) => {
+              slideRefs.current[theses.length] = el;
+            }}
+          >
             {/* Top: Caption and completion message */}
             <div>
               {/* Caption consistent with quiz slides */}

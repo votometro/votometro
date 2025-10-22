@@ -1,25 +1,44 @@
 import { useState } from "react";
 import { Quiz } from "./Quiz";
 import { Results } from "./Results";
-import type { Answer, Thesis } from "./types";
+import type { Answer, Thesis, PartyParticipation } from "./types";
 
 interface ElectionProps {
   title: string;
   theses: Thesis[];
+  partyParticipations: PartyParticipation[];
 }
 
-export function Election({ title, theses }: ElectionProps) {
+export function Election({ title, theses, partyParticipations }: ElectionProps) {
   const [answers, setAnswers] = useState<Answer[] | null>(null);
+  const [showResults, setShowResults] = useState(false);
+  const [quizScrollPosition, setQuizScrollPosition] = useState<number>(0);
 
-  const showResults = answers !== null;
-
-  const handleQuizComplete = (finalAnswers: Answer[]) => {
+  const handleQuizComplete = (finalAnswers: Answer[], scrollPosition: number) => {
     setAnswers(finalAnswers);
+    setQuizScrollPosition(scrollPosition);
+    setShowResults(true);
   };
 
-  return showResults ? (
-    <Results answers={answers} theses={theses} title={title} />
+  const handleBackToQuiz = () => {
+    setShowResults(false);
+  };
+
+  return showResults && answers ? (
+    <Results
+      answers={answers}
+      theses={theses}
+      title={title}
+      partyParticipations={partyParticipations}
+      onBack={handleBackToQuiz}
+    />
   ) : (
-    <Quiz title={title} theses={theses} onComplete={handleQuizComplete} />
+    <Quiz
+      title={title}
+      theses={theses}
+      initialAnswers={answers || undefined}
+      initialScrollPosition={quizScrollPosition}
+      onComplete={handleQuizComplete}
+    />
   );
 }
