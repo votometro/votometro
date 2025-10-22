@@ -1,16 +1,13 @@
 import { defineConfig } from "astro/config";
-import cloudflare from "@astrojs/cloudflare";
+import alchemy from "alchemy/cloudflare/astro";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 
 import sanity from "@sanity/astro";
 
 export default defineConfig({
-  adapter: cloudflare({
-    platformProxy: {
-      enabled: true,
-    },
-  }),
+  output: "server",
+  adapter: alchemy(),
 
   vite: {
     plugins: [tailwindcss()],

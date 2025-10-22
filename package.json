@@ -1,5 +1,13 @@
 {
   "name": "votometro-root",
   "private": true,
-  "packageManager": "pnpm@10.4.1"
+  "type": "module",
+  "packageManager": "pnpm@10.4.1",
+  "scripts": {
+    "deploy": "alchemy deploy",
+    "destroy": "alchemy destroy"
+  },
+  "devDependencies": {
+    "alchemy": "^0.76.1"
+  }
 }
