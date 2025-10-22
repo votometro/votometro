@@ -272,18 +272,18 @@ describe('calculateMatch', () => {
         .toThrow('Array lengths must match');
     });
 
-    it('should throw error when thesisIndex values do not match', () => {
+    it('should throw error when thesisKey values do not match', () => {
       const userAnswers: Answer[] = [
         { thesisKey: '0', value: 1 },
         { thesisKey: '1', value: 1 },
       ];
       const partyAnswers: PartyAnswer[] = [
         { thesisKey: '0', value: 1, justification: 'yes' },
-        { thesisKey: '2', value: 1, justification: 'yes' }, // wrong index
+        { thesisKey: '2', value: 1, justification: 'yes' }, // wrong key
       ];
 
       expect(() => calculateMatch(userAnswers, partyAnswers))
-        .toThrow('ThesisIndex mismatch');
+        .toThrow('No party answer found for thesis key');
     });
   });
 });
