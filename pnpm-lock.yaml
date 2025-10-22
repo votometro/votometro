@@ -32,6 +32,9 @@ importers:
       astro:
         specifier: ^5.14.7
         version: 5.14.7(@types/node@24.9.0)(aws4fetch@1.0.20)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(typescript@5.8.2)(yaml@2.7.1)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -44,9 +47,9 @@ importers:
       sanity:
         specifier: ^3.82.0
         version: 3.82.0(@emotion/is-prop-valid@1.2.2)(@types/node@24.9.0)(@types/react@19.0.12)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(styled-components@6.1.16(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(yaml@2.7.1)
-      styled-components:
-        specifier: ^6.1.16
-        version: 6.1.16(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      tailwind-merge:
+        specifier: ^3.3.1
+        version: 3.3.1
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20251014.0
@@ -6410,6 +6413,9 @@ packages:
 
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
+
+  tailwind-merge@3.3.1:
+    resolution: {integrity: sha512-gBXpgUm/3rp1lMZZrM/w7D8GKqshif0zAymAhbCyIt8KMe+0v9DQ7cdYLR4FHH/cKpdTXb+A/tKKU3eolfsI+g==}
 
   tailwindcss@4.0.0:
     resolution: {integrity: sha512-ULRPI3A+e39T7pSaf1xoi58AqqJxVCLg8F/uM5A3FadUbnyDTgltVnXJvdkTjwCOGA6NazqHVcwPJC5h2vRYVQ==}
@@ -15230,6 +15236,8 @@ snapshots:
       react: 19.1.0
 
   symbol-tree@3.2.4: {}
+
+  tailwind-merge@3.3.1: {}
 
   tailwindcss@4.0.0: {}
 
