@@ -251,7 +251,7 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
       <header className="z-10">
         <div className="bg-background">
           {/* Progress bar wrapper with padding for larger click area */}
-          <div className="pt-4 pb-5">
+          <div className="pt-4 md:pt-6 pb-5">
             <div className="w-1/2 h-1 bg-surface rounded-full overflow-hidden mx-auto relative">
               {/* Gray layer: Answered progress (background) */}
               <div
@@ -268,9 +268,9 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
           {/* Title container - centered */}
           <div className="px-6">
             <div className="md:mx-auto md:max-w-[900px] md:flex md:justify-center">
-              <div className="md:inline-block md:text-center">
-                <h1 className="text-xl text-text-primary mb-1">Votómetro</h1>
-                <p className="text-sm text-text-primary font-bold">{title}</p>
+              <div className="md:inline-block md:py-4">
+                <h1 className="text-[min(7vw,3rem)] leading-[1.1] text-text-primary mb-1">Votómetro</h1>
+                <p className="text-[min(4vw,1.5rem)] text-text-primary font-bold">{title}</p>
               </div>
             </div>
           </div>
@@ -283,7 +283,7 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
         className="flex-1 snap-y snap-mandatory overflow-y-auto relative"
       >
         {/* Gradient fade for cards scrolling below header */}
-        <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-background to-transparent z-10 pointer-events-none"></div>
+        <div className="sticky top-0 left-0 right-0 h-4 bg-gradient-to-b from-background to-transparent z-10 pointer-events-none"></div>
         {visibleTheses.map((thesis, index) => {
           const isCurrentThesis = index === currentThesisIndex;
           const answer = answers.find((a) => a.thesisIndex === index);
@@ -296,7 +296,7 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
                 <button
                   onClick={() => handleSkip(index)}
                   disabled={isNavigating}
-                  className="inline-block py-2 px-6 rounded-lg font-semibold text-text-muted hover:text-text-secondary transition-all active:scale-95 cursor-pointer"
+                  className="inline-block py-2 px-6 rounded-lg font-semibold hover:text-text-secondary transition-all active:scale-95 cursor-pointer"
                 >
                   Saltar tesis
                 </button>
