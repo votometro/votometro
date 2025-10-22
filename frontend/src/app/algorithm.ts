@@ -4,7 +4,7 @@ import type { Answer, PartyAnswer, AnswerValue } from './types';
  * Score for a single thesis comparison
  */
 export interface ThesisScore {
-  thesisIndex: number;
+  thesisKey: string;
   score: number;
   userAnswer: AnswerValue;
   partyAnswer: -1 | 0 | 1;
@@ -62,7 +62,7 @@ export function scoreAnswer(
  * @param userAnswers - User's answers
  * @param partyAnswers - Party's answers
  * @returns Match result with percentage and breakdown
- * @throws Error if arrays don't match in length or indices
+ * @throws Error if arrays don't match in length or have missing theses
  */
 export function calculateMatch(
   userAnswers: Answer[],
@@ -77,13 +77,12 @@ export function calculateMatch(
   let totalPossibleScore = 0;
   const thesisScores: ThesisScore[] = [];
 
-  for (let i = 0; i < userAnswers.length; i++) {
-    const userAnswer = userAnswers[i];
-    const partyAnswer = partyAnswers[i];
+  // Match answers by thesisKey
+  for (const userAnswer of userAnswers) {
+    const partyAnswer = partyAnswers.find((pa) => pa.thesisKey === userAnswer.thesisKey);
 
-    // Validate thesisIndex alignment
-    if (userAnswer.thesisIndex !== partyAnswer.thesisIndex) {
-      throw new Error('ThesisIndex mismatch');
+    if (!partyAnswer) {
+      throw new Error(`No party answer found for thesis key: ${userAnswer.thesisKey}`);
     }
 
     const weighted = userAnswer.weighted ?? false;
@@ -106,7 +105,7 @@ export function calculateMatch(
     totalPossibleScore += maxPossible;
 
     thesisScores.push({
-      thesisIndex: userAnswer.thesisIndex,
+      thesisKey: userAnswer.thesisKey,
       score,
       userAnswer: userAnswer.value,
       partyAnswer: partyAnswer.value,

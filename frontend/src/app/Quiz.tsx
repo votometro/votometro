@@ -183,18 +183,20 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
   const viewSlideIndex = useCurrentSlide(scrollContainerRef, slideRefs, currentThesisIndex);
 
   const handleAnswer = (thesisIndex: number, value: AnswerValue) => {
+    const thesisKey = theses[thesisIndex]._key;
+
     // Update or add answer
-    const existingAnswerIndex = answers.findIndex((a) => a.thesisIndex === thesisIndex);
+    const existingAnswerIndex = answers.findIndex((a) => a.thesisKey === thesisKey);
     let newAnswers: Answer[];
 
     if (existingAnswerIndex !== -1) {
       // Update existing answer
       newAnswers = [...answers];
-      newAnswers[existingAnswerIndex] = { thesisIndex, value };
+      newAnswers[existingAnswerIndex] = { thesisKey, value };
       setAnswers(newAnswers);
     } else {
       // Add new answer
-      newAnswers = [...answers, { thesisIndex, value }];
+      newAnswers = [...answers, { thesisKey, value }];
       setAnswers(newAnswers);
     }
 
@@ -208,18 +210,20 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
   };
 
   const handleSkip = (thesisIndex: number) => {
+    const thesisKey = theses[thesisIndex]._key;
+
     // Mark as skipped (value: null)
-    const existingAnswerIndex = answers.findIndex((a) => a.thesisIndex === thesisIndex);
+    const existingAnswerIndex = answers.findIndex((a) => a.thesisKey === thesisKey);
     let newAnswers: Answer[];
 
     if (existingAnswerIndex !== -1) {
       // Update existing answer to skipped
       newAnswers = [...answers];
-      newAnswers[existingAnswerIndex] = { thesisIndex, value: null };
+      newAnswers[existingAnswerIndex] = { thesisKey, value: null };
       setAnswers(newAnswers);
     } else {
       // Add new skipped answer
-      newAnswers = [...answers, { thesisIndex, value: null }];
+      newAnswers = [...answers, { thesisKey, value: null }];
       setAnswers(newAnswers);
     }
 
@@ -286,7 +290,7 @@ export function Quiz({ title, theses, onComplete }: QuizProps) {
         <div className="sticky top-0 left-0 right-0 h-4 bg-gradient-to-b from-background to-transparent z-10 pointer-events-none"></div>
         {visibleTheses.map((thesis, index) => {
           const isCurrentThesis = index === currentThesisIndex;
-          const answer = answers.find((a) => a.thesisIndex === index);
+          const answer = answers.find((a) => a.thesisKey === thesis._key);
 
           return (
             <Slide
