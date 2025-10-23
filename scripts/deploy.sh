@@ -9,4 +9,10 @@ pnpm --filter @votometro/frontend build
 echo "Deploying frontend as '${WORKER_NAME}'..."
 wrangler deploy --config frontend/wrangler.toml --name "${WORKER_NAME}"
 
+echo "Building Sanity studio..."
+pnpm --filter @votometro/content build
+
+echo "Deploying Sanity studio..."
+pnpm --filter @votometro/content deploy
+
 echo "✓ Deployment complete!"
