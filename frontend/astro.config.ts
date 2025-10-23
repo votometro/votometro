@@ -2,7 +2,6 @@ import { defineConfig } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
-
 import sanity from "@sanity/astro";
 
 export default defineConfig({
@@ -15,6 +14,9 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()] as any,
+    ssr: {
+      noExternal: ["@tailwindcss/vite"],
+    },
   },
 
   integrations: [
