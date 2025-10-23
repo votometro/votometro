@@ -13,6 +13,6 @@ echo "Building Sanity studio..."
 pnpm --filter @votometro/content build
 
 echo "Deploying Sanity studio..."
-pnpm --filter @votometro/content deploy
+pnpm --filter @votometro/content run deploy
 
 echo "✓ Deployment complete!"
