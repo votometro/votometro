@@ -3,14 +3,32 @@ export const prerender = false;
 
 import { type SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
-import { App } from "../app/App";
+import imageUrlBuilder from "@sanity/image-url";
+import { Election as ElectionComponent } from "../app/Election";
 import Layout from "../layouts/Layout.astro";
 
 const ELECTIONS_QUERY = `
    *[_type == "election" && slug == $slug][0] {
     title,
     slug,
-    theses
+    theses[] {
+      _key,
+      title,
+      text
+    },
+    partyParticipations[] {
+      party-> {
+        name,
+        abbreviation,
+        logo,
+        description
+      },
+      answers[] {
+        thesisKey,
+        value,
+        justification
+      }
+    }
   }
 `;
 
@@ -21,8 +39,24 @@ const election = await sanityClient.fetch<SanityDocument>(ELECTIONS_QUERY, {
 if (!election) {
   return new Response("Not found", { status: 404 });
 }
+
+// Process image URLs server-side
+const builder = imageUrlBuilder(sanityClient);
+const electionData = {
+  title: election.title,
+  theses: election.theses,
+  partyParticipations: election.partyParticipations?.map((participation: any) => ({
+    ...participation,
+    party: {
+      ...participation.party,
+      logoUrl: participation.party.logo
+        ? builder.image(participation.party.logo).width(80).height(80).url()
+        : null,
+    },
+  })) || [],
+};
 ---
 
 <Layout>
-  <App {...election} client:only />
+  <ElectionComponent {...electionData} client:only />
 </Layout>
