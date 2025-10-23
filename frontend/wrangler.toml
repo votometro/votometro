@@ -1,0 +1,8 @@
+name = "votometro-frontend"
+compatibility_date = "2025-10-20"
+
+main = "./dist/_worker.js"
+
+[assets]
+binding = "ASSETS"
+directory = "./dist"
