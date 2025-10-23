@@ -98,7 +98,7 @@ export function Results({
                   {/* Party header - clickable */}
                   <button
                     onClick={() => toggleParty(party.name)}
-                    className="w-full p-6 hover:bg-blue-50 transition-colors cursor-pointer text-left"
+                    className="w-full p-6 hover:bg-gray-100 transition-colors cursor-pointer text-left"
                   >
                     <div className="flex items-start gap-8">
                       {/* Logo and abbreviation side by side */}
@@ -148,7 +148,7 @@ export function Results({
                       <div className="flex-1 relative">
                         {/* Percentage on top of progress bar */}
                         <div className="flex justify-end mb-1">
-                          <span className="text-xl md:text-2xl font-bold text-primary">
+                          <span className="text-xl md:text-2xl font-bold text-accent">
                             {Math.round(party.matchPercentage)}%
                           </span>
                         </div>
@@ -156,7 +156,7 @@ export function Results({
                         {/* Progress bar */}
                         <div className="w-full h-2 bg-background rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-primary transition-all duration-500 rounded-full"
+                            className="h-full bg-accent transition-all duration-500 rounded-full"
                             style={{ width: `${party.matchPercentage}%` }}
                           />
                         </div>

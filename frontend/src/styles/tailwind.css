@@ -43,7 +43,13 @@
   /* Background colors */
   --color-background: #ffffff;
   --color-background-secondary: var(--color-gray-50);
-  --color-surface: #ffffff;
+  --color-surface: var(--color-gray-50);
   --color-surface-dark: #000000;
   --color-card-beige: hsla(43, 16%, 91%, .5);
+
+  /* Text colors */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-muted: var(--color-gray-500);
+  --color-text-inverse: var(--color-gray-900); /* Use dark gray for better contrast on yellow */
 }
