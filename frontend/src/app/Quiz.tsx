@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
-import type { Answer, AnswerValue, Thesis } from "./types";
-import { cn } from "../lib/cn";
+import type { Answer, AnswerValue } from "../lib/types/answer";
+import type { Thesis } from "../lib/types/election";
+import { cn } from "../lib/utils/cn";
 
 interface QuizProps {
   title: string;

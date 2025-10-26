@@ -1,62 +1,17 @@
 ---
 export const prerender = false;
 
-import { type SanityDocument } from "@sanity/client";
-import { sanityClient } from "sanity:client";
-import imageUrlBuilder from "@sanity/image-url";
+import { getElectionBySlug } from "../server/data/elections";
 import { Election as ElectionComponent } from "../app/Election";
 import Layout from "../layouts/Layout.astro";
 
-const ELECTIONS_QUERY = `
-   *[_type == "election" && slug == $slug][0] {
-    title,
-    slug,
-    theses[] {
-      _key,
-      title,
-      text
-    },
-    partyParticipations[] {
-      party-> {
-        name,
-        abbreviation,
-        logo,
-        description
-      },
-      answers[] {
-        thesisKey,
-        value,
-        justification
-      }
-    }
-  }
-`;
-
-const election = await sanityClient.fetch<SanityDocument>(ELECTIONS_QUERY, {
-  slug: Astro.params.election,
-});
+const election = await getElectionBySlug(Astro.params.election!);
 
 if (!election) {
   return new Response("Not found", { status: 404 });
 }
-
-// Process image URLs server-side
-const builder = imageUrlBuilder(sanityClient);
-const electionData = {
-  title: election.title,
-  theses: election.theses,
-  partyParticipations: election.partyParticipations?.map((participation: any) => ({
-    ...participation,
-    party: {
-      ...participation.party,
-      logoUrl: participation.party.logo
-        ? builder.image(participation.party.logo).width(80).height(80).url()
-        : null,
-    },
-  })) || [],
-};
 ---
 
 <Layout>
-  <ElectionComponent {...electionData} client:only />
+  <ElectionComponent {...election} client:only />
 </Layout>

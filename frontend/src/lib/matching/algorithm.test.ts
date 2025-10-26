@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { scoreAnswer, calculateMatch } from '../algorithm';
-import type { Answer, PartyAnswer } from '../types';
+import { scoreAnswer, calculateMatch } from './algorithm';
+import type { Answer } from '../types/answer';
+import type { PartyAnswer } from '../types/party';
 
 describe('scoreAnswer', () => {
   describe('basic scoring (unweighted)', () => {
