@@ -8,7 +8,7 @@ export const ELECTION_BY_SLUG_QUERY = `
       title,
       text
     },
-    partyParticipations[] {
+    "partyParticipations": *[_type == "partyParticipation" && references(^._id)] {
       party-> {
         _id,
         name,
