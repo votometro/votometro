@@ -158,6 +158,28 @@ export const partyParticipationType = defineType({
               title: 'Justification',
               validation: (Rule) => Rule.required(),
             },
+            {
+              name: 'reviewStatus',
+              type: 'string',
+              title: 'Review Status',
+              description: 'Editorial review status for this answer',
+              options: {
+                list: [
+                  { title: '⏳ Pending Review', value: 'pending' },
+                  { title: '✅ Approved', value: 'approved' },
+                  { title: '🔄 Needs Revision', value: 'needs_revision' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'pending',
+            },
+            {
+              name: 'reviewNotes',
+              type: 'text',
+              title: 'Review Notes',
+              description: 'Editorial feedback for this answer (visible to party if revision requested)',
+              hidden: ({ parent }) => parent?.reviewStatus !== 'needs_revision',
+            },
           ],
           components: {
             input: PartyAnswerInput,
@@ -166,12 +188,19 @@ export const partyParticipationType = defineType({
             select: {
               value: 'value',
               justification: 'justification',
+              reviewStatus: 'reviewStatus',
             },
-            prepare({ value, justification }) {
+            prepare({ value, justification, reviewStatus }) {
               const position = value === 1 ? '👍 For' : value === 0 ? '🤷 Neutral' : '👎 Against'
+              const reviewIcon =
+                reviewStatus === 'approved'
+                  ? ' ✅'
+                  : reviewStatus === 'needs_revision'
+                  ? ' 🔄'
+                  : ' ⏳'
 
               return {
-                title: position,
+                title: `${position}${reviewIcon}`,
                 subtitle: justification ? justification.substring(0, 80) + '...' : '',
               }
             },
