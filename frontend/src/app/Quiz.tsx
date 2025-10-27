@@ -77,7 +77,7 @@ const Button = ({ children, onClick, variant = "default", className, disabled = 
   );
 };
 
-const useSlideNavigation = (slideRefs: React.MutableRefObject<(HTMLDivElement | null)[]>) => {
+const useSlideNavigation = (slideRefs: React.RefObject<(HTMLDivElement | null)[]>) => {
   const [isNavigating, setIsNavigating] = useState(false);
   const delayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
