@@ -3,18 +3,19 @@ export const ELECTION_BY_SLUG_QUERY = `
     _id,
     title,
     slug,
-    theses[]-> {
-      _key,
-      _id,
-      title,
-      text,
-      selected,
-      order
-    } [selected == true] | order(order asc),
+    theses[] {
+      "_key": @._key,
+      "thesis": @-> {
+        _id,
+        title,
+        text,
+        selected,
+        order
+      }
+    } [@.thesis.selected == true] | order(@.thesis.order asc),
     "partyParticipations": *[
       _type == "partyParticipation"
       && references(^._id)
-      && status == "approved"
       && !(_id in path("drafts.**"))
     ] {
       party-> {
@@ -50,14 +51,16 @@ export const PARTY_PARTICIPATION_BY_TOKEN_QUERY = `
       _id,
       title,
       slug,
-      theses[]-> {
-        _key,
-        _id,
-        title,
-        text,
-        selected,
-        order
-      } [selected == true] | order(order asc)
+      theses[] {
+        "_key": @._key,
+        "thesis": @-> {
+          _id,
+          title,
+          text,
+          selected,
+          order
+        }
+      } [@.thesis.selected == true] | order(@.thesis.order asc)
     },
     answers[] {
       thesisKey,

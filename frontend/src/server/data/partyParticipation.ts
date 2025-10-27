@@ -49,7 +49,13 @@ export async function getPartyParticipationByToken(
       id: result.election._id,
       title: result.election.title,
       slug: result.election.slug,
-      theses: (result.election.theses || []).filter(Boolean), // Filter out null references
+      theses: (result.election.theses || [])
+        .filter((item: any) => item && item.thesis) // Filter out null references
+        .map((item: any) => ({
+          _key: item._key,
+          title: item.thesis.title,
+          text: item.thesis.text,
+        })),
     },
     answers: result.answers || [],
   }
