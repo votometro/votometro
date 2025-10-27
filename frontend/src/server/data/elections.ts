@@ -12,7 +12,7 @@ export async function getElectionBySlug(slug: string): Promise<Election | null> 
     id: result._id,
     title: result.title,
     slug: result.slug,
-    theses: result.theses || [],
+    theses: (result.theses || []).filter(Boolean), // Filter out null references
     partyParticipations: (result.partyParticipations || []).map((p: any) => ({
       party: {
         id: p.party._id,

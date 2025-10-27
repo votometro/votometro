@@ -49,7 +49,7 @@ export async function getPartyParticipationByToken(
       id: result.election._id,
       title: result.election.title,
       slug: result.election.slug,
-      theses: result.election.theses || [],
+      theses: (result.election.theses || []).filter(Boolean), // Filter out null references
     },
     answers: result.answers || [],
   }
