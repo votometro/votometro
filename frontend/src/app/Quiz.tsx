@@ -57,9 +57,9 @@ interface ButtonProps {
 
 const Button = ({ children, onClick, variant = "default", className, disabled = false }: ButtonProps & { disabled?: boolean }) => {
   const variantClasses = {
-    default: "bg-background text-text-primary",
-    selected: "bg-primary text-text-inverse",
-    primary: "bg-primary text-text-inverse",
+    default: "bg-white text-text-primary border-2 border-gray-200",
+    selected: "bg-primary text-text-inverse font-bold",
+    primary: "bg-primary text-text-inverse font-bold",
   };
 
   return (
@@ -263,7 +263,7 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
               />
               {/* Blue layer: Current view/scroll position (foreground) */}
               <div
-                className="absolute inset-0 h-full bg-primary transition-all duration-300"
+                className="absolute inset-0 h-full bg-accent transition-all duration-300"
                 style={{ width: `${viewProgress}%` }}
               />
             </div>
@@ -309,7 +309,7 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
               {/* Top: Title and thesis text */}
               <div>
                 {/* Title with progress */}
-                <p className="text-sm leading-0 text-hyped-blue font-bold mb-6">
+                <p className="text-sm leading-0 text-accent font-bold mb-6">
                   {index + 1} / {theses.length}
                   {thesis.title && ` ${thesis.title}`}
                 </p>
