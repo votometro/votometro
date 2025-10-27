@@ -1,6 +1,6 @@
 ---
 import "../styles/tailwind.css"
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content"
 
 export interface Props {
 	title: string
@@ -10,32 +10,32 @@ export interface Props {
 const { title, description } = Astro.props
 
 // Get all docs and organize by category
-const allDocs = await getCollection('docs', ({ data }) => {
-  return data.draft !== true;
-});
+const allDocs = await getCollection("docs", ({ data }) => {
+	return data.draft !== true
+})
 
 // Group by category and sort by order
 const docsByCategory = {
-  introduccion: allDocs
-    .filter(doc => doc.data.category === 'introduccion')
-    .sort((a, b) => a.data.order - b.data.order),
-  proceso: allDocs
-    .filter(doc => doc.data.category === 'proceso')
-    .sort((a, b) => a.data.order - b.data.order),
-  transparencia: allDocs
-    .filter(doc => doc.data.category === 'transparencia')
-    .sort((a, b) => a.data.order - b.data.order),
-  referencias: allDocs
-    .filter(doc => doc.data.category === 'referencias')
-    .sort((a, b) => a.data.order - b.data.order),
-};
+	introduccion: allDocs
+		.filter((doc) => doc.data.category === "introduccion")
+		.sort((a, b) => a.data.order - b.data.order),
+	proceso: allDocs
+		.filter((doc) => doc.data.category === "proceso")
+		.sort((a, b) => a.data.order - b.data.order),
+	transparencia: allDocs
+		.filter((doc) => doc.data.category === "transparencia")
+		.sort((a, b) => a.data.order - b.data.order),
+	referencias: allDocs
+		.filter((doc) => doc.data.category === "referencias")
+		.sort((a, b) => a.data.order - b.data.order),
+}
 
 const categoryNames = {
-  introduccion: 'Introducción',
-  proceso: 'Proceso',
-  transparencia: 'Transparencia',
-  referencias: 'Referencias',
-};
+	introduccion: "Introducción",
+	proceso: "Proceso",
+	transparencia: "Transparencia",
+	referencias: "Referencias",
+}
 ---
 
 <!doctype html>
@@ -99,25 +99,33 @@ const categoryNames = {
 			>
 				<nav class="p-6 pb-24">
 					<div class="space-y-6">
-						{Object.entries(docsByCategory).map(([category, docs]) => (
-							<div>
-								<h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
-									{categoryNames[category as keyof typeof categoryNames]}
-								</h3>
-								<ul class="space-y-2">
-									{docs.map(doc => (
-										<li>
-											<a
-												href={`/documentacion/${doc.slug}`}
-												class="block text-sm text-text-secondary hover:text-text-primary transition-colors py-1"
-											>
-												{doc.data.title}
-											</a>
-										</li>
-									))}
-								</ul>
-							</div>
-						))}
+						{
+							Object.entries(docsByCategory).map(
+								([category, docs]) => (
+									<div>
+										<h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+											{
+												categoryNames[
+													category as keyof typeof categoryNames
+												]
+											}
+										</h3>
+										<ul class="space-y-2">
+											{docs.map((doc) => (
+												<li>
+													<a
+														href={`/documentacion/${doc.slug}`}
+														class="block text-sm text-text-secondary hover:text-text-primary transition-colors py-1"
+													>
+														{doc.data.title}
+													</a>
+												</li>
+											))}
+										</ul>
+									</div>
+								),
+							)
+						}
 					</div>
 				</nav>
 			</aside>
@@ -147,99 +155,106 @@ const categoryNames = {
 		</div>
 
 		<!-- Sidebar Overlay for Mobile -->
-	<div
-		id="sidebar-overlay"
-		class="fixed inset-0 backdrop-blur-sm bg-black/20 z-30 hidden lg:hidden"
-	>
-	</div>
+		<div
+			id="sidebar-overlay"
+			class="fixed inset-0 backdrop-blur-sm bg-black/20 z-30 hidden lg:hidden"
+		>
+		</div>
 
-	<script>
-		// Mobile sidebar toggle
-		const sidebarToggle = document.getElementById("mobile-sidebar-toggle")
-		const sidebar = document.getElementById("sidebar")
-		const sidebarOverlay = document.getElementById("sidebar-overlay")
+		<script>
+			// Mobile sidebar toggle
+			const sidebarToggle = document.getElementById(
+				"mobile-sidebar-toggle",
+			)
+			const sidebar = document.getElementById("sidebar")
+			const sidebarOverlay = document.getElementById("sidebar-overlay")
 
-		function toggleSidebar() {
-			sidebar?.classList.toggle("-translate-x-full")
-			sidebarOverlay?.classList.toggle("hidden")
-		}
+			function toggleSidebar() {
+				sidebar?.classList.toggle("-translate-x-full")
+				sidebarOverlay?.classList.toggle("hidden")
+			}
 
-		sidebarToggle?.addEventListener("click", toggleSidebar)
-		sidebarOverlay?.addEventListener("click", toggleSidebar)
+			sidebarToggle?.addEventListener("click", toggleSidebar)
+			sidebarOverlay?.addEventListener("click", toggleSidebar)
 
-		// Auto-generate table of contents from h2 headings
-		const content = document.querySelector("main")
-		const toc = document.getElementById("toc")
+			// Auto-generate table of contents from h2 headings
+			const content = document.querySelector("main")
+			const toc = document.getElementById("toc")
 
-		if (content && toc) {
-			const headings = content.querySelectorAll("h2[id]")
-			headings.forEach((heading) => {
-				const li = document.createElement("li")
-				const a = document.createElement("a")
-				a.href = `#${heading.id}`
-				a.textContent = heading.textContent
-				a.className =
-					"block text-text-secondary hover:text-text-primary transition-colors py-1 border-l-2 border-transparent hover:border-primary pl-3 -ml-3"
-				li.appendChild(a)
-				toc.appendChild(li)
-			})
-		}
+			if (content && toc) {
+				const headings = content.querySelectorAll("h2[id]")
+				headings.forEach((heading) => {
+					const li = document.createElement("li")
+					const a = document.createElement("a")
+					a.href = `#${heading.id}`
+					a.textContent = heading.textContent
+					a.className =
+						"block text-text-secondary hover:text-text-primary transition-colors py-1 border-l-2 border-transparent hover:border-primary pl-3 -ml-3"
+					li.appendChild(a)
+					toc.appendChild(li)
+				})
+			}
 
-		// Highlight active section in TOC on scroll
-		const observerOptions = {
-			rootMargin: "-100px 0px -66%",
-			threshold: 0,
-		}
+			// Highlight active section in TOC on scroll
+			const observerOptions = {
+				rootMargin: "-100px 0px -66%",
+				threshold: 0,
+			}
 
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				const id = entry.target.getAttribute("id")
-				const tocLink = document.querySelector(`#toc a[href="#${id}"]`)
-				if (entry.isIntersecting) {
-					// Remove active class from all links
-					document.querySelectorAll("#toc a").forEach((link) => {
-						link.classList.remove(
-							"border-primary",
-							"text-text-primary",
-							"font-medium",
-						)
-						link.classList.add("border-transparent")
-					})
-					// Add active class to current link
-					if (tocLink) {
-						tocLink.classList.remove("border-transparent")
-						tocLink.classList.add(
-							"border-primary",
-							"text-text-primary",
-							"font-medium",
-						)
-					}
-				}
-			})
-		}, observerOptions)
-
-		// Observe all h2 headings
-		document.querySelectorAll("main h2[id]").forEach((heading) => {
-			observer.observe(heading)
-		})
-
-		// Smooth scroll for anchor links
-		document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-			anchor.addEventListener("click", function (e) {
-				e.preventDefault()
-				const targetId = this.getAttribute("href")
-				if (targetId && targetId !== "#") {
-					const target = document.querySelector(targetId)
-					if (target) {
-						target.scrollIntoView({
-							behavior: "smooth",
-							block: "start",
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach((entry) => {
+					const id = entry.target.getAttribute("id")
+					const tocLink = document.querySelector(
+						`#toc a[href="#${id}"]`,
+					)
+					if (entry.isIntersecting) {
+						// Remove active class from all links
+						document.querySelectorAll("#toc a").forEach((link) => {
+							link.classList.remove(
+								"border-primary",
+								"text-text-primary",
+								"font-medium",
+							)
+							link.classList.add("border-transparent")
 						})
-						// Update URL
-						history.pushState(null, "", targetId)
+						// Add active class to current link
+						if (tocLink) {
+							tocLink.classList.remove("border-transparent")
+							tocLink.classList.add(
+								"border-primary",
+								"text-text-primary",
+								"font-medium",
+							)
+						}
 					}
-				}
+				})
+			}, observerOptions)
+
+			// Observe all h2 headings
+			document.querySelectorAll("main h2[id]").forEach((heading) => {
+				observer.observe(heading)
 			})
-		})
-	</script>
+
+			// Smooth scroll for anchor links
+			document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+				anchor.addEventListener("click", function (e: Event) {
+					e.preventDefault()
+					const targetId = (
+						e.currentTarget as HTMLAnchorElement
+					).getAttribute("href")
+					if (targetId && targetId !== "#") {
+						const target = document.querySelector(targetId)
+						if (target) {
+							target.scrollIntoView({
+								behavior: "smooth",
+								block: "start",
+							})
+							// Update URL
+							history.pushState(null, "", targetId)
+						}
+					}
+				})
+			})
+		</script>
+	</body>
 </html>
