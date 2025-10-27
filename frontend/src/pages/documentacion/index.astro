@@ -1,0 +1,93 @@
+---
+import { getCollection } from "astro:content"
+import DocsLayout from "../../layouts/DocsLayout.astro"
+
+export const prerender = true
+
+// Get all docs and organize by category
+const allDocs = await getCollection("docs", ({ data }) => {
+	return data.draft !== true
+})
+
+// Group by category and sort by order
+const docsByCategory = {
+	introduccion: allDocs
+		.filter((doc) => doc.data.category === "introduccion")
+		.sort((a, b) => a.data.order - b.data.order),
+	proceso: allDocs
+		.filter((doc) => doc.data.category === "proceso")
+		.sort((a, b) => a.data.order - b.data.order),
+	transparencia: allDocs
+		.filter((doc) => doc.data.category === "transparencia")
+		.sort((a, b) => a.data.order - b.data.order),
+	referencias: allDocs
+		.filter((doc) => doc.data.category === "referencias")
+		.sort((a, b) => a.data.order - b.data.order),
+}
+
+const categoryNames = {
+	introduccion: "Introducción",
+	proceso: "Proceso",
+	transparencia: "Transparencia",
+	referencias: "Referencias",
+}
+---
+
+<DocsLayout
+	title="Documentación"
+	description="Descubre el proceso detrás de Votómetro, los talleres ciudadanos y nuestra metodología transparente"
+>
+	<div class="mb-16">
+		<h1
+			class="text-5xl md:text-6xl font-bold text-text-primary mb-6 leading-tight"
+		>
+			Documentación
+		</h1>
+		<p class="text-xl text-text-secondary leading-relaxed">
+			Conoce el proceso completo detrás de Votómetro, desde los talleres
+			ciudadanos hasta la validación con partidos políticos.
+		</p>
+	</div>
+
+	{
+		Object.entries(docsByCategory).map(([category, docs]) => (
+			<section class="mb-16">
+				<h2 class="text-3xl font-bold text-text-primary mb-6">
+					{categoryNames[category as keyof typeof categoryNames]}
+				</h2>
+				<div class="grid md:grid-cols-2 gap-4">
+					{docs.map((doc) => (
+						<a
+							href={`/documentacion/${doc.slug}`}
+							class="block bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-accent hover:shadow-lg transition-all duration-200"
+						>
+							<h3 class="font-bold text-text-primary mb-2 text-lg">
+								{doc.data.title}
+							</h3>
+							<p class="text-text-secondary text-sm">{doc.data.description}</p>
+						</a>
+					))}
+				</div>
+			</section>
+		))
+	}
+
+	<!-- CTA -->
+	<section class="mt-16 pt-12 border-t-2 border-gray-200">
+		<div class="bg-primary rounded-2xl p-12 text-center">
+			<h2 class="text-3xl font-bold text-black mb-4">
+				¿Quieres descubrir tu afinidad?
+			</h2>
+			<p class="text-lg text-gray-800 mb-8 max-w-2xl mx-auto">
+				Ahora que conoces el proceso, descubre qué partidos están más alineados
+				con tus opiniones.
+			</p>
+			<a
+				href="/elecciones-generales-2026"
+				class="inline-block bg-black text-white font-bold text-lg px-10 py-4 rounded-xl hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"
+			>
+				Empezar Votómetro
+			</a>
+		</div>
+	</section>
+</DocsLayout>

@@ -1,0 +1,266 @@
+---
+import { getCollection } from "astro:content"
+import type { CollectionEntry } from "astro:content"
+import DocsLayout from "../../layouts/DocsLayout.astro"
+
+export const prerender = true
+
+export async function getStaticPaths() {
+	const docsEntries = await getCollection("docs", ({ data }) => {
+		return data.draft !== true
+	})
+
+	return docsEntries.map((entry) => ({
+		params: { slug: entry.slug },
+		props: {
+			entry: entry,
+		},
+	}))
+}
+
+type Props = {
+	entry: CollectionEntry<"docs">
+}
+
+const { entry } = Astro.props
+const { Content } = await entry.render()
+
+// Get all docs to find previous and next
+const allDocs = await getCollection("docs", ({ data }) => {
+	return data.draft !== true
+})
+
+// Sort all docs by category and order
+const sortedDocs = allDocs.sort((a, b) => {
+	if (a.data.category !== b.data.category) {
+		// Sort by category order:
+		const categoryOrder = [
+			"introduccion",
+			"proceso",
+			"transparencia",
+			"referencias",
+		]
+		return (
+			categoryOrder.indexOf(a.data.category) -
+			categoryOrder.indexOf(b.data.category)
+		)
+	}
+	return a.data.order - b.data.order
+})
+
+// Find current doc index
+const currentIndex = sortedDocs.findIndex((doc) => doc.slug === entry.slug)
+const previousDoc = currentIndex > 0 ? sortedDocs[currentIndex - 1] : null
+const nextDoc =
+	currentIndex < sortedDocs.length - 1 ? sortedDocs[currentIndex + 1] : null
+---
+
+<DocsLayout title={entry.data.title} description={entry.data.description}>
+	<article class="prose prose-lg max-w-none">
+		<h1
+			class="text-5xl md:text-6xl font-bold text-text-primary mb-6 leading-tight"
+		>
+			{entry.data.title}
+		</h1>
+
+		{
+			entry.data.description && (
+				<p class="text-xl text-text-secondary mb-12 leading-relaxed">
+					{entry.data.description}
+				</p>
+			)
+		}
+
+		<div class="markdown-content">
+			<Content />
+		</div>
+
+		<!-- Previous/Next Navigation -->
+		<nav
+			class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mt-12 pt-8 border-t border-gray-200"
+		>
+			{
+				previousDoc ? (
+					<a
+						href={`/documentacion/${previousDoc.slug}`}
+						class="group flex-1 flex items-center gap-3 p-4 rounded-lg border border-gray-200 hover:border-accent hover:bg-gray-50 transition-all min-h-[80px]"
+					>
+						<svg
+							class="w-5 h-5 text-gray-400 group-hover:text-accent transition-colors flex-shrink-0"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M15 19l-7-7 7-7"
+							/>
+						</svg>
+						<div class="text-left">
+							<div class="text-xs text-gray-500 mb-1">Anterior</div>
+							<div class="text-sm font-medium text-text-primary group-hover:text-accent transition-colors line-clamp-2">
+								{previousDoc.data.title}
+							</div>
+						</div>
+					</a>
+				) : (
+					<div class="flex-1 hidden md:block" />
+				)
+			}
+
+			{
+				nextDoc ? (
+					<a
+						href={`/documentacion/${nextDoc.slug}`}
+						class="group flex-1 flex items-center gap-3 p-4 rounded-lg border border-gray-200 hover:border-accent hover:bg-gray-50 transition-all min-h-[80px]"
+					>
+						<div class="text-right flex-1">
+							<div class="text-xs text-gray-500 mb-1">Siguiente</div>
+							<div class="text-sm font-medium text-text-primary group-hover:text-accent transition-colors line-clamp-2">
+								{nextDoc.data.title}
+							</div>
+						</div>
+						<svg
+							class="w-5 h-5 text-gray-400 group-hover:text-accent transition-colors flex-shrink-0"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M9 5l7 7-7 7"
+							/>
+						</svg>
+					</a>
+				) : (
+					<div class="flex-1 hidden md:block" />
+				)
+			}
+		</nav>
+	</article>
+</DocsLayout>
+
+<style>
+	@import "tailwindcss";
+
+	.markdown-content :global(h2) {
+		font-size: 1.875rem;
+		font-weight: 700;
+		color: var(--color-text-primary);
+		margin-bottom: 1.5rem;
+		margin-top: 3rem;
+		scroll-margin-top: 6rem;
+	}
+
+	.markdown-content :global(h3) {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--color-text-primary);
+		margin-bottom: 1rem;
+		margin-top: 2rem;
+	}
+
+	.markdown-content :global(h4) {
+		font-size: 1.25rem;
+		font-weight: 700;
+		color: var(--color-text-primary);
+		margin-bottom: 0.75rem;
+		margin-top: 1.5rem;
+	}
+
+	.markdown-content :global(p) {
+		font-size: 1.125rem;
+		color: var(--color-text-secondary);
+		line-height: 1.75;
+		margin-bottom: 1.5rem;
+	}
+
+	.markdown-content :global(ul) {
+		margin-bottom: 1.5rem;
+		margin-left: 1.5rem;
+	}
+
+	.markdown-content :global(ul li) {
+		font-size: 1.125rem;
+		color: var(--color-text-secondary);
+		line-height: 1.75;
+		margin-bottom: 0.75rem;
+		padding-left: 0.5rem;
+	}
+
+	.markdown-content :global(ul li::marker) {
+		color: var(--color-primary);
+	}
+
+	.markdown-content :global(ol) {
+		margin-bottom: 1.5rem;
+		margin-left: 1.5rem;
+		list-style-type: decimal;
+	}
+
+	.markdown-content :global(ol li) {
+		font-size: 1.125rem;
+		color: var(--color-text-secondary);
+		line-height: 1.75;
+		margin-bottom: 0.75rem;
+		padding-left: 0.5rem;
+	}
+
+	.markdown-content :global(strong) {
+		color: var(--color-text-primary);
+		font-weight: 700;
+	}
+
+	.markdown-content :global(a) {
+		color: var(--color-accent);
+		text-decoration: underline;
+		transition: color 0.2s;
+	}
+
+	.markdown-content :global(a:hover) {
+		color: var(--color-primary);
+	}
+
+	.markdown-content :global(code) {
+		background-color: #f3f4f6;
+		padding: 0.125rem 0.5rem;
+		border-radius: 0.25rem;
+		font-size: 0.875rem;
+		font-family: monospace;
+		color: var(--color-text-primary);
+	}
+
+	.markdown-content :global(pre) {
+		background-color: #f3f4f6;
+		padding: 1rem;
+		border-radius: 0.5rem;
+		overflow-x: auto;
+		margin-bottom: 1.5rem;
+	}
+
+	.markdown-content :global(pre code) {
+		background-color: transparent;
+		padding: 0;
+	}
+
+	.markdown-content :global(blockquote) {
+		border-left: 4px solid var(--color-primary);
+		padding-left: 1.5rem;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+		background-color: var(--color-background-secondary);
+		border-radius: 0 0.5rem 0.5rem 0;
+	}
+
+	.markdown-content :global(hr) {
+		border-color: #e5e7eb;
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+	}
+</style>
