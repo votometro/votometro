@@ -1,14 +1,22 @@
 export const ELECTION_BY_SLUG_QUERY = `
-  *[_type == "election" && slug == $slug][0] {
+  *[_type == "election" && slug == $slug && !(_id in path("drafts.**"))][0] {
     _id,
     title,
     slug,
-    theses[] {
+    theses[]-> {
       _key,
+      _id,
       title,
-      text
-    },
-    "partyParticipations": *[_type == "partyParticipation" && references(^._id)] {
+      text,
+      selected,
+      order
+    } [selected == true] | order(order asc),
+    "partyParticipations": *[
+      _type == "partyParticipation"
+      && references(^._id)
+      && status == "approved"
+      && !(_id in path("drafts.**"))
+    ] {
       party-> {
         _id,
         name,
@@ -42,16 +50,21 @@ export const PARTY_PARTICIPATION_BY_TOKEN_QUERY = `
       _id,
       title,
       slug,
-      theses[] {
+      theses[]-> {
         _key,
+        _id,
         title,
-        text
-      }
+        text,
+        selected,
+        order
+      } [selected == true] | order(order asc)
     },
     answers[] {
       thesisKey,
       value,
-      justification
+      justification,
+      reviewStatus,
+      reviewNotes
     }
   }
 `
