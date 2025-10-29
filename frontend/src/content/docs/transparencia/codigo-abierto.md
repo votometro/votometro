@@ -5,7 +5,7 @@ category: "transparencia"
 order: 2
 ---
 
-Todo el código de Votómetro es de código abierto y está disponible en GitHub. Esto permite que cualquier persona pueda:
+Todo el código de Votomatic es de código abierto y está disponible en GitHub. Esto permite que cualquier persona pueda:
 
 <div class="grid md:grid-cols-3 gap-4 my-8">
   <div class="bg-gray-50 rounded-xl p-6">
@@ -42,7 +42,7 @@ Encuentra el código completo, documentación técnica y guías de contribución
     Visita nuestro repositorio para ver el código fuente, reportar problemas o contribuir al proyecto.
   </p>
   <a
-    href="https://github.com/votometro/votometro"
+    href="https://github.com/votomatic/votomatic"
     target="_blank"
     rel="noopener noreferrer"
     class="inline-flex items-center gap-2 bg-gray-50 text-white font-medium px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors no-underline"

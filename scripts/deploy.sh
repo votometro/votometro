@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WORKER_NAME="votometro-frontend-${STAGE:-$USER}"
+WORKER_NAME="votomatic-frontend-${STAGE:-$USER}"
 
 echo "Building frontend..."
-pnpm --filter @votometro/frontend build
+pnpm --filter @votomatic/frontend build
 
 echo "Deploying frontend as '${WORKER_NAME}'..."
 wrangler deploy --config frontend/wrangler.toml --name "${WORKER_NAME}"
 
 echo "Building Sanity studio..."
-pnpm --filter @votometro/content build
+pnpm --filter @votomatic/content build
 
 echo "Deploying Sanity studio..."
-pnpm --filter @votometro/content run deploy
+pnpm --filter @votomatic/content run deploy
 
 echo "✓ Deployment complete!"

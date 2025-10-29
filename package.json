@@ -1,5 +1,5 @@
 {
-  "name": "votometro-root",
+  "name": "votomatic-root",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.4.1",

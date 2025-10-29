@@ -1,5 +1,5 @@
 {
-  "name": "@votometro/frontend",
+  "name": "@votomatic/frontend",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
