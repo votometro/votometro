@@ -10,6 +10,12 @@ const election = await getElectionBySlug(Astro.params.election!);
 if (!election) {
   return new Response("Not found", { status: 404 });
 }
+
+// CDN caches for 10s, serves stale for 60s while revalidating in background
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, max-age=0, s-maxage=10, stale-while-revalidate=60"
+);
 ---
 
 <Layout>
