@@ -23,7 +23,7 @@ export interface PartySubmissionSession {
 export async function getPartyParticipationByToken(
   token: string
 ): Promise<PartySubmissionSession | null> {
-  const result = await sanityClient.fetch(PARTY_PARTICIPATION_BY_TOKEN_QUERY, { token })
+  const result = await sanityClient.fetch<any>(PARTY_PARTICIPATION_BY_TOKEN_QUERY as any, { token } as any)
 
   if (!result) return null
 

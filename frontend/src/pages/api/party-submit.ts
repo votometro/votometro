@@ -4,7 +4,10 @@ import { sanityClient } from "../../server/sanity/client";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const body = await request.json();
+    const body = await request.json() as {
+      token?: string;
+      participationId?: string;
+    };
     const { token, participationId } = body;
 
     if (!token || !participationId) {

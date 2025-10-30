@@ -4,7 +4,13 @@ import { sanityClient } from "../../server/sanity/client";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const body = await request.json();
+    const body = await request.json() as {
+      token?: string;
+      participationId?: string;
+      thesisKey?: string;
+      value?: number;
+      justification?: string;
+    };
     const { token, participationId, thesisKey, value, justification } = body;
 
     // Validate required fields
