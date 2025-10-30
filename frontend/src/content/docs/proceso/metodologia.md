@@ -1,6 +1,6 @@
 ---
 title: "Metodología"
-description: "El proceso completo de desarrollo de Votómetro"
+description: "El proceso completo de desarrollo de Votomatic"
 category: "proceso"
 order: 1
 ---

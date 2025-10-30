@@ -1,7 +1,9 @@
 import { useState, useMemo } from "react";
-import type { Answer, Thesis, PartyParticipation } from "./types";
-import { calculateMatch } from "./algorithm";
-import { cn } from "../lib/cn";
+import type { Answer } from "../lib/types/answer";
+import type { Thesis } from "../lib/types/election";
+import type { PartyParticipation } from "../lib/types/party";
+import { calculateMatch } from "../lib/matching/algorithm";
+import { cn } from "../lib/utils/cn";
 
 interface ResultsProps {
   answers: Answer[];

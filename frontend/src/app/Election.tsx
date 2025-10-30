@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Quiz } from "./Quiz";
 import { Results } from "./Results";
-import type { Answer, Thesis, PartyParticipation } from "./types";
+import type { Answer } from "../lib/types/answer";
+import type { Thesis } from "../lib/types/election";
+import type { PartyParticipation } from "../lib/types/party";
 
 interface ElectionProps {
   title: string;

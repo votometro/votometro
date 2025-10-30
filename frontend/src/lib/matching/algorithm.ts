@@ -1,4 +1,5 @@
-import type { Answer, PartyAnswer, AnswerValue } from './types';
+import type { Answer, AnswerValue } from '../types/answer'
+import type { PartyAnswer } from '../types/party'
 
 /**
  * Score for a single thesis comparison

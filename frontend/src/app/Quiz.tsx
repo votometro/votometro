@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
-import type { Answer, AnswerValue, Thesis } from "./types";
-import { cn } from "../lib/cn";
+import type { Answer, AnswerValue } from "../lib/types/answer";
+import type { Thesis } from "../lib/types/election";
+import { cn } from "../lib/utils/cn";
 
 interface QuizProps {
   title: string;
@@ -272,7 +273,7 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
           <div className="px-6">
             <div className="md:mx-auto md:max-w-[900px] md:flex md:justify-center">
               <div className="md:inline-block md:py-4">
-                <h1 className="text-[min(7vw,3rem)] leading-[1.1] text-text-primary mb-1">Votómetro</h1>
+                <h1 className="text-[min(7vw,3rem)] leading-[1.1] text-text-primary mb-1">Votomatic</h1>
                 <p className="text-[min(4vw,1.5rem)] text-text-primary font-bold">{title}</p>
               </div>
             </div>

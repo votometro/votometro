@@ -5,7 +5,7 @@ category: "transparencia"
 order: 1
 ---
 
-La transparencia es fundamental para Votómetro. Todas nuestras fuentes son públicas y verificables.
+La transparencia es fundamental para Votomatic. Todas nuestras fuentes son públicas y verificables.
 
 ## Fuentes primarias
 

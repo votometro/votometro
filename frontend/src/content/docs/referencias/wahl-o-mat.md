@@ -1,11 +1,11 @@
 ---
 title: "Inspiración: Wahl-O-Mat"
-description: "La herramienta alemana que inspiró Votómetro"
+description: "La herramienta alemana que inspiró Votomatic"
 category: "referencias"
 order: 1
 ---
 
-Votómetro está inspirado en el **Wahl-O-Mat**, una herramienta desarrollada por la Bundeszentrale für politische Bildung (bpb) de Alemania.
+Votomatic está inspirado en el **Wahl-O-Mat**, una herramienta desarrollada por la Bundeszentrale für politische Bildung (bpb) de Alemania.
 
 ## ¿Qué es el Wahl-O-Mat?
 

@@ -1,0 +1,18 @@
+---
+export const prerender = false;
+
+import { getPartyParticipationByToken } from "../../server/data/partyParticipation";
+import { PartySubmission } from "../../app/PartySubmission";
+import Layout from "../../layouts/Layout.astro";
+
+const token = Astro.params.token!;
+const session = await getPartyParticipationByToken(token);
+
+if (!session) {
+  return Astro.redirect("/partido/invalido");
+}
+---
+
+<Layout title={`Responder - ${session.party.name}`}>
+  <PartySubmission session={session} client:only />
+</Layout>

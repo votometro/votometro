@@ -1,11 +1,38 @@
-import { ObjectInputProps, useFormValue, set } from 'sanity'
-import { useEffect } from 'react'
+import { ObjectInputProps, useFormValue, set, useClient } from 'sanity'
+import { useEffect, useState } from 'react'
+import { Card, Stack, Text, Spinner } from '@sanity/ui'
 
 export function PartyAnswerInput(props: ObjectInputProps) {
   const { renderDefault, onChange, value } = props
+  const client = useClient({ apiVersion: '2024-01-01' })
 
-  // Get the full document to access theses
-  const theses = useFormValue(['theses']) as Array<{ _key: string; title: string; text: string }> | undefined
+  // Get the election reference from the parent PartyParticipation document
+  const electionRef = useFormValue(['election']) as { _ref: string } | undefined
+
+  // Fetch theses from the referenced election
+  const [theses, setTheses] = useState<Array<{ _key: string; title: string; text: string }> | undefined>()
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    if (!electionRef?._ref) {
+      setIsLoading(false)
+      return
+    }
+
+    client
+      .fetch<{ theses: Array<{ _key: string; title: string; text: string }> }>(
+        `*[_type == "election" && _id == $electionId][0]{ theses }`,
+        { electionId: electionRef._ref }
+      )
+      .then((election) => {
+        setTheses(election?.theses)
+        setIsLoading(false)
+      })
+      .catch((err) => {
+        console.error('Failed to fetch election theses:', err)
+        setIsLoading(false)
+      })
+  }, [electionRef?._ref, client])
 
   // Get the current answer's thesisKey
   const currentThesisKey = (value as any)?.thesisKey
@@ -32,34 +59,38 @@ export function PartyAnswerInput(props: ObjectInputProps) {
   }, [currentThesisKey, theses, answers, onChange])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      {thesis ? (
-        <div
-          style={{
-            padding: '1rem',
-            borderRadius: '4px',
-            backgroundColor: '#e8f4fd',
-            border: '1px solid #b3d9f7',
-          }}
-        >
-          <div style={{ fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>
-            {thesis.title}
-          </div>
-          <div style={{ fontSize: '0.875rem', color: '#666' }}>
-            {thesis.text}
-          </div>
-        </div>
+    <Stack space={3}>
+      {isLoading ? (
+        <Card padding={3} radius={2} tone="transparent" border>
+          <Stack space={2} align="center">
+            <Spinner />
+            <Text size={1} muted>Loading thesis...</Text>
+          </Stack>
+        </Card>
+      ) : thesis ? (
+        <Card padding={3} radius={2} tone="primary" border>
+          <Stack space={2}>
+            <Text size={1} weight="semibold">
+              {thesis.title}
+            </Text>
+            <Text size={1} muted>
+              {thesis.text}
+            </Text>
+          </Stack>
+        </Card>
       ) : currentThesisKey ? (
-        <div style={{ padding: '1rem', backgroundColor: '#ffe8e8', borderRadius: '4px', border: '1px solid #ffcccc' }}>
-          <div style={{ fontSize: '0.875rem', color: '#cc0000', fontWeight: 600 }}>
-            ⚠️ Thesis not found (deleted?)
-          </div>
-          <div style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.25rem' }}>
-            Key: {currentThesisKey}
-          </div>
-        </div>
+        <Card padding={3} radius={2} tone="critical" border>
+          <Stack space={2}>
+            <Text size={1} weight="semibold">
+              ⚠️ Thesis not found (deleted?)
+            </Text>
+            <Text size={0} muted>
+              Key: {currentThesisKey}
+            </Text>
+          </Stack>
+        </Card>
       ) : null}
       <div>{renderDefault(props)}</div>
-    </div>
+    </Stack>
   )
 }
