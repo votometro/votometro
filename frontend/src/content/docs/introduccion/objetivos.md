@@ -1,6 +1,6 @@
 ---
 title: "Objetivos"
-description: "Los objetivos principales de Votómetro"
+description: "Los objetivos principales de Votomatic"
 category: "introduccion"
 order: 3
 ---

@@ -1,13 +1,13 @@
 ---
 title: "Recursos adicionales"
-description: "Enlaces a más información sobre Votómetro"
+description: "Enlaces a más información sobre Votomatic"
 category: "referencias"
 order: 2
 ---
 
 ## Guía del usuario
 
-Aprende cómo usar Votómetro y cómo interpretar los resultados.
+Aprende cómo usar Votomatic y cómo interpretar los resultados.
 
 [Ver guía](/como-funciona) →
 

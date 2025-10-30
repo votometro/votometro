@@ -4,7 +4,7 @@ import { schemaTypes } from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'Votómetro',
+  title: 'Votomatic',
 
   projectId: 'h9gt2zpk',
   dataset: 'production',

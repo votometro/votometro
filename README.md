@@ -1,4 +1,4 @@
-# Votómetro
+# Votomatic
 
 Voting assistance application inspired by the German Wahl-O-Mat. Helps voters understand political party positions through thesis-based questionnaires.
 
@@ -13,7 +13,7 @@ Voting assistance application inspired by the German Wahl-O-Mat. Helps voters un
 ## Project Structure
 
 ```
-votometro/
+votomatic/
 ├── frontend/              # Astro app (public site + API routes)
 │   ├── src/
 │   │   ├── pages/         # Routes and API endpoints

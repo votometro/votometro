@@ -5,7 +5,7 @@ category: "proceso"
 order: 2
 ---
 
-Los talleres ciudadanos son el corazón del proceso de Votómetro. Reunimos a grupos diversos de ciudadanos para asegurar que las preguntas reflejen las preocupaciones reales de la población.
+Los talleres ciudadanos son el corazón del proceso de Votomatic. Reunimos a grupos diversos de ciudadanos para asegurar que las preguntas reflejen las preocupaciones reales de la población.
 
 ## Características de los talleres
 
