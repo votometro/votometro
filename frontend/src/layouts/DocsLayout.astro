@@ -52,28 +52,22 @@ const categoryNames = {
 		/>
 		<title>{title} - Votomatic</title>
 	</head>
-	<body class="antialiased bg-white text-text-primary">
+	<body class="antialiased bg-background text-foreground">
 		<!-- Fixed Header -->
 		<header
-			class="fixed top-0 left-0 right-0 z-50 h-16 bg-white border-b border-gray-200"
+			class="fixed top-0 left-0 right-0 z-50 h-16 bg-background border-b border-border"
 		>
 			<div class="h-full px-6 flex items-center justify-between">
-				<a href="/" class="text-xl font-bold text-text-primary"
+				<a href="/" class="text-xl font-bold text-foreground"
 					>Votomatic</a
 				>
-				<a
-					href="/elecciones-generales-2026"
-					class="bg-black text-white font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-				>
-					Empezar
-				</a>
 			</div>
 		</header>
 
 		<!-- Mobile Menu Button -->
 		<button
 			id="mobile-sidebar-toggle"
-			class="fixed bottom-6 right-6 z-50 lg:hidden w-14 h-14 bg-black text-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-800 transition-colors"
+			class="fixed bottom-6 right-6 z-50 lg:hidden w-14 h-14 bg-foreground text-background rounded-full shadow-lg flex items-center justify-center hover:opacity-80 transition-all"
 			aria-label="Toggle menu"
 		>
 			<svg
@@ -95,7 +89,7 @@ const categoryNames = {
 			<!-- Left Sidebar Navigation -->
 			<aside
 				id="sidebar"
-				class="fixed top-16 left-0 bottom-0 w-64 bg-gray-50 border-r border-gray-200 overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 pb-8"
+				class="fixed top-16 left-0 bottom-0 w-64 bg-surface border-r border-border overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 pb-8"
 			>
 				<nav class="p-6 pb-24">
 					<div class="space-y-6">
@@ -103,7 +97,7 @@ const categoryNames = {
 							Object.entries(docsByCategory).map(
 								([category, docs]) => (
 									<div>
-										<h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+										<h3 class="text-xs font-bold text-foreground-muted uppercase tracking-wider mb-3">
 											{
 												categoryNames[
 													category as keyof typeof categoryNames
@@ -115,7 +109,7 @@ const categoryNames = {
 												<li>
 													<a
 														href={`/documentacion/${doc.slug}`}
-														class="block text-sm text-text-secondary hover:text-text-primary transition-colors py-1"
+														class="block text-sm text-foreground-secondary hover:text-foreground transition-colors py-1"
 													>
 														{doc.data.title}
 													</a>
@@ -139,11 +133,11 @@ const categoryNames = {
 
 			<!-- Right Table of Contents -->
 			<aside
-				class="hidden xl:block fixed top-16 right-0 bottom-0 w-64 overflow-y-auto border-l border-gray-200 bg-white pb-8"
+				class="hidden xl:block fixed top-16 right-0 bottom-0 w-64 overflow-y-auto border-l border-border bg-background pb-8"
 			>
 				<nav class="p-6 pb-24">
 					<h3
-						class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4"
+						class="text-xs font-bold text-foreground-muted uppercase tracking-wider mb-4"
 					>
 						En esta página
 					</h3>
@@ -189,7 +183,7 @@ const categoryNames = {
 					a.href = `#${heading.id}`
 					a.textContent = heading.textContent
 					a.className =
-						"block text-text-secondary hover:text-text-primary transition-colors py-1 border-l-2 border-transparent hover:border-primary pl-3 -ml-3"
+						"block text-foreground-secondary hover:text-foreground transition-colors py-1 border-l-2 border-transparent hover:border-primary pl-3 -ml-3"
 					li.appendChild(a)
 					toc.appendChild(li)
 				})
@@ -212,7 +206,7 @@ const categoryNames = {
 						document.querySelectorAll("#toc a").forEach((link) => {
 							link.classList.remove(
 								"border-primary",
-								"text-text-primary",
+								"text-foreground",
 								"font-medium",
 							)
 							link.classList.add("border-transparent")
@@ -222,7 +216,7 @@ const categoryNames = {
 							tocLink.classList.remove("border-transparent")
 							tocLink.classList.add(
 								"border-primary",
-								"text-text-primary",
+								"text-foreground",
 								"font-medium",
 							)
 						}

@@ -39,11 +39,11 @@ const categoryNames = {
 >
 	<div class="mb-16">
 		<h1
-			class="text-5xl md:text-6xl font-bold text-text-primary mb-6 leading-tight"
+			class="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight"
 		>
 			Documentación
 		</h1>
-		<p class="text-xl text-text-secondary leading-relaxed">
+		<p class="text-xl text-foreground-secondary leading-relaxed">
 			Conoce el proceso completo detrás de Votomatic, desde los talleres
 			ciudadanos hasta la validación con partidos políticos.
 		</p>
@@ -52,7 +52,7 @@ const categoryNames = {
 	{
 		Object.entries(docsByCategory).map(([category, docs]) => (
 			<section class="mb-16">
-				<h2 class="text-3xl font-bold text-text-primary mb-6">
+				<h2 class="text-3xl font-bold text-foreground mb-6">
 					{categoryNames[category as keyof typeof categoryNames]}
 				</h2>
 				<div class="grid md:grid-cols-2 gap-4">
@@ -61,10 +61,10 @@ const categoryNames = {
 							href={`/documentacion/${doc.slug}`}
 							class="block bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-accent hover:shadow-lg transition-all duration-200"
 						>
-							<h3 class="font-bold text-text-primary mb-2 text-lg">
+							<h3 class="font-bold text-foreground mb-2 text-lg">
 								{doc.data.title}
 							</h3>
-							<p class="text-text-secondary text-sm">{doc.data.description}</p>
+							<p class="text-foreground-secondary text-sm">{doc.data.description}</p>
 						</a>
 					))}
 				</div>
@@ -84,7 +84,7 @@ const categoryNames = {
 			</p>
 			<a
 				href="/elecciones-generales-2026"
-				class="inline-block bg-black text-white font-bold text-lg px-10 py-4 rounded-xl hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"
+				class="inline-block bg-black text-white font-bold text-lg px-10 py-4 rounded-xl hover:bg-surface transition-all duration-300 shadow-lg hover:shadow-xl"
 			>
 				Empezar Votomatic
 			</a>

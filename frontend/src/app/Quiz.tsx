@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
 import type { Answer, AnswerValue } from "../lib/types/answer";
 import type { Thesis } from "../lib/types/election";
-import { cn } from "../lib/utils/cn";
+import { cn, button } from "../lib/styles";
 
 interface QuizProps {
   title: string;
@@ -52,26 +52,17 @@ Slide.displayName = "Slide";
 interface ButtonProps {
   children: React.ReactNode;
   onClick: () => void;
-  variant?: "default" | "selected" | "primary";
+  variant?: "default" | "selected" | "primary" | "ghost";
   className?: string;
+  disabled?: boolean;
 }
 
-const Button = ({ children, onClick, variant = "default", className, disabled = false }: ButtonProps & { disabled?: boolean }) => {
-  const variantClasses = {
-    default: "bg-white text-text-primary border-2 border-gray-200",
-    selected: "bg-primary text-text-inverse font-bold",
-    primary: "bg-primary text-text-inverse font-bold",
-  };
-
+const Button = ({ children, onClick, variant = "default", className, disabled = false }: ButtonProps) => {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className={cn(
-        "w-full md:w-auto md:flex-shrink-0 py-4 px-6 rounded-lg font-semibold transition-all hover:opacity-80 active:scale-95 cursor-pointer",
-        variantClasses[variant],
-        className
-      )}
+      className={cn(button({ variant }), className)}
     >
       {children}
     </button>
@@ -273,8 +264,8 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
           <div className="px-6">
             <div className="md:mx-auto md:max-w-[900px] md:flex md:justify-center">
               <div className="md:inline-block md:py-4">
-                <h1 className="text-[min(7vw,3rem)] leading-[1.1] text-text-primary mb-1">Votomatic</h1>
-                <p className="text-[min(4vw,1.5rem)] text-text-primary font-bold">{title}</p>
+                <h1 className="text-[min(7vw,3rem)] leading-[1.1] text-foreground mb-1">Votomatic</h1>
+                <p className="text-[min(4vw,1.5rem)] text-foreground font-bold">{title}</p>
               </div>
             </div>
           </div>
@@ -301,7 +292,7 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
                 <button
                   onClick={() => handleSkip(index)}
                   disabled={isNavigating}
-                  className="inline-block py-2 px-6 rounded-lg font-semibold hover:text-text-secondary transition-all active:scale-95 cursor-pointer"
+                  className={cn(button({ variant: "ghost", size: "sm" }))}
                 >
                   Saltar tesis
                 </button>
@@ -316,7 +307,7 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
                 </p>
 
                 {/* Main thesis text */}
-                <h2 className="text-2xl md:text-3xl text-text-primary">
+                <h2 className="text-2xl md:text-3xl text-foreground">
                   {thesis.text}
                 </h2>
               </div>
@@ -352,12 +343,12 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
             {/* Top: Caption and completion message */}
             <div>
               {/* Caption consistent with quiz slides */}
-              <p className="text-sm leading-0 text-text-primary font-bold mb-6">
+              <p className="text-sm leading-0 text-foreground font-bold mb-6">
                 Resultados
               </p>
 
               {/* Completion message */}
-              <h2 className="text-2xl md:text-3xl text-text-primary">
+              <h2 className="text-2xl md:text-3xl text-foreground">
                 Tus resultados están listos
               </h2>
             </div>

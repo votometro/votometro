@@ -10,13 +10,13 @@ import Layout from "../layouts/Layout.astro"
 		>
 			<a
 				href="/"
-				class="text-text-primary hover:text-text-secondary font-medium transition-colors"
+				class="text-foreground hover:text-foreground-secondary font-medium transition-colors"
 			>
 				← Volver al inicio
 			</a>
 			<a
 				href="/elecciones-generales-2026"
-				class="bg-black text-white font-medium text-sm px-6 py-3 rounded-xl hover:bg-gray-800 transition-colors"
+				class="bg-black text-white font-medium text-sm px-6 py-3 rounded-xl hover:bg-surface transition-colors"
 			>
 				Empezar Votomatic
 			</a>
@@ -26,11 +26,11 @@ import Layout from "../layouts/Layout.astro"
 		<section class="pt-32 pb-20 px-4">
 			<div class="max-w-6xl mx-auto">
 				<h1
-					class="text-6xl md:text-8xl font-bold text-text-primary mb-8 leading-tight tracking-tight"
+					class="text-6xl md:text-8xl font-bold text-foreground mb-8 leading-tight tracking-tight"
 				>
 					Cómo funciona
 				</h1>
-				<p class="text-xl md:text-2xl text-text-secondary max-w-3xl">
+				<p class="text-xl md:text-2xl text-foreground-secondary max-w-3xl">
 					Descubre cómo calculamos tu afinidad con los partidos
 					políticos de manera transparente y objetiva
 				</p>
@@ -40,13 +40,13 @@ import Layout from "../layouts/Layout.astro"
 		<!-- Introduction -->
 		<section class="py-12 px-4 bg-background-secondary">
 			<div class="max-w-4xl mx-auto">
-				<p class="text-lg text-text-secondary leading-relaxed mb-4">
+				<p class="text-lg text-foreground-secondary leading-relaxed mb-4">
 					Votomatic utiliza un algoritmo simple y transparente para
 					calcular qué tan alineadas están tus opiniones con las
 					posiciones de cada partido político. El proceso es
 					completamente objetivo y matemático.
 				</p>
-				<p class="text-lg text-text-secondary leading-relaxed">
+				<p class="text-lg text-foreground-secondary leading-relaxed">
 					A continuación, explicamos paso a paso cómo funciona el
 					cálculo.
 				</p>
@@ -63,14 +63,14 @@ import Layout from "../layouts/Layout.astro"
 						Paso 1
 					</span>
 					<h2
-						class="text-4xl md:text-5xl font-bold text-text-primary mb-8"
+						class="text-4xl md:text-5xl font-bold text-foreground mb-8"
 					>
 						Tus respuestas
 					</h2>
 				</div>
 
 				<div class="space-y-6 mb-12">
-					<p class="text-lg text-text-secondary leading-relaxed">
+					<p class="text-lg text-foreground-secondary leading-relaxed">
 						Para cada pregunta del cuestionario, puedes elegir entre
 						tres opciones:
 					</p>
@@ -122,8 +122,8 @@ import Layout from "../layouts/Layout.astro"
 					<div
 						class="bg-background-secondary border-l-4 border-secondary p-6 rounded-r-lg"
 					>
-						<p class="text-text-secondary">
-							<strong class="text-text-primary">Ejemplo:</strong> Si
+						<p class="text-foreground-secondary">
+							<strong class="text-foreground">Ejemplo:</strong> Si
 							respondes "De acuerdo" a 10 preguntas, "Neutral" a 5
 							y "En desacuerdo" a 5, tus respuestas se convierten en:
 							10 × (+1) + 5 × (0) + 5 × (-1)
@@ -143,27 +143,27 @@ import Layout from "../layouts/Layout.astro"
 						Paso 2
 					</span>
 					<h2
-						class="text-4xl md:text-5xl font-bold text-text-primary mb-8"
+						class="text-4xl md:text-5xl font-bold text-foreground mb-8"
 					>
 						Posiciones de los partidos
 					</h2>
 				</div>
 
 				<div class="space-y-6">
-					<p class="text-lg text-text-secondary leading-relaxed">
+					<p class="text-lg text-foreground-secondary leading-relaxed">
 						Cada partido político también responde a las mismas
 						preguntas con las mismas opciones: De acuerdo (+1),
 						Neutral (0), o En desacuerdo (-1).
 					</p>
 
-					<p class="text-lg text-text-secondary leading-relaxed">
+					<p class="text-lg text-foreground-secondary leading-relaxed">
 						Estas respuestas provienen de los planes de gobierno
 						oficiales, declaraciones públicas y entrevistas con
 						representantes del partido.
 					</p>
 
 					<div class="bg-card-beige rounded-2xl p-12 mt-8">
-						<h3 class="text-xl font-bold text-text-primary mb-6">
+						<h3 class="text-xl font-bold text-foreground mb-6">
 							Ejemplo de tabla de respuestas:
 						</h3>
 						<div class="overflow-x-auto">
@@ -171,34 +171,34 @@ import Layout from "../layouts/Layout.astro"
 								<thead>
 									<tr class="border-b-2 border-secondary">
 										<th
-											class="pb-4 pr-4 text-text-primary font-bold"
+											class="pb-4 pr-4 text-foreground font-bold"
 											>Pregunta</th
 										>
 										<th
-											class="pb-4 px-4 text-text-primary font-bold text-center"
+											class="pb-4 px-4 text-foreground font-bold text-center"
 											>Tú</th
 										>
 										<th
-											class="pb-4 px-4 text-text-primary font-bold text-center"
+											class="pb-4 px-4 text-foreground font-bold text-center"
 											>Partido A</th
 										>
 										<th
-											class="pb-4 px-4 text-text-primary font-bold text-center"
+											class="pb-4 px-4 text-foreground font-bold text-center"
 											>Partido B</th
 										>
 									</tr>
 								</thead>
-								<tbody class="text-text-secondary">
+								<tbody class="text-foreground-secondary">
 									<tr class="border-b border-secondary">
 										<td class="py-4 pr-4"
 											>¿Aumentar el salario mínimo?</td
 										>
 										<td
-											class="py-4 px-4 text-center font-semibold text-text-secondary"
+											class="py-4 px-4 text-center font-semibold text-foreground-secondary"
 											>+1</td
 										>
 										<td
-											class="py-4 px-4 text-center font-semibold text-text-secondary"
+											class="py-4 px-4 text-center font-semibold text-foreground-secondary"
 											>+1</td
 										>
 										<td
@@ -215,11 +215,11 @@ import Layout from "../layouts/Layout.astro"
 											>-1</td
 										>
 										<td
-											class="py-4 px-4 text-center font-semibold text-text-muted"
+											class="py-4 px-4 text-center font-semibold text-foreground-muted"
 											>0</td
 										>
 										<td
-											class="py-4 px-4 text-center font-semibold text-text-secondary"
+											class="py-4 px-4 text-center font-semibold text-foreground-secondary"
 											>+1</td
 										>
 									</tr>
@@ -228,15 +228,15 @@ import Layout from "../layouts/Layout.astro"
 											>¿Invertir en educación?</td
 										>
 										<td
-											class="py-4 px-4 text-center font-semibold text-text-secondary"
+											class="py-4 px-4 text-center font-semibold text-foreground-secondary"
 											>+1</td
 										>
 										<td
-											class="py-4 px-4 text-center font-semibold text-text-secondary"
+											class="py-4 px-4 text-center font-semibold text-foreground-secondary"
 											>+1</td
 										>
 										<td
-											class="py-4 px-4 text-center font-semibold text-text-secondary"
+											class="py-4 px-4 text-center font-semibold text-foreground-secondary"
 											>+1</td
 										>
 									</tr>
@@ -258,24 +258,24 @@ import Layout from "../layouts/Layout.astro"
 						Paso 3
 					</span>
 					<h2
-						class="text-4xl md:text-5xl font-bold text-text-primary mb-8"
+						class="text-4xl md:text-5xl font-bold text-foreground mb-8"
 					>
 						Calculando la afinidad
 					</h2>
 				</div>
 
 				<div class="space-y-8">
-					<p class="text-lg text-text-secondary leading-relaxed">
+					<p class="text-lg text-foreground-secondary leading-relaxed">
 						Para calcular tu afinidad con cada partido, comparamos
 						tus respuestas con las del partido pregunta por
 						pregunta. El cálculo sigue estos pasos:
 					</p>
 
 					<div class="bg-card-beige rounded-2xl p-8">
-						<h3 class="text-2xl font-bold text-text-primary mb-6">
+						<h3 class="text-2xl font-bold text-foreground mb-6">
 							1. Calcular la diferencia por pregunta
 						</h3>
-						<p class="text-text-secondary mb-4">
+						<p class="text-foreground-secondary mb-4">
 							Para cada pregunta, restamos tu respuesta de la
 							respuesta del partido y tomamos el valor absoluto:
 						</p>
@@ -285,7 +285,7 @@ import Layout from "../layouts/Layout.astro"
 							diferencia = |respuesta_partido - tu_respuesta|
 						</div>
 
-						<div class="space-y-3 text-text-secondary">
+						<div class="space-y-3 text-foreground-secondary">
 							<p>
 								• Si ambos responden igual: diferencia = 0
 								(coincidencia perfecta)
@@ -302,10 +302,10 @@ import Layout from "../layouts/Layout.astro"
 					</div>
 
 					<div class="bg-card-beige rounded-2xl p-8">
-						<h3 class="text-2xl font-bold text-text-primary mb-6">
+						<h3 class="text-2xl font-bold text-foreground mb-6">
 							2. Sumar todas las diferencias
 						</h3>
-						<p class="text-text-secondary mb-4">
+						<p class="text-foreground-secondary mb-4">
 							Sumamos las diferencias de todas las preguntas para
 							obtener la diferencia total:
 						</p>
@@ -317,10 +317,10 @@ import Layout from "../layouts/Layout.astro"
 					</div>
 
 					<div class="bg-card-beige rounded-2xl p-8">
-						<h3 class="text-2xl font-bold text-text-primary mb-6">
+						<h3 class="text-2xl font-bold text-foreground mb-6">
 							3. Calcular el porcentaje de afinidad
 						</h3>
-						<p class="text-text-secondary mb-4">
+						<p class="text-foreground-secondary mb-4">
 							La diferencia máxima posible es 2 × número de
 							preguntas (si estás en desacuerdo en todo).
 							Calculamos la afinidad como:
@@ -331,7 +331,7 @@ import Layout from "../layouts/Layout.astro"
 							afinidad = (1 - diferencia_total /
 							diferencia_máxima) × 100%
 						</div>
-						<p class="text-text-secondary">
+						<p class="text-foreground-secondary">
 							Esto nos da un porcentaje donde 100% significa
 							coincidencia total y 0% significa desacuerdo total.
 						</p>
@@ -350,14 +350,14 @@ import Layout from "../layouts/Layout.astro"
 						Ejemplo
 					</span>
 					<h2
-						class="text-4xl md:text-5xl font-bold text-text-primary mb-8"
+						class="text-4xl md:text-5xl font-bold text-foreground mb-8"
 					>
 						Cálculo paso a paso
 					</h2>
 				</div>
 
 				<div class="bg-card-beige rounded-2xl p-12 space-y-6">
-					<p class="text-lg text-text-secondary">
+					<p class="text-lg text-foreground-secondary">
 						Usando el ejemplo anterior con 3 preguntas y el Partido
 						A:
 					</p>
@@ -370,10 +370,10 @@ import Layout from "../layouts/Layout.astro"
 								1
 							</div>
 							<div>
-								<p class="text-text-primary font-semibold mb-1">
+								<p class="text-foreground font-semibold mb-1">
 									Pregunta 1: ¿Aumentar el salario mínimo?
 								</p>
-								<p class="text-text-secondary">
+								<p class="text-foreground-secondary">
 									Tú: +1, Partido A: +1 → Diferencia: |1 - 1|
 									= 0
 								</p>
@@ -387,10 +387,10 @@ import Layout from "../layouts/Layout.astro"
 								2
 							</div>
 							<div>
-								<p class="text-text-primary font-semibold mb-1">
+								<p class="text-foreground font-semibold mb-1">
 									Pregunta 2: ¿Bajar impuestos a las empresas?
 								</p>
-								<p class="text-text-secondary">
+								<p class="text-foreground-secondary">
 									Tú: -1, Partido A: 0 → Diferencia: |0 -
 									(-1)| = 1
 								</p>
@@ -404,10 +404,10 @@ import Layout from "../layouts/Layout.astro"
 								3
 							</div>
 							<div>
-								<p class="text-text-primary font-semibold mb-1">
+								<p class="text-foreground font-semibold mb-1">
 									Pregunta 3: ¿Invertir en educación?
 								</p>
-								<p class="text-text-secondary">
+								<p class="text-foreground-secondary">
 									Tú: +1, Partido A: +1 → Diferencia: |1 - 1|
 									= 0
 								</p>
@@ -416,10 +416,10 @@ import Layout from "../layouts/Layout.astro"
 					</div>
 
 					<div class="border-t-2 border-secondary pt-6 mt-6">
-						<p class="text-lg text-text-primary font-bold mb-4">
+						<p class="text-lg text-foreground font-bold mb-4">
 							Cálculo final:
 						</p>
-						<div class="space-y-2 text-text-secondary">
+						<div class="space-y-2 text-foreground-secondary">
 							<p>• Diferencia total: 0 + 1 + 0 = 1</p>
 							<p>
 								• Diferencia máxima posible: 2 × 3 preguntas = 6
@@ -431,7 +431,7 @@ import Layout from "../layouts/Layout.astro"
 					<div
 						class="bg-background-secondary border-l-4 border-secondary p-6 rounded-r-lg mt-6"
 					>
-						<p class="text-text-primary font-bold text-xl">
+						<p class="text-foreground font-bold text-xl">
 							Tu afinidad con el Partido A es del 83.3%
 						</p>
 					</div>
@@ -449,24 +449,24 @@ import Layout from "../layouts/Layout.astro"
 						Opcional
 					</span>
 					<h2
-						class="text-4xl md:text-5xl font-bold text-text-primary mb-8"
+						class="text-4xl md:text-5xl font-bold text-foreground mb-8"
 					>
 						Ponderar preguntas importantes
 					</h2>
 				</div>
 
 				<div class="space-y-6">
-					<p class="text-lg text-text-secondary leading-relaxed">
+					<p class="text-lg text-foreground-secondary leading-relaxed">
 						Puedes marcar algunas preguntas como "más importantes"
 						para ti. Cuando haces esto, esas preguntas cuentan el
 						doble en el cálculo.
 					</p>
 
 					<div class="bg-card-beige rounded-2xl p-8">
-						<h3 class="text-xl font-bold text-text-primary mb-4">
+						<h3 class="text-xl font-bold text-foreground mb-4">
 							Cómo funciona:
 						</h3>
-						<ul class="space-y-3 text-text-secondary">
+						<ul class="space-y-3 text-foreground-secondary">
 							<li class="flex items-start gap-3">
 								<span class="text-primary">•</span>
 								<span
@@ -500,10 +500,10 @@ import Layout from "../layouts/Layout.astro"
 					<div
 						class="bg-background-secondary border-l-4 border-secondary p-6 rounded-r-lg"
 					>
-						<p class="text-text-primary font-semibold mb-2">
+						<p class="text-foreground font-semibold mb-2">
 							¿Por qué es útil?
 						</p>
-						<p class="text-text-secondary">
+						<p class="text-foreground-secondary">
 							Esto te permite dar más importancia a los temas que
 							realmente te importan, haciendo que el resultado
 							refleje mejor tus prioridades políticas.
@@ -517,7 +517,7 @@ import Layout from "../layouts/Layout.astro"
 		<section class="py-16 px-4 bg-background-secondary">
 			<div class="max-w-4xl mx-auto">
 				<h2
-					class="text-3xl md:text-4xl font-bold text-text-primary mb-10 text-center pb-8"
+					class="text-3xl md:text-4xl font-bold text-foreground mb-10 text-center pb-8"
 				>
 					Transparencia y objetividad
 				</h2>
@@ -541,10 +541,10 @@ import Layout from "../layouts/Layout.astro"
 								></path>
 							</svg>
 						</div>
-						<h3 class="text-lg font-bold text-text-primary mb-3">
+						<h3 class="text-lg font-bold text-foreground mb-3">
 							Sin sesgos
 						</h3>
-						<p class="text-text-secondary text-sm leading-relaxed">
+						<p class="text-foreground-secondary text-sm leading-relaxed">
 							El algoritmo trata a todos los partidos por igual.
 							No hay manipulación ni favoritismo.
 						</p>
@@ -573,10 +573,10 @@ import Layout from "../layouts/Layout.astro"
 								></path>
 							</svg>
 						</div>
-						<h3 class="text-lg font-bold text-text-primary mb-3">
+						<h3 class="text-lg font-bold text-foreground mb-3">
 							Completamente transparente
 						</h3>
-						<p class="text-text-secondary text-sm leading-relaxed">
+						<p class="text-foreground-secondary text-sm leading-relaxed">
 							Puedes ver las respuestas de cada partido y
 							verificar los cálculos tú mismo.
 						</p>
@@ -600,10 +600,10 @@ import Layout from "../layouts/Layout.astro"
 								></path>
 							</svg>
 						</div>
-						<h3 class="text-lg font-bold text-text-primary mb-3">
+						<h3 class="text-lg font-bold text-foreground mb-3">
 							Matemáticamente preciso
 						</h3>
-						<p class="text-text-secondary text-sm leading-relaxed">
+						<p class="text-foreground-secondary text-sm leading-relaxed">
 							Usamos una fórmula matemática simple y verificable.
 							No hay "magia" ni algoritmos ocultos.
 						</p>
@@ -627,10 +627,10 @@ import Layout from "../layouts/Layout.astro"
 								></path>
 							</svg>
 						</div>
-						<h3 class="text-lg font-bold text-text-primary mb-3">
+						<h3 class="text-lg font-bold text-foreground mb-3">
 							Basado en datos oficiales
 						</h3>
-						<p class="text-text-secondary text-sm leading-relaxed">
+						<p class="text-foreground-secondary text-sm leading-relaxed">
 							Las respuestas de los partidos provienen de fuentes
 							oficiales y documentos públicos.
 						</p>
@@ -643,17 +643,17 @@ import Layout from "../layouts/Layout.astro"
 		<section class="py-16 px-4">
 			<div class="max-w-4xl mx-auto">
 				<h2
-					class="text-3xl md:text-4xl font-bold text-text-primary mb-12 text-center"
+					class="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center"
 				>
 					Preguntas frecuentes
 				</h2>
 
 				<div class="space-y-8">
 					<div class="border-b border-secondary pb-8">
-						<h3 class="text-xl font-bold text-text-primary mb-4">
+						<h3 class="text-xl font-bold text-foreground mb-4">
 							¿Por qué mi resultado no es 100% con ningún partido?
 						</h3>
-						<p class="text-text-secondary leading-relaxed">
+						<p class="text-foreground-secondary leading-relaxed">
 							Es completamente normal no coincidir 100% con ningún
 							partido. Los partidos políticos tienen posiciones en
 							muchos temas diferentes, y es raro que una persona
@@ -663,10 +663,10 @@ import Layout from "../layouts/Layout.astro"
 					</div>
 
 					<div class="border-b border-secondary pb-8">
-						<h3 class="text-xl font-bold text-text-primary mb-4">
+						<h3 class="text-xl font-bold text-foreground mb-4">
 							¿Las respuestas "Neutral" afectan el resultado?
 						</h3>
-						<p class="text-text-secondary leading-relaxed">
+						<p class="text-foreground-secondary leading-relaxed">
 							Sí. Una respuesta neutral (0) está exactamente a
 							mitad de camino entre de acuerdo (+1) y en
 							desacuerdo (-1). Si respondes neutral y un partido
@@ -676,10 +676,10 @@ import Layout from "../layouts/Layout.astro"
 					</div>
 
 					<div class="border-b border-secondary pb-8">
-						<h3 class="text-xl font-bold text-text-primary mb-4">
+						<h3 class="text-xl font-bold text-foreground mb-4">
 							¿Puedo saltarme preguntas?
 						</h3>
-						<p class="text-text-secondary leading-relaxed">
+						<p class="text-foreground-secondary leading-relaxed">
 							Puedes optar por no responder algunas preguntas. Las
 							preguntas sin responder no se incluyen en el
 							cálculo, por lo que el resultado se basa solo en las
@@ -689,10 +689,10 @@ import Layout from "../layouts/Layout.astro"
 					</div>
 
 					<div class="border-b border-secondary pb-8">
-						<h3 class="text-xl font-bold text-text-primary mb-4">
+						<h3 class="text-xl font-bold text-foreground mb-4">
 							¿El orden de las preguntas afecta el resultado?
 						</h3>
-						<p class="text-text-secondary leading-relaxed">
+						<p class="text-foreground-secondary leading-relaxed">
 							No. El cálculo es el mismo independientemente del
 							orden en que respondas las preguntas. Todas las
 							preguntas tienen el mismo peso (a menos que las
@@ -701,10 +701,10 @@ import Layout from "../layouts/Layout.astro"
 					</div>
 
 					<div class="border-b border-secondary pb-8">
-						<h3 class="text-xl font-bold text-text-primary mb-4">
+						<h3 class="text-xl font-bold text-foreground mb-4">
 							¿Puedo verificar el cálculo yo mismo?
 						</h3>
-						<p class="text-text-secondary leading-relaxed">
+						<p class="text-foreground-secondary leading-relaxed">
 							¡Absolutamente! Después de completar el
 							cuestionario, puedes ver tus respuestas junto con
 							las respuestas de cada partido. Puedes aplicar la
@@ -732,7 +732,7 @@ import Layout from "../layouts/Layout.astro"
 				</p>
 				<a
 					href="/elecciones-generales-2026"
-					class="inline-block bg-black text-white font-bold text-lg px-12 py-5 rounded-xl hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+					class="inline-block bg-black text-white font-bold text-lg px-12 py-5 rounded-xl hover:bg-surface transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
 				>
 					Empezar Votomatic
 				</a>

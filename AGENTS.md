@@ -51,3 +51,55 @@ pnpm test
 3. Run `pnpm test` to verify functionality
 4. Test manually with `pnpm dev`
 5. Commit changes
+
+---
+
+## Design System
+
+Semantic-first design system using Tailwind CSS v4. Always use semantic tokens, never raw colors. Dark mode works automatically via `prefers-color-scheme`.
+
+### Semantic Tokens
+
+All tokens defined in `frontend/src/styles/tailwind.css`:
+
+**Primary (Brand Yellow):**
+- `primary` / `primary-foreground` - Buttons, selected states
+
+**Background & Surface:**
+- `background` - Page background
+- `surface` / `surface-foreground` - Cards, panels
+
+**Foreground (Text):**
+- `foreground` - Primary text
+- `foreground-secondary` - Supporting text
+- `foreground-muted` - Subtle/disabled text
+
+**Accent (Purple):**
+- `accent` / `accent-foreground` - Highlights, progress
+
+**Border:**
+- `border` / `border-muted` - Borders
+
+**States:**
+- `positive` / `neutral` / `negative` - Opinion colors
+
+### Rules
+
+1. Never use base tokens (`lemon-400`, `gray-900`, etc) - use semantic tokens only
+2. Dark mode overrides use `:root` inside `@media (prefers-color-scheme: dark)` (not `@theme`)
+3. Only create new tokens if truly semantic and reusable
+
+### CVA Utilities
+
+Located in `frontend/src/lib/styles/variants/`. Only create when pattern repeats 3+ times.
+
+**Button:** Import `button` from `@/lib/styles`
+- Variants: `default` (surface + border), `primary` (yellow), `ghost` (transparent)
+- Sizes: `default`, `sm`, `lg`
+
+**Creating new utilities:**
+1. Name like component (`button`, `card`), not `buttonVariants`
+2. Export from `lib/styles/index.ts`
+3. Use semantic tokens only
+
+**cn utility:** Import from `@/lib/styles` - combines classes with proper precedence

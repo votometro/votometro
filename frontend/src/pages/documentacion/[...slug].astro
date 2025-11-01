@@ -58,14 +58,14 @@ const nextDoc =
 <DocsLayout title={entry.data.title} description={entry.data.description}>
 	<article class="prose prose-lg max-w-none">
 		<h1
-			class="text-5xl md:text-6xl font-bold text-text-primary mb-6 leading-tight"
+			class="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight"
 		>
 			{entry.data.title}
 		</h1>
 
 		{
 			entry.data.description && (
-				<p class="text-xl text-text-secondary mb-12 leading-relaxed">
+				<p class="text-xl text-foreground-secondary mb-12 leading-relaxed">
 					{entry.data.description}
 				</p>
 			)
@@ -77,16 +77,16 @@ const nextDoc =
 
 		<!-- Previous/Next Navigation -->
 		<nav
-			class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mt-12 pt-8 border-t border-gray-200"
+			class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mt-12 pt-8 border-t border-border"
 		>
 			{
 				previousDoc ? (
 					<a
 						href={`/documentacion/${previousDoc.slug}`}
-						class="group flex-1 flex items-center gap-3 p-4 rounded-lg border border-gray-200 hover:border-accent hover:bg-gray-50 transition-all min-h-[80px]"
+						class="group flex-1 flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent hover:bg-surface transition-all min-h-[80px]"
 					>
 						<svg
-							class="w-5 h-5 text-gray-400 group-hover:text-accent transition-colors flex-shrink-0"
+							class="w-5 h-5 text-foreground-muted group-hover:text-accent transition-colors flex-shrink-0"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -99,8 +99,8 @@ const nextDoc =
 							/>
 						</svg>
 						<div class="text-left">
-							<div class="text-xs text-gray-500 mb-1">Anterior</div>
-							<div class="text-sm font-medium text-text-primary group-hover:text-accent transition-colors line-clamp-2">
+							<div class="text-xs text-foreground-muted mb-1">Anterior</div>
+							<div class="text-sm font-medium text-foreground group-hover:text-accent transition-colors line-clamp-2">
 								{previousDoc.data.title}
 							</div>
 						</div>
@@ -114,16 +114,16 @@ const nextDoc =
 				nextDoc ? (
 					<a
 						href={`/documentacion/${nextDoc.slug}`}
-						class="group flex-1 flex items-center gap-3 p-4 rounded-lg border border-gray-200 hover:border-accent hover:bg-gray-50 transition-all min-h-[80px]"
+						class="group flex-1 flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent hover:bg-surface transition-all min-h-[80px]"
 					>
 						<div class="text-right flex-1">
-							<div class="text-xs text-gray-500 mb-1">Siguiente</div>
-							<div class="text-sm font-medium text-text-primary group-hover:text-accent transition-colors line-clamp-2">
+							<div class="text-xs text-foreground-muted mb-1">Siguiente</div>
+							<div class="text-sm font-medium text-foreground group-hover:text-accent transition-colors line-clamp-2">
 								{nextDoc.data.title}
 							</div>
 						</div>
 						<svg
-							class="w-5 h-5 text-gray-400 group-hover:text-accent transition-colors flex-shrink-0"
+							class="w-5 h-5 text-foreground-muted group-hover:text-accent transition-colors flex-shrink-0"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -150,7 +150,7 @@ const nextDoc =
 	.markdown-content :global(h2) {
 		font-size: 1.875rem;
 		font-weight: 700;
-		color: var(--color-text-primary);
+		color: var(--color-foreground);
 		margin-bottom: 1.5rem;
 		margin-top: 3rem;
 		scroll-margin-top: 6rem;
@@ -159,7 +159,7 @@ const nextDoc =
 	.markdown-content :global(h3) {
 		font-size: 1.5rem;
 		font-weight: 700;
-		color: var(--color-text-primary);
+		color: var(--color-foreground);
 		margin-bottom: 1rem;
 		margin-top: 2rem;
 	}
@@ -167,14 +167,14 @@ const nextDoc =
 	.markdown-content :global(h4) {
 		font-size: 1.25rem;
 		font-weight: 700;
-		color: var(--color-text-primary);
+		color: var(--color-foreground);
 		margin-bottom: 0.75rem;
 		margin-top: 1.5rem;
 	}
 
 	.markdown-content :global(p) {
 		font-size: 1.125rem;
-		color: var(--color-text-secondary);
+		color: var(--color-foreground-secondary);
 		line-height: 1.75;
 		margin-bottom: 1.5rem;
 	}
@@ -186,7 +186,7 @@ const nextDoc =
 
 	.markdown-content :global(ul li) {
 		font-size: 1.125rem;
-		color: var(--color-text-secondary);
+		color: var(--color-foreground-secondary);
 		line-height: 1.75;
 		margin-bottom: 0.75rem;
 		padding-left: 0.5rem;
@@ -204,14 +204,14 @@ const nextDoc =
 
 	.markdown-content :global(ol li) {
 		font-size: 1.125rem;
-		color: var(--color-text-secondary);
+		color: var(--color-foreground-secondary);
 		line-height: 1.75;
 		margin-bottom: 0.75rem;
 		padding-left: 0.5rem;
 	}
 
 	.markdown-content :global(strong) {
-		color: var(--color-text-primary);
+		color: var(--color-foreground);
 		font-weight: 700;
 	}
 
@@ -226,16 +226,16 @@ const nextDoc =
 	}
 
 	.markdown-content :global(code) {
-		background-color: #f3f4f6;
+		background-color: var(--color-surface);
 		padding: 0.125rem 0.5rem;
 		border-radius: 0.25rem;
 		font-size: 0.875rem;
 		font-family: monospace;
-		color: var(--color-text-primary);
+		color: var(--color-foreground);
 	}
 
 	.markdown-content :global(pre) {
-		background-color: #f3f4f6;
+		background-color: var(--color-surface);
 		padding: 1rem;
 		border-radius: 0.5rem;
 		overflow-x: auto;
@@ -254,12 +254,12 @@ const nextDoc =
 		padding-bottom: 0.5rem;
 		margin-top: 1.5rem;
 		margin-bottom: 1.5rem;
-		background-color: var(--color-background-secondary);
+		background-color: var(--color-surface);
 		border-radius: 0 0.5rem 0.5rem 0;
 	}
 
 	.markdown-content :global(hr) {
-		border-color: #e5e7eb;
+		border-color: var(--color-border);
 		margin-top: 2rem;
 		margin-bottom: 2rem;
 	}

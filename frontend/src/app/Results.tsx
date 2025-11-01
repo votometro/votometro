@@ -3,7 +3,7 @@ import type { Answer } from "../lib/types/answer";
 import type { Thesis } from "../lib/types/election";
 import type { PartyParticipation } from "../lib/types/party";
 import { calculateMatch } from "../lib/matching/algorithm";
-import { cn } from "../lib/utils/cn";
+import { cn } from "../lib/styles";
 
 interface ResultsProps {
   answers: Answer[];
@@ -78,7 +78,7 @@ export function Results({
 
           {/* Title */}
           <div className="md:mx-auto md:max-w-[900px]">
-            <h1 className="text-[min(7vw,3rem)] leading-[1.1] text-text-primary mb-1">
+            <h1 className="text-[min(7vw,3rem)] leading-[1.1] text-foreground mb-1">
               Tus resultados
             </h1>
           </div>
@@ -100,7 +100,7 @@ export function Results({
                   {/* Party header - clickable */}
                   <button
                     onClick={() => toggleParty(party.name)}
-                    className="w-full p-6 hover:bg-gray-100 transition-colors cursor-pointer text-left"
+                    className="w-full p-6 hover:bg-background transition-colors cursor-pointer text-left"
                   >
                     <div className="flex items-start gap-8">
                       {/* Logo and abbreviation side by side */}
@@ -117,7 +117,7 @@ export function Results({
                         )}
 
                         {/* Abbreviation */}
-                        <h2 className="text-xl md:text-2xl font-bold text-text-primary">
+                        <h2 className="text-xl md:text-2xl font-bold text-foreground">
                           {party.abbreviation}
                         </h2>
                       </div>
@@ -171,13 +171,13 @@ export function Results({
                     <div className="px-6 pb-6 pt-0">
                       <div className="pt-4 border-t border-background space-y-3">
                         {/* Full party name */}
-                        <h3 className="text-lg md:text-xl font-bold text-text-primary">
+                        <h3 className="text-lg md:text-xl font-bold text-foreground">
                           {party.name}
                         </h3>
 
                         {/* Description */}
                         {party.description && (
-                          <p className="text-text-secondary leading-relaxed">
+                          <p className="text-foreground-secondary leading-relaxed">
                             {party.description}
                           </p>
                         )}
@@ -190,7 +190,7 @@ export function Results({
           </div>
 
           {/* Disclaimer */}
-          <div className="mt-6 p-4 text-sm text-text-secondary leading-relaxed">
+          <div className="mt-6 p-4 text-sm text-foreground-secondary leading-relaxed">
             <p>
               Altos niveles de acuerdo entre tus respuestas y varios partidos no significan necesariamente que estos partidos estén cerca unos de otros en términos de su contenido.
             </p>

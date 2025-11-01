@@ -205,9 +205,9 @@ export function PartySubmission({ session }: PartySubmissionProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-surface">
       {/* Header */}
-      <div className="bg-white border-b sticky top-0 z-10">
+      <div className="bg-background border-b sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
@@ -220,23 +220,23 @@ export function PartySubmission({ session }: PartySubmissionProps) {
               )}
               <div>
                 <h1 className="font-bold text-lg">{session.party.name}</h1>
-                <p className="text-sm text-gray-600">{session.election.title}</p>
+                <p className="text-sm text-foreground-secondary">{session.election.title}</p>
               </div>
             </div>
             {lastSaved && (
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-foreground-muted">
                 {isSaving ? "Guardando..." : `Guardado ${lastSaved.toLocaleTimeString()}`}
               </div>
             )}
           </div>
           <div className="flex items-center gap-2">
-            <div className="flex-1 bg-gray-200 rounded-full h-2">
+            <div className="flex-1 bg-border rounded-full h-2">
               <div
                 className="bg-blue-600 h-2 rounded-full transition-all"
                 style={{ width: `${(answeredCount / totalTheses) * 100}%` }}
               />
             </div>
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-foreground-secondary">
               {answeredCount}/{totalTheses}
             </span>
           </div>
@@ -246,7 +246,7 @@ export function PartySubmission({ session }: PartySubmissionProps) {
             </div>
           )}
           {session.submissionDeadline && !deadlinePassed && (
-            <div className="mt-2 text-xs text-gray-500">
+            <div className="mt-2 text-xs text-foreground-muted">
               Plazo: {new Date(session.submissionDeadline).toLocaleDateString()}
             </div>
           )}
@@ -255,14 +255,14 @@ export function PartySubmission({ session }: PartySubmissionProps) {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-sm p-6 space-y-6">
+        <div className="bg-background rounded-lg shadow-sm p-6 space-y-6">
           {/* Thesis */}
           <div>
-            <div className="text-sm text-gray-500 mb-2">
+            <div className="text-sm text-foreground-muted mb-2">
               Tesis {currentThesisIndex + 1} de {totalTheses}
             </div>
             <h2 className="text-xl font-bold mb-2">{currentThesis.title}</h2>
-            <p className="text-gray-700">{currentThesis.text}</p>
+            <p className="text-foreground">{currentThesis.text}</p>
           </div>
 
           {/* Position Selection */}
@@ -274,7 +274,7 @@ export function PartySubmission({ session }: PartySubmissionProps) {
                 className={`p-4 rounded-lg border-2 transition-all ${
                   currentAnswer?.value === 1
                     ? "border-green-500 bg-green-50"
-                    : "border-gray-200 hover:border-green-300"
+                    : "border-border hover:border-green-300"
                 }`}
               >
                 <div className="text-3xl mb-1">👍</div>
@@ -284,8 +284,8 @@ export function PartySubmission({ session }: PartySubmissionProps) {
                 onClick={() => handleValueChange(0)}
                 className={`p-4 rounded-lg border-2 transition-all ${
                   currentAnswer?.value === 0
-                    ? "border-gray-500 bg-gray-50"
-                    : "border-gray-200 hover:border-gray-300"
+                    ? "border-border-muted bg-surface"
+                    : "border-border hover:border-border-muted"
                 }`}
               >
                 <div className="text-3xl mb-1">🤷</div>
@@ -296,7 +296,7 @@ export function PartySubmission({ session }: PartySubmissionProps) {
                 className={`p-4 rounded-lg border-2 transition-all ${
                   currentAnswer?.value === -1
                     ? "border-red-500 bg-red-50"
-                    : "border-gray-200 hover:border-red-300"
+                    : "border-border hover:border-red-300"
                 }`}
               >
                 <div className="text-3xl mb-1">👎</div>
@@ -315,10 +315,10 @@ export function PartySubmission({ session }: PartySubmissionProps) {
                 value={currentAnswer.justification}
                 onChange={(e) => handleJustificationChange(e.target.value)}
                 placeholder="Explica tu posición..."
-                className="w-full h-32 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full h-32 p-3 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
               />
-              <div className="text-xs text-gray-500 mt-1">
+              <div className="text-xs text-foreground-muted mt-1">
                 {currentAnswer.justification.length} caracteres
               </div>
             </div>
@@ -329,7 +329,7 @@ export function PartySubmission({ session }: PartySubmissionProps) {
             <button
               onClick={handlePrevious}
               disabled={currentThesisIndex === 0}
-              className="px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-semibold text-foreground hover:bg-surface rounded disabled:opacity-50 disabled:cursor-not-allowed"
             >
               ← Anterior
             </button>
@@ -338,14 +338,14 @@ export function PartySubmission({ session }: PartySubmissionProps) {
               <button
                 onClick={handleSubmit}
                 disabled={!allAnswered}
-                className="px-6 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 disabled:bg-border-muted disabled:cursor-not-allowed"
               >
                 {isRevisionRequested ? "Reenviar" : "Enviar Respuestas"}
               </button>
             ) : (
               <button
                 onClick={handleNext}
-                className="px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 rounded"
+                className="px-4 py-2 text-sm font-semibold text-foreground hover:bg-surface rounded"
               >
                 Siguiente →
               </button>
@@ -370,7 +370,7 @@ export function PartySubmission({ session }: PartySubmissionProps) {
                       ? "bg-blue-600 text-white ring-2 ring-blue-400"
                       : isAnswered
                       ? "bg-green-100 text-green-800 hover:bg-green-200"
-                      : "bg-gray-100 text-gray-400 hover:bg-gray-200"
+                      : "bg-surface text-foreground-muted hover:bg-border"
                   }`}
                 >
                   {index + 1}

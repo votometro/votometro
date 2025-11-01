@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 @theme {
+  /* ============================================
+     BASE TOKENS (Private - Do Not Use Directly)
+     ============================================ */
+
   /* Lemon/Yellow palette */
   --color-lemon-50: #fefce8;
   --color-lemon-100: #fef9c3;
@@ -29,27 +33,68 @@
   --color-purple-light: #b3b3ff;
   --color-purple: #7366FF;
 
-  /* Semantic colors */
-  --color-primary: rgb(242 255 102);
-  --color-primary-hover: rgb(232 245 92);
-  --color-secondary: var(--color-purple-light);
-  --color-accent: var(--color-purple);
+  /* ============================================
+     SEMANTIC TOKENS (Public API - Use These!)
+     ============================================ */
 
-  /* Opinion colors (complement lemon yellow) */
+  /* Primary - Brand yellow for interactive elements */
+  --color-primary: rgb(242 255 102);
+  --color-primary-foreground: var(--color-gray-900);
+
+  /* Background & Surface */
+  --color-background: #ffffff;
+  --color-surface: var(--color-gray-50);
+  --color-surface-foreground: var(--color-gray-900);
+
+  /* Foreground - Text hierarchy */
+  --color-foreground: var(--color-gray-900);
+  --color-foreground-secondary: var(--color-gray-600);
+  --color-foreground-muted: var(--color-gray-500);
+
+  /* Accent - Purple for highlights */
+  --color-accent: var(--color-purple);
+  --color-accent-foreground: #ffffff;
+
+  /* Border */
+  --color-border: var(--color-gray-200);
+  --color-border-muted: var(--color-gray-300);
+
+  /* Semantic States - Opinion colors */
   --color-positive: #06724e;
   --color-neutral: var(--color-gray-400);
   --color-negative: #e33838;
+}
 
-  /* Background colors */
-  --color-background: #ffffff;
-  --color-background-secondary: var(--color-gray-50);
-  --color-surface: var(--color-gray-50);
-  --color-surface-dark: #000000;
-  --color-card-beige: hsla(43, 16%, 91%, .5);
+/* ============================================
+   DARK MODE
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Primary - Adjust for dark backgrounds */
+    --color-primary: var(--color-lemon-400);
+    --color-primary-foreground: var(--color-gray-900);
 
-  /* Text colors */
-  --color-text-primary: var(--color-gray-900);
-  --color-text-secondary: var(--color-gray-600);
-  --color-text-muted: var(--color-gray-500);
-  --color-text-inverse: var(--color-gray-900); /* Use dark gray for better contrast on yellow */
+    /* Background & Surface - Invert */
+    --color-background: var(--color-gray-900);
+    --color-surface: var(--color-gray-800);
+    --color-surface-foreground: var(--color-gray-50);
+
+    /* Foreground - Invert */
+    --color-foreground: var(--color-gray-50);
+    --color-foreground-secondary: var(--color-gray-400);
+    --color-foreground-muted: var(--color-gray-500);
+
+    /* Accent - Lighter purple for visibility */
+    --color-accent: var(--color-purple-light);
+    --color-accent-foreground: var(--color-gray-900);
+
+    /* Border - Adjust for dark backgrounds */
+    --color-border: var(--color-gray-700);
+    --color-border-muted: var(--color-gray-600);
+
+    /* Semantic States - Brighter for dark backgrounds */
+    --color-positive: #10b981;
+    --color-negative: #f87171;
+    --color-neutral: var(--color-gray-400);
+  }
 }
