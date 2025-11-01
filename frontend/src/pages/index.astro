@@ -4,9 +4,69 @@ import ConnectionAnimation from "../components/ConnectionAnimation.astro"
 ---
 
 <Layout>
+	<!-- Navigation Menu -->
+	<nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+		<div class="max-w-7xl mx-auto px-4 md:px-6">
+			<div class="flex items-center justify-between h-16">
+				<a href="/" class="text-xl font-bold text-black">Votomatic</a>
+				<div class="hidden md:flex items-center space-x-8">
+					<a
+						href="/como-funciona"
+						class="text-gray-700 hover:text-black transition-colors"
+						>Cómo funciona</a
+					>
+					<a
+						href="/preguntas-frecuentes"
+						class="text-gray-700 hover:text-black transition-colors"
+						>Preguntas frecuentes</a
+					>
+					<a
+						href="/documentacion"
+						class="text-gray-700 hover:text-black transition-colors"
+						>Documentación</a
+					>
+				</div>
+				<button
+					id="mobile-menu-button"
+					class="md:hidden p-2 text-gray-700"
+				>
+					<svg
+						class="w-6 h-6"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M4 6h16M4 12h16M4 18h16"></path>
+					</svg>
+				</button>
+			</div>
+			<div id="mobile-menu" class="hidden md:hidden pb-4">
+				<a
+					href="/como-funciona"
+					class="block py-2 text-gray-700 hover:text-black transition-colors"
+					>Cómo funciona</a
+				>
+				<a
+					href="/preguntas-frecuentes"
+					class="block py-2 text-gray-700 hover:text-black transition-colors"
+					>Preguntas frecuentes</a
+				>
+				<a
+					href="/documentacion"
+					class="block py-2 text-gray-700 hover:text-black transition-colors"
+					>Documentación</a
+				>
+			</div>
+		</div>
+	</nav>
+
 	<!-- Call to Action Section -->
 	<section
-		class="sticky-section cta-section h-screen flex items-center overflow-hidden"
+		class="sticky-section cta-section h-screen flex items-center overflow-hidden pt-16"
 	>
 		<div class="max-w-7xl mx-auto px-4 md:px-6 py-16 w-full">
 			<div class="grid md:grid-cols-2 gap-12 items-center">
@@ -40,77 +100,12 @@ import ConnectionAnimation from "../components/ConnectionAnimation.astro"
 			</div>
 		</div>
 	</section>
-
-	<!-- Cards Section with Hover Effect -->
-	<section
-		class="sticky-section cards-section bg-white h-screen flex items-center"
-	>
-		<div class="max-w-7xl mx-auto px-6 py-32 w-full">
-			<h2
-				class="text-5xl md:text-6xl font-bold text-black mb-16 text-center"
-			>
-				Explora más
-			</h2>
-			<div class="grid md:grid-cols-3 gap-8">
-				<!-- Card 1 -->
-				<a
-					href="/como-funciona"
-					class="card-hover block bg-surface rounded-2xl p-8 hover:bg-background transition-all duration-500"
-				>
-					<h3 class="text-2xl font-bold text-black mb-4">
-						Cómo funciona
-					</h3>
-					<p class="text-lg text-gray-600">
-						Descubre la metodología detrás del Votomatic
-					</p>
-				</a>
-
-				<!-- Card 2 -->
-				<a
-					href="/preguntas-frecuentes"
-					class="card-hover block bg-surface rounded-2xl p-8 hover:bg-background transition-all duration-500"
-				>
-					<h3 class="text-2xl font-bold text-black mb-4">
-						Preguntas frecuentes
-					</h3>
-					<p class="text-lg text-gray-600">
-						Respuestas a las dudas más comunes
-					</p>
-				</a>
-
-				<!-- Card 3 -->
-				<a
-					href="/documentacion"
-					class="card-hover block bg-surface rounded-2xl p-8 hover:bg-background transition-all duration-500"
-				>
-					<h3 class="text-2xl font-bold text-black mb-4">
-						Documentación
-					</h3>
-					<p class="text-lg text-gray-600">
-					    Explora nuestro documentación detallada
-					</p>
-				</a>
-			</div>
-		</div>
-	</section>
 </Layout>
 
-<style>
-	.section-wrapper {
-		position: relative;
-	}
-
-	.sticky-section {
-		position: sticky;
-		top: 0;
-		width: 100%;
-	}
-
-	.sticky-section:nth-of-type(1) {
-		z-index: 1;
-	}
-
-	.cards-section {
-		z-index: 2;
-	}
-</style>
+<script>
+	const button = document.getElementById("mobile-menu-button")
+	const menu = document.getElementById("mobile-menu")
+	button?.addEventListener("click", () => {
+		menu?.classList.toggle("hidden")
+	})
+</script>
