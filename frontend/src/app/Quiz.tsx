@@ -18,6 +18,10 @@ const ANSWER_OPTIONS: { value: AnswerValue; label: string }[] = [
   { value: -1, label: "En desacuerdo" },
 ];
 
+// Navigation and animation timing constants
+const NAVIGATION_DELAY = 300;
+const ANIMATION_DURATION = 300;
+
 interface SlideProps {
   children: React.ReactNode;
   footer?: React.ReactNode;
@@ -50,33 +54,12 @@ const Slide = forwardRef<HTMLDivElement, SlideProps>(
 
 Slide.displayName = "Slide";
 
-// Button component for position/answer buttons
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick: () => void;
-  variant?: "default" | "selected" | "primary" | "ghost";
-  className?: string;
-  disabled?: boolean;
-}
-
-const Button = ({ children, onClick, variant = "default", className, disabled = false }: ButtonProps) => {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(button({ variant }), className)}
-    >
-      {children}
-    </button>
-  );
-};
-
 const useSlideNavigation = (slideRefs: React.RefObject<(HTMLDivElement | null)[]>) => {
   const [isNavigating, setIsNavigating] = useState(false);
   const delayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const navigateToNextSlide = (targetIndex: number, delay = 300) => {
+  const navigateToNextSlide = (targetIndex: number, delay = NAVIGATION_DELAY) => {
     // Clear any pending navigation timeouts
     if (delayTimeoutRef.current) {
       clearTimeout(delayTimeoutRef.current);
@@ -97,7 +80,7 @@ const useSlideNavigation = (slideRefs: React.RefObject<(HTMLDivElement | null)[]
       // Reset navigation state after animation completes
       animationTimeoutRef.current = setTimeout(() => {
         setIsNavigating(false);
-      }, 300);
+      }, ANIMATION_DURATION);
     }, delay);
   };
 
@@ -198,7 +181,59 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
           block: "start",
         });
       }
-    }, 100);
+    }, NAVIGATION_DELAY);
+  };
+
+  // Helper function to handle answer updates with validation and navigation
+  const updateAnswerAndNavigate = (thesisIndex: number, newAnswers: Answer[]) => {
+    const isLastThesis = thesisIndex === theses.length - 1;
+
+    // If we currently have a validation error, revalidate with new answers
+    if (validationError) {
+      const validation = validateMeaningfulness(newAnswers);
+
+      if (validation.isValid) {
+        // Validation now passes
+        setValidationError(null);
+
+        // If on last thesis, advance immediately to weighting
+        if (isLastThesis) {
+          const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
+          onComplete(newAnswers, scrollPosition);
+          return;
+        }
+        // For non-last thesis, just clear error (user must scroll to see results card button)
+        return;
+      } else {
+        // Validation still fails, update error
+        setValidationError(validation.failureReason!);
+
+        // ONLY auto-scroll if interacting with last thesis
+        if (isLastThesis) {
+          scrollToResultsCard();
+        }
+        return;
+      }
+    }
+
+    // First time answering this thesis
+    if (isLastThesis) {
+      // Validate meaningfulness before proceeding
+      const validation = validateMeaningfulness(newAnswers);
+
+      if (validation.isValid) {
+        // Valid - immediately advance to weighting
+        const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
+        onComplete(newAnswers, scrollPosition);
+      } else {
+        // Invalid - set error and scroll to results card
+        setValidationError(validation.failureReason!);
+        scrollToResultsCard();
+      }
+    } else {
+      // Navigate to next slide with delay
+      navigateToNextSlide(thesisIndex + 1);
+    }
   };
 
   const handleAnswer = (thesisIndex: number, value: AnswerValue) => {
@@ -212,62 +247,13 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
       // Update existing answer
       newAnswers = [...answers];
       newAnswers[existingAnswerIndex] = { thesisKey, value };
-      setAnswers(newAnswers);
     } else {
       // Add new answer (automatically increments currentThesisIndex via answers.length)
       newAnswers = [...answers, { thesisKey, value }];
-      setAnswers(newAnswers);
     }
 
-    // If we currently have a validation error, revalidate with new answers
-    if (validationError) {
-      const validation = validateMeaningfulness(newAnswers);
-      const isLastThesis = thesisIndex === theses.length - 1;
-
-      if (validation.isValid) {
-        // Validation now passes
-        setValidationError(null);
-
-        // If on last thesis, advance immediately to weighting
-        if (isLastThesis) {
-          const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
-          onComplete(newAnswers, scrollPosition);
-          return;
-        }
-        // For non-last thesis, just clear error (user must scroll to see results card button)
-        return;
-      } else {
-        // Validation still fails, update error
-        setValidationError(validation.failureReason!);
-
-        // ONLY auto-scroll if interacting with last thesis
-        if (isLastThesis) {
-          scrollToResultsCard();
-        }
-        return;
-      }
-    }
-
-    // Check if this is the last thesis (first time answering)
-    const isLastThesis = thesisIndex === theses.length - 1;
-
-    if (isLastThesis) {
-      // Validate meaningfulness before proceeding
-      const validation = validateMeaningfulness(newAnswers);
-
-      if (validation.isValid) {
-        // Valid - immediately advance to weighting
-        const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
-        onComplete(newAnswers, scrollPosition);
-      } else {
-        // Invalid - set error and scroll to results card
-        setValidationError(validation.failureReason!);
-        scrollToResultsCard();
-      }
-    } else {
-      // Navigate to next slide with delay
-      navigateToNextSlide(thesisIndex + 1);
-    }
+    setAnswers(newAnswers);
+    updateAnswerAndNavigate(thesisIndex, newAnswers);
   };
 
   const handleSkip = (thesisIndex: number) => {
@@ -281,62 +267,13 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
       // Update existing answer to skipped
       newAnswers = [...answers];
       newAnswers[existingAnswerIndex] = { thesisKey, value: null };
-      setAnswers(newAnswers);
     } else {
       // Add new skipped answer (automatically increments currentThesisIndex via answers.length)
       newAnswers = [...answers, { thesisKey, value: null }];
-      setAnswers(newAnswers);
     }
 
-    // If we currently have a validation error, revalidate with new answers
-    if (validationError) {
-      const validation = validateMeaningfulness(newAnswers);
-      const isLastThesis = thesisIndex === theses.length - 1;
-
-      if (validation.isValid) {
-        // Validation now passes
-        setValidationError(null);
-
-        // If on last thesis, advance immediately to weighting
-        if (isLastThesis) {
-          const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
-          onComplete(newAnswers, scrollPosition);
-          return;
-        }
-        // For non-last thesis, just clear error (user must scroll to see results card button)
-        return;
-      } else {
-        // Validation still fails, update error
-        setValidationError(validation.failureReason!);
-
-        // ONLY auto-scroll if interacting with last thesis
-        if (isLastThesis) {
-          scrollToResultsCard();
-        }
-        return;
-      }
-    }
-
-    // Check if this is the last thesis (first time skipping)
-    const isLastThesis = thesisIndex === theses.length - 1;
-
-    if (isLastThesis) {
-      // Validate meaningfulness before proceeding
-      const validation = validateMeaningfulness(newAnswers);
-
-      if (validation.isValid) {
-        // Valid - immediately advance to weighting
-        const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
-        onComplete(newAnswers, scrollPosition);
-      } else {
-        // Invalid - set error and scroll to results card
-        setValidationError(validation.failureReason!);
-        scrollToResultsCard();
-      }
-    } else {
-      // Navigate to next slide with delay
-      navigateToNextSlide(thesisIndex + 1);
-    }
+    setAnswers(newAnswers);
+    updateAnswerAndNavigate(thesisIndex, newAnswers);
   };
 
   const handleComplete = () => {
@@ -431,14 +368,14 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
                   const isSelected = answer?.value === option.value;
 
                   return (
-                    <Button
+                    <button
                       key={option.value}
                       onClick={() => handleAnswer(index, option.value)}
-                      variant={isSelected ? "selected" : "default"}
                       disabled={isNavigating}
+                      className={button({ variant: isSelected ? "selected" : "default" })}
                     >
                       {option.label}
-                    </Button>
+                    </button>
                   );
                 })}
               </div>
@@ -492,9 +429,13 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
                 </div>
 
                 <div>
-                  <Button onClick={handleComplete} variant="primary" disabled={isNavigating}>
+                  <button
+                    onClick={handleComplete}
+                    disabled={isNavigating}
+                    className={button({ variant: "primary" })}
+                  >
                     Ver resultados
-                  </Button>
+                  </button>
                 </div>
               </>
             )}
