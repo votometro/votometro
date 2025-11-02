@@ -57,8 +57,27 @@ export function Results({
             {/* Header */}
             <header className="z-10">
               <div className="bg-background px-6 pt-4 md:pt-6 pb-5">
-                {/* Title */}
+                {/* Back button and Title */}
                 <div className="md:mx-auto md:max-w-[900px]">
+                  <button
+                    onClick={onBack}
+                    className={cn(button({ variant: "ghost", size: "sm", fullWidth: "auto" }), "mb-4 gap-2 -ml-4")}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Volver a ponderación
+                  </button>
                   <h1 className="text-[min(7vw,3rem)] leading-[1.1] text-foreground mb-1">
                     Tus resultados
                   </h1>
@@ -181,26 +200,8 @@ export function Results({
 
             {/* Footer */}
             <footer className="px-6 py-4 bg-background">
-              <div className="md:mx-auto md:max-w-[900px] flex justify-start">
-                <button
-                  onClick={onBack}
-                  className={cn(button({ variant: "outline-ghost" }), "gap-2")}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M19 12H5M12 19l-7-7 7-7" />
-                  </svg>
-                  Volver a ponderar
-                </button>
+              <div className="md:mx-auto md:max-w-[900px] flex justify-center">
+                {/* No primary CTA needed - this is the final page */}
               </div>
             </footer>
           </div>

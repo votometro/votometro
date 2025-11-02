@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, forwardRef } from "react";
 import type { Answer, AnswerValue } from "../lib/types/answer";
 import type { Thesis } from "../lib/types/election";
 import { cn, button, card } from "../lib/styles";
+import { validateMeaningfulness, getValidationErrorMessage, type ValidationFailureReason } from "../lib/validation/meaningfulness";
 
 interface QuizProps {
   title: string;
@@ -16,6 +17,10 @@ const ANSWER_OPTIONS: { value: AnswerValue; label: string }[] = [
   { value: 0, label: "Neutral" },
   { value: -1, label: "En desacuerdo" },
 ];
+
+// Navigation and animation timing constants
+const NAVIGATION_DELAY = 300;
+const ANIMATION_DURATION = 300;
 
 interface SlideProps {
   children: React.ReactNode;
@@ -49,33 +54,12 @@ const Slide = forwardRef<HTMLDivElement, SlideProps>(
 
 Slide.displayName = "Slide";
 
-// Button component for position/answer buttons
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick: () => void;
-  variant?: "default" | "selected" | "primary" | "ghost";
-  className?: string;
-  disabled?: boolean;
-}
-
-const Button = ({ children, onClick, variant = "default", className, disabled = false }: ButtonProps) => {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(button({ variant }), className)}
-    >
-      {children}
-    </button>
-  );
-};
-
 const useSlideNavigation = (slideRefs: React.RefObject<(HTMLDivElement | null)[]>) => {
   const [isNavigating, setIsNavigating] = useState(false);
   const delayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const navigateToNextSlide = (targetIndex: number, delay = 300) => {
+  const navigateToNextSlide = (targetIndex: number, delay = NAVIGATION_DELAY) => {
     // Clear any pending navigation timeouts
     if (delayTimeoutRef.current) {
       clearTimeout(delayTimeoutRef.current);
@@ -96,7 +80,7 @@ const useSlideNavigation = (slideRefs: React.RefObject<(HTMLDivElement | null)[]
       // Reset navigation state after animation completes
       animationTimeoutRef.current = setTimeout(() => {
         setIsNavigating(false);
-      }, 300);
+      }, ANIMATION_DURATION);
     }, delay);
   };
 
@@ -164,6 +148,7 @@ const useCurrentSlide = (
 
 export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onComplete }: QuizProps) {
   const [answers, setAnswers] = useState<Answer[]>(initialAnswers || []);
+  const [validationError, setValidationError] = useState<ValidationFailureReason | null>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -171,6 +156,9 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
   // Derive currentThesisIndex from answers array
   const currentThesisIndex = answers.length;
   const isComplete = currentThesisIndex >= theses.length;
+
+  // Show results card when all theses are answered
+  const showResultsCard = answers.length >= theses.length;
 
   // Use custom hooks for navigation and slide tracking
   const { isNavigating, navigateToNextSlide } = useSlideNavigation(slideRefs);
@@ -183,6 +171,60 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
     }
   }, [initialScrollPosition]);
 
+  // Helper function to scroll to results card
+  const scrollToResultsCard = () => {
+    setTimeout(() => {
+      const resultsCardElement = slideRefs.current[theses.length];
+      if (resultsCardElement) {
+        resultsCardElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, NAVIGATION_DELAY);
+  };
+
+  // Helper function to handle answer updates with validation and navigation
+  const updateAnswerAndNavigate = (thesisIndex: number, newAnswers: Answer[]) => {
+    const isLastThesis = thesisIndex === theses.length - 1;
+    const allThesesAnswered = newAnswers.length >= theses.length;
+
+    // If all theses are answered (or will be after this), always validate
+    if (allThesesAnswered) {
+      const validation = validateMeaningfulness(newAnswers);
+
+      if (validation.isValid) {
+        // Validation passes
+        setValidationError(null);
+
+        // If on last thesis, advance immediately to weighting
+        if (isLastThesis) {
+          const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
+          onComplete(newAnswers, scrollPosition);
+          return;
+        }
+        // For non-last thesis, navigate to next slide
+        navigateToNextSlide(thesisIndex + 1);
+        return;
+      } else {
+        // Validation fails, set error
+        setValidationError(validation.failureReason!);
+
+        // ONLY auto-scroll if interacting with last thesis
+        if (isLastThesis) {
+          scrollToResultsCard();
+        } else {
+          // For non-last thesis, still navigate to next
+          navigateToNextSlide(thesisIndex + 1);
+        }
+        return;
+      }
+    }
+
+    // Not all theses answered yet - just navigate to next
+    navigateToNextSlide(thesisIndex + 1);
+  };
+
   const handleAnswer = (thesisIndex: number, value: AnswerValue) => {
     const thesisKey = theses[thesisIndex]._key;
 
@@ -194,15 +236,13 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
       // Update existing answer
       newAnswers = [...answers];
       newAnswers[existingAnswerIndex] = { thesisKey, value };
-      setAnswers(newAnswers);
     } else {
       // Add new answer (automatically increments currentThesisIndex via answers.length)
       newAnswers = [...answers, { thesisKey, value }];
-      setAnswers(newAnswers);
     }
 
-    // Navigate to next slide with delay
-    navigateToNextSlide(thesisIndex + 1);
+    setAnswers(newAnswers);
+    updateAnswerAndNavigate(thesisIndex, newAnswers);
   };
 
   const handleSkip = (thesisIndex: number) => {
@@ -216,15 +256,13 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
       // Update existing answer to skipped
       newAnswers = [...answers];
       newAnswers[existingAnswerIndex] = { thesisKey, value: null };
-      setAnswers(newAnswers);
     } else {
       // Add new skipped answer (automatically increments currentThesisIndex via answers.length)
       newAnswers = [...answers, { thesisKey, value: null }];
-      setAnswers(newAnswers);
     }
 
-    // Navigate to next slide with delay
-    navigateToNextSlide(thesisIndex + 1);
+    setAnswers(newAnswers);
+    updateAnswerAndNavigate(thesisIndex, newAnswers);
   };
 
   const handleComplete = () => {
@@ -232,13 +270,13 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
     onComplete(answers, scrollPosition);
   };
 
-  // Render answered theses + current thesis (+ final slide when complete)
+  // Render answered theses + current thesis
   const visibleTheses = theses.slice(0, currentThesisIndex + 1);
-  const totalSlides = theses.length + 1; // N questions + 1 final slide
+  const totalSlides = theses.length + (showResultsCard ? 1 : 0); // N questions + results slide if present
 
   // Gray: based on answered questions (0% to 100% as you answer)
   const answeredProgress = theses.length > 0 ? (answers.length / theses.length) * 100 : 0;
-  // Blue: based on currently viewed slide (0% on first, 100% on final slide)
+  // Blue: based on currently viewed slide (0% on first, 100% on last slide)
   const viewProgress = totalSlides > 1 ? (viewSlideIndex / (totalSlides - 1)) * 100 : 0;
 
   return (
@@ -319,14 +357,14 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
                   const isSelected = answer?.value === option.value;
 
                   return (
-                    <Button
+                    <button
                       key={option.value}
                       onClick={() => handleAnswer(index, option.value)}
-                      variant={isSelected ? "selected" : "default"}
                       disabled={isNavigating}
+                      className={button({ variant: isSelected ? "selected" : "default" })}
                     >
                       {option.label}
-                    </Button>
+                    </button>
                   );
                 })}
               </div>
@@ -334,34 +372,55 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
           );
         })}
 
-        {/* Final slide with "Ver resultados" button */}
-        {isComplete && (
+        {/* Results card - always shown when all theses are answered */}
+        {showResultsCard && (
           <Slide
             ref={(el) => {
               slideRefs.current[theses.length] = el;
             }}
           >
-            {/* Top: Caption and completion message */}
-            <div>
-              {/* Caption consistent with quiz slides */}
-              <p className="text-sm leading-0 text-foreground font-bold mb-6">
-                Resultados
-              </p>
+            {validationError ? (
+              // Invalid state - show error message
+              <>
+                <div>
+                  <h2 className="text-2xl md:text-3xl text-foreground mb-6">
+                    No se pueden calcular los resultados
+                  </h2>
 
-              {/* Completion message */}
-              <h2 className="text-2xl md:text-3xl text-foreground">
-                Tus resultados están listos
-              </h2>
-            </div>
+                  <p className="text-base text-foreground opacity-80 mb-4">
+                    {getValidationErrorMessage(validationError)}
+                  </p>
+                </div>
 
-            {/* Bottom: Button */}
-            <div>
-              <Button onClick={handleComplete} variant="primary" disabled={isNavigating}>
-                Siguiente
-              </Button>
-            </div>
+                <div>
+                  <p className="text-sm text-foreground opacity-60">
+                    Navega hacia atrás para modificar tus respuestas.
+                  </p>
+                </div>
+              </>
+            ) : (
+              // Valid state - show button
+              <>
+                <div>
+                  <h2 className="text-2xl md:text-3xl text-foreground">
+                    ¿Qué temas son más importantes para ti?
+                  </h2>
+                </div>
+
+                <div>
+                  <button
+                    onClick={handleComplete}
+                    disabled={isNavigating}
+                    className={button({ variant: "primary" })}
+                  >
+                    Continuar a ponderación
+                  </button>
+                </div>
+              </>
+            )}
           </Slide>
         )}
+
       </div>
     </div>
   );
