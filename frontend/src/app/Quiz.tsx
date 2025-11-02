@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
 import type { Answer, AnswerValue } from "../lib/types/answer";
 import type { Thesis } from "../lib/types/election";
-import { cn, button } from "../lib/styles";
+import { cn, button, card } from "../lib/styles";
 
 interface QuizProps {
   title: string;
@@ -31,7 +31,8 @@ const Slide = forwardRef<HTMLDivElement, SlideProps>(
         className="h-full snap-start px-4 pt-6 pb-3 flex flex-col md:items-center"
       >
         <div className={cn(
-          "flex-1 md:flex-none md:w-full md:max-w-[600px] md:aspect-[16/10] bg-surface rounded-3xl p-8 flex flex-col justify-between",
+          card({ size: "lg" }),
+          "flex-1 md:flex-none md:w-full md:max-w-[600px] md:aspect-[16/10] rounded-3xl flex flex-col justify-between",
           className
         )}>
           {children}

@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro"
 import ConnectionAnimation from "../components/ConnectionAnimation.astro"
+import { cn, card } from "../lib/styles";
 ---
 
 <Layout>
@@ -79,7 +80,7 @@ import ConnectionAnimation from "../components/ConnectionAnimation.astro"
 
 				<!-- CTA Content - Desktop: Right, Mobile: Top -->
 				<div
-					class="text-center md:text-left rounded-xl p-8 md:p-20 bg-primary order-2 md:order-2"
+					class={cn(card({ size: "lg" }), "text-center md:text-left rounded-xl bg-primary order-2 md:order-2 shadow-none")}
 				>
 					<h2
 						class="text-5xl md:text-6xl font-bold text-black mb-6 leading-tight"

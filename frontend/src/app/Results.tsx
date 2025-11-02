@@ -3,7 +3,7 @@ import type { Answer } from "../lib/types/answer";
 import type { Thesis } from "../lib/types/election";
 import type { PartyParticipation } from "../lib/types/party";
 import { calculateMatch } from "../lib/matching/algorithm";
-import { cn } from "../lib/styles";
+import { cn, card } from "../lib/styles";
 
 interface ResultsProps {
   answers: Answer[];
@@ -190,7 +190,7 @@ export function Results({
           </div>
 
           {/* Disclaimer */}
-          <div className="mt-6 p-4 text-sm text-foreground-secondary leading-relaxed">
+          <div className={cn(card(), "mt-6 text-sm text-foreground-secondary leading-relaxed")}>
             <p>
               Altos niveles de acuerdo entre tus respuestas y varios partidos no significan necesariamente que estos partidos estén cerca unos de otros en términos de su contenido.
             </p>
