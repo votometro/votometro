@@ -32,7 +32,7 @@ export interface MatchResult {
 export function scoreAnswer(
   userAnswer: AnswerValue,
   partyAnswer: -1 | 0 | 1,
-  weighted: boolean = false
+  weight: number = 1
 ): number {
   // User skipped - no score
   if (userAnswer === null) {
@@ -53,8 +53,8 @@ export function scoreAnswer(
     baseScore = 0;
   }
 
-  // Apply weighting (double if important)
-  return weighted ? baseScore * 2 : baseScore;
+  // Apply weighting
+  return baseScore * weight;
 }
 
 /**
@@ -67,7 +67,8 @@ export function scoreAnswer(
  */
 export function calculateMatch(
   userAnswers: Answer[],
-  partyAnswers: PartyAnswer[]
+  partyAnswers: PartyAnswer[],
+  weights: Record<string, number> = {}
 ): MatchResult {
   // Validate array lengths
   if (userAnswers.length !== partyAnswers.length) {
@@ -86,20 +87,17 @@ export function calculateMatch(
       throw new Error(`No party answer found for thesis key: ${userAnswer.thesisKey}`);
     }
 
-    const weighted = userAnswer.weighted ?? false;
-    const score = scoreAnswer(userAnswer.value, partyAnswer.value, weighted);
+    const weight = weights[userAnswer.thesisKey] || 1;
+    const score = scoreAnswer(userAnswer.value, partyAnswer.value, weight);
 
     // Calculate max possible for this thesis
     let maxPossible: number;
     if (userAnswer.value === null) {
       // User skipped - doesn't count toward max
       maxPossible = 0;
-    } else if (weighted) {
-      // Weighted answer - max 4 points
-      maxPossible = 4;
     } else {
-      // Normal answer - max 2 points
-      maxPossible = 2;
+      // Normal answer - max 2 points, multiplied by weight
+      maxPossible = 2 * weight;
     }
 
     earnedScore += score;

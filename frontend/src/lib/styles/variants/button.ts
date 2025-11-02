@@ -14,6 +14,8 @@ export const button = cva(
         primary: "bg-primary text-primary-foreground font-bold border border-primary",
         // Ghost: Transparent with hover effect
         ghost: "bg-transparent hover:text-foreground-secondary border-none",
+        // Outline Ghost: Transparent with subtle border and hover background
+        "outline-ghost": "bg-transparent hover:bg-surface border border-transparent",
       },
       size: {
         default: "py-4 px-6",

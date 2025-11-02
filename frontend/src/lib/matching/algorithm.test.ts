@@ -6,93 +6,93 @@ import type { PartyAnswer } from '../types/party';
 describe('scoreAnswer', () => {
   describe('basic scoring (unweighted)', () => {
     it('should return 2 for perfect match: Agree + Agree', () => {
-      expect(scoreAnswer(1, 1, false)).toBe(2);
+      expect(scoreAnswer(1, 1, 1)).toBe(2);
     });
 
     it('should return 2 for perfect match: Neutral + Neutral', () => {
-      expect(scoreAnswer(0, 0, false)).toBe(2);
+      expect(scoreAnswer(0, 0, 1)).toBe(2);
     });
 
     it('should return 2 for perfect match: Disagree + Disagree', () => {
-      expect(scoreAnswer(-1, -1, false)).toBe(2);
+      expect(scoreAnswer(-1, -1, 1)).toBe(2);
     });
 
     it('should return 1 for partial match: Agree + Neutral', () => {
-      expect(scoreAnswer(1, 0, false)).toBe(1);
+      expect(scoreAnswer(1, 0, 1)).toBe(1);
     });
 
     it('should return 1 for partial match: Neutral + Agree', () => {
-      expect(scoreAnswer(0, 1, false)).toBe(1);
+      expect(scoreAnswer(0, 1, 1)).toBe(1);
     });
 
     it('should return 1 for partial match: Disagree + Neutral', () => {
-      expect(scoreAnswer(-1, 0, false)).toBe(1);
+      expect(scoreAnswer(-1, 0, 1)).toBe(1);
     });
 
     it('should return 1 for partial match: Neutral + Disagree', () => {
-      expect(scoreAnswer(0, -1, false)).toBe(1);
+      expect(scoreAnswer(0, -1, 1)).toBe(1);
     });
 
     it('should return 0 for opposite: Agree + Disagree', () => {
-      expect(scoreAnswer(1, -1, false)).toBe(0);
+      expect(scoreAnswer(1, -1, 1)).toBe(0);
     });
 
     it('should return 0 for opposite: Disagree + Agree', () => {
-      expect(scoreAnswer(-1, 1, false)).toBe(0);
+      expect(scoreAnswer(-1, 1, 1)).toBe(0);
     });
 
     it('should return 0 when user skips (null + Agree)', () => {
-      expect(scoreAnswer(null, 1, false)).toBe(0);
+      expect(scoreAnswer(null, 1, 1)).toBe(0);
     });
 
     it('should return 0 when user skips (null + Neutral)', () => {
-      expect(scoreAnswer(null, 0, false)).toBe(0);
+      expect(scoreAnswer(null, 0, 1)).toBe(0);
     });
 
     it('should return 0 when user skips (null + Disagree)', () => {
-      expect(scoreAnswer(null, -1, false)).toBe(0);
+      expect(scoreAnswer(null, -1, 1)).toBe(0);
     });
   });
 
   describe('weighted scoring', () => {
     it('should return 4 for perfect match weighted: Agree + Agree', () => {
-      expect(scoreAnswer(1, 1, true)).toBe(4);
+      expect(scoreAnswer(1, 1, 2)).toBe(4);
     });
 
     it('should return 4 for perfect match weighted: Neutral + Neutral', () => {
-      expect(scoreAnswer(0, 0, true)).toBe(4);
+      expect(scoreAnswer(0, 0, 2)).toBe(4);
     });
 
     it('should return 4 for perfect match weighted: Disagree + Disagree', () => {
-      expect(scoreAnswer(-1, -1, true)).toBe(4);
+      expect(scoreAnswer(-1, -1, 2)).toBe(4);
     });
 
     it('should return 2 for partial match weighted: Agree + Neutral', () => {
-      expect(scoreAnswer(1, 0, true)).toBe(2);
+      expect(scoreAnswer(1, 0, 2)).toBe(2);
     });
 
     it('should return 2 for partial match weighted: Neutral + Agree', () => {
-      expect(scoreAnswer(0, 1, true)).toBe(2);
+      expect(scoreAnswer(0, 1, 2)).toBe(2);
     });
 
     it('should return 2 for partial match weighted: Disagree + Neutral', () => {
-      expect(scoreAnswer(-1, 0, true)).toBe(2);
+      expect(scoreAnswer(-1, 0, 2)).toBe(2);
     });
 
     it('should return 2 for partial match weighted: Neutral + Disagree', () => {
-      expect(scoreAnswer(0, -1, true)).toBe(2);
+      expect(scoreAnswer(0, -1, 2)).toBe(2);
     });
 
     it('should return 0 for opposite weighted: Agree + Disagree', () => {
-      expect(scoreAnswer(1, -1, true)).toBe(0);
+      expect(scoreAnswer(1, -1, 2)).toBe(0);
     });
 
     it('should return 0 for opposite weighted: Disagree + Agree', () => {
-      expect(scoreAnswer(-1, 1, true)).toBe(0);
+      expect(scoreAnswer(-1, 1, 2)).toBe(0);
     });
 
     it('should return 0 when user skips even if weighted', () => {
-      expect(scoreAnswer(null, 1, true)).toBe(0);
+      expect(scoreAnswer(null, 1, 2)).toBe(0);
     });
   });
 });
@@ -157,15 +157,18 @@ describe('calculateMatch', () => {
 
     it('should handle weighted answers in totalPossibleScore', () => {
       const userAnswers: Answer[] = [
-        { thesisKey: '0', value: 1 },                    // 2 max
-        { thesisKey: '1', value: 1, weighted: true },    // 4 max
+        { thesisKey: '0', value: 1 },    // 2 max
+        { thesisKey: '1', value: 1 },    // 4 max (weighted)
       ];
       const partyAnswers: PartyAnswer[] = [
         { thesisKey: '0', value: 1, justification: 'yes' },
         { thesisKey: '1', value: 1, justification: 'yes' },
       ];
+      const weights = {
+        '1': 2,  // double weight for thesis 1
+      };
 
-      const result = calculateMatch(userAnswers, partyAnswers);
+      const result = calculateMatch(userAnswers, partyAnswers, weights);
 
       expect(result.earnedScore).toBe(6); // 2+4
       expect(result.totalPossibleScore).toBe(6); // 2+4
@@ -193,10 +196,10 @@ describe('calculateMatch', () => {
 
     it('should handle mixed: weighted + skipped + normal', () => {
       const userAnswers: Answer[] = [
-        { thesisKey: '0', value: 1 },                    // perfect: 2/2
-        { thesisKey: '1', value: 1, weighted: true },    // perfect weighted: 4/4
-        { thesisKey: '2', value: null },                 // skipped: 0/0
-        { thesisKey: '3', value: 1 },                    // partial: 1/2
+        { thesisKey: '0', value: 1 },     // perfect: 2/2
+        { thesisKey: '1', value: 1 },     // perfect weighted: 4/4
+        { thesisKey: '2', value: null },  // skipped: 0/0
+        { thesisKey: '3', value: 1 },     // partial: 1/2
       ];
       const partyAnswers: PartyAnswer[] = [
         { thesisKey: '0', value: 1, justification: 'yes' },
@@ -204,8 +207,11 @@ describe('calculateMatch', () => {
         { thesisKey: '2', value: -1, justification: 'no' },
         { thesisKey: '3', value: 0, justification: 'neutral' },
       ];
+      const weights = {
+        '1': 2,  // double weight for thesis 1
+      };
 
-      const result = calculateMatch(userAnswers, partyAnswers);
+      const result = calculateMatch(userAnswers, partyAnswers, weights);
 
       expect(result.earnedScore).toBe(7); // 2+4+0+1
       expect(result.totalPossibleScore).toBe(8); // 2+4+0+2
