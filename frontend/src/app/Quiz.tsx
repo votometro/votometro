@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, forwardRef } from "react";
 import type { Answer, AnswerValue } from "../lib/types/answer";
 import type { Thesis } from "../lib/types/election";
 import { cn, button, card } from "../lib/styles";
+import { validateMeaningfulness, getValidationErrorMessage, type ValidationFailureReason } from "../lib/validation/meaningfulness";
 
 interface QuizProps {
   title: string;
@@ -164,6 +165,7 @@ const useCurrentSlide = (
 
 export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onComplete }: QuizProps) {
   const [answers, setAnswers] = useState<Answer[]>(initialAnswers || []);
+  const [validationError, setValidationError] = useState<ValidationFailureReason | null>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -171,6 +173,9 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
   // Derive currentThesisIndex from answers array
   const currentThesisIndex = answers.length;
   const isComplete = currentThesisIndex >= theses.length;
+
+  // Show results card when all theses are answered
+  const showResultsCard = answers.length >= theses.length;
 
   // Use custom hooks for navigation and slide tracking
   const { isNavigating, navigateToNextSlide } = useSlideNavigation(slideRefs);
@@ -182,6 +187,19 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
       scrollContainerRef.current.scrollTop = initialScrollPosition;
     }
   }, [initialScrollPosition]);
+
+  // Helper function to scroll to results card
+  const scrollToResultsCard = () => {
+    setTimeout(() => {
+      const resultsCardElement = slideRefs.current[theses.length];
+      if (resultsCardElement) {
+        resultsCardElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 100);
+  };
 
   const handleAnswer = (thesisIndex: number, value: AnswerValue) => {
     const thesisKey = theses[thesisIndex]._key;
@@ -201,8 +219,55 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
       setAnswers(newAnswers);
     }
 
-    // Navigate to next slide with delay
-    navigateToNextSlide(thesisIndex + 1);
+    // If we currently have a validation error, revalidate with new answers
+    if (validationError) {
+      const validation = validateMeaningfulness(newAnswers);
+      const isLastThesis = thesisIndex === theses.length - 1;
+
+      if (validation.isValid) {
+        // Validation now passes
+        setValidationError(null);
+
+        // If on last thesis, advance immediately to weighting
+        if (isLastThesis) {
+          const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
+          onComplete(newAnswers, scrollPosition);
+          return;
+        }
+        // For non-last thesis, just clear error (user must scroll to see results card button)
+        return;
+      } else {
+        // Validation still fails, update error
+        setValidationError(validation.failureReason!);
+
+        // ONLY auto-scroll if interacting with last thesis
+        if (isLastThesis) {
+          scrollToResultsCard();
+        }
+        return;
+      }
+    }
+
+    // Check if this is the last thesis (first time answering)
+    const isLastThesis = thesisIndex === theses.length - 1;
+
+    if (isLastThesis) {
+      // Validate meaningfulness before proceeding
+      const validation = validateMeaningfulness(newAnswers);
+
+      if (validation.isValid) {
+        // Valid - immediately advance to weighting
+        const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
+        onComplete(newAnswers, scrollPosition);
+      } else {
+        // Invalid - set error and scroll to results card
+        setValidationError(validation.failureReason!);
+        scrollToResultsCard();
+      }
+    } else {
+      // Navigate to next slide with delay
+      navigateToNextSlide(thesisIndex + 1);
+    }
   };
 
   const handleSkip = (thesisIndex: number) => {
@@ -223,8 +288,55 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
       setAnswers(newAnswers);
     }
 
-    // Navigate to next slide with delay
-    navigateToNextSlide(thesisIndex + 1);
+    // If we currently have a validation error, revalidate with new answers
+    if (validationError) {
+      const validation = validateMeaningfulness(newAnswers);
+      const isLastThesis = thesisIndex === theses.length - 1;
+
+      if (validation.isValid) {
+        // Validation now passes
+        setValidationError(null);
+
+        // If on last thesis, advance immediately to weighting
+        if (isLastThesis) {
+          const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
+          onComplete(newAnswers, scrollPosition);
+          return;
+        }
+        // For non-last thesis, just clear error (user must scroll to see results card button)
+        return;
+      } else {
+        // Validation still fails, update error
+        setValidationError(validation.failureReason!);
+
+        // ONLY auto-scroll if interacting with last thesis
+        if (isLastThesis) {
+          scrollToResultsCard();
+        }
+        return;
+      }
+    }
+
+    // Check if this is the last thesis (first time skipping)
+    const isLastThesis = thesisIndex === theses.length - 1;
+
+    if (isLastThesis) {
+      // Validate meaningfulness before proceeding
+      const validation = validateMeaningfulness(newAnswers);
+
+      if (validation.isValid) {
+        // Valid - immediately advance to weighting
+        const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
+        onComplete(newAnswers, scrollPosition);
+      } else {
+        // Invalid - set error and scroll to results card
+        setValidationError(validation.failureReason!);
+        scrollToResultsCard();
+      }
+    } else {
+      // Navigate to next slide with delay
+      navigateToNextSlide(thesisIndex + 1);
+    }
   };
 
   const handleComplete = () => {
@@ -232,13 +344,13 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
     onComplete(answers, scrollPosition);
   };
 
-  // Render answered theses + current thesis (+ final slide when complete)
+  // Render answered theses + current thesis
   const visibleTheses = theses.slice(0, currentThesisIndex + 1);
-  const totalSlides = theses.length + 1; // N questions + 1 final slide
+  const totalSlides = theses.length + (showResultsCard ? 1 : 0); // N questions + results slide if present
 
   // Gray: based on answered questions (0% to 100% as you answer)
   const answeredProgress = theses.length > 0 ? (answers.length / theses.length) * 100 : 0;
-  // Blue: based on currently viewed slide (0% on first, 100% on final slide)
+  // Blue: based on currently viewed slide (0% on first, 100% on last slide)
   const viewProgress = totalSlides > 1 ? (viewSlideIndex / (totalSlides - 1)) * 100 : 0;
 
   return (
@@ -334,34 +446,61 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
           );
         })}
 
-        {/* Final slide with "Ver resultados" button */}
-        {isComplete && (
+        {/* Results card - always shown when all theses are answered */}
+        {showResultsCard && (
           <Slide
             ref={(el) => {
               slideRefs.current[theses.length] = el;
             }}
           >
-            {/* Top: Caption and completion message */}
-            <div>
-              {/* Caption consistent with quiz slides */}
-              <p className="text-sm leading-0 text-foreground font-bold mb-6">
-                Resultados
-              </p>
+            {validationError ? (
+              // Invalid state - show error message
+              <>
+                <div>
+                  <p className="text-sm leading-0 text-foreground font-bold mb-6">
+                    Resultados
+                  </p>
 
-              {/* Completion message */}
-              <h2 className="text-2xl md:text-3xl text-foreground">
-                Tus resultados están listos
-              </h2>
-            </div>
+                  <h2 className="text-2xl md:text-3xl text-foreground mb-4">
+                    No se pueden calcular los resultados
+                  </h2>
 
-            {/* Bottom: Button */}
-            <div>
-              <Button onClick={handleComplete} variant="primary" disabled={isNavigating}>
-                Siguiente
-              </Button>
-            </div>
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-sm text-red-800">
+                      {getValidationErrorMessage(validationError)}
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-sm text-foreground opacity-70">
+                    Navega hacia atrás para modificar tus respuestas.
+                  </p>
+                </div>
+              </>
+            ) : (
+              // Valid state - show button
+              <>
+                <div>
+                  <p className="text-sm leading-0 text-foreground font-bold mb-6">
+                    Resultados
+                  </p>
+
+                  <h2 className="text-2xl md:text-3xl text-foreground">
+                    Tus resultados están listos
+                  </h2>
+                </div>
+
+                <div>
+                  <Button onClick={handleComplete} variant="primary" disabled={isNavigating}>
+                    Ver resultados
+                  </Button>
+                </div>
+              </>
+            )}
           </Slide>
         )}
+
       </div>
     </div>
   );
