@@ -187,13 +187,14 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
   // Helper function to handle answer updates with validation and navigation
   const updateAnswerAndNavigate = (thesisIndex: number, newAnswers: Answer[]) => {
     const isLastThesis = thesisIndex === theses.length - 1;
+    const allThesesAnswered = newAnswers.length >= theses.length;
 
-    // If we currently have a validation error, revalidate with new answers
-    if (validationError) {
+    // If all theses are answered (or will be after this), always validate
+    if (allThesesAnswered) {
       const validation = validateMeaningfulness(newAnswers);
 
       if (validation.isValid) {
-        // Validation now passes
+        // Validation passes
         setValidationError(null);
 
         // If on last thesis, advance immediately to weighting
@@ -205,7 +206,7 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
         // For non-last thesis, just clear error (user must scroll to see results card button)
         return;
       } else {
-        // Validation still fails, update error
+        // Validation fails, set error
         setValidationError(validation.failureReason!);
 
         // ONLY auto-scroll if interacting with last thesis
@@ -216,24 +217,8 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
       }
     }
 
-    // First time answering this thesis
-    if (isLastThesis) {
-      // Validate meaningfulness before proceeding
-      const validation = validateMeaningfulness(newAnswers);
-
-      if (validation.isValid) {
-        // Valid - immediately advance to weighting
-        const scrollPosition = scrollContainerRef.current?.scrollTop || 0;
-        onComplete(newAnswers, scrollPosition);
-      } else {
-        // Invalid - set error and scroll to results card
-        setValidationError(validation.failureReason!);
-        scrollToResultsCard();
-      }
-    } else {
-      // Navigate to next slide with delay
-      navigateToNextSlide(thesisIndex + 1);
-    }
+    // Not all theses answered yet - just navigate to next
+    navigateToNextSlide(thesisIndex + 1);
   };
 
   const handleAnswer = (thesisIndex: number, value: AnswerValue) => {
