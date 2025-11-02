@@ -357,7 +357,7 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
             {/* Bottom: Button */}
             <div>
               <Button onClick={handleComplete} variant="primary" disabled={isNavigating}>
-                Ver resultados
+                Siguiente
               </Button>
             </div>
           </Slide>
