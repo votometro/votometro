@@ -25,6 +25,7 @@ export const button = cva(
       fullWidth: {
         true: "w-full",
         false: "w-full md:w-auto md:flex-shrink-0",
+        auto: "w-auto",
       },
     },
     defaultVariants: {

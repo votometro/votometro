@@ -35,8 +35,27 @@ export function Weighting({ theses, answers, weights: initialWeights, onComplete
       {/* Header */}
       <header className="z-10">
         <div className="bg-background px-6 pt-4 md:pt-6 pb-5">
-          {/* Title */}
+          {/* Back button and Title */}
           <div className="md:mx-auto md:max-w-[900px]">
+            <button
+              onClick={onBack}
+              className={cn(button({ variant: "ghost", size: "sm", fullWidth: "auto" }), "mb-4 gap-2 -ml-4")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              Volver al cuestionario
+            </button>
             <h1 className="text-[min(7vw,3rem)] leading-[1.1] text-foreground mb-1">
               Ponderación de las tesis
             </h1>
@@ -82,29 +101,10 @@ export function Weighting({ theses, answers, weights: initialWeights, onComplete
 
       {/* Footer */}
       <footer className="px-6 py-4 bg-background">
-        <div className="md:mx-auto md:max-w-[900px] flex justify-between items-center">
-          <button
-            onClick={onBack}
-            className={cn(button({ variant: "outline-ghost" }), "gap-2")}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            Volver al cuestionario
-          </button>
+        <div className="md:mx-auto md:max-w-[900px] flex justify-center">
           <button
             onClick={handleComplete}
-            className={cn(button({ variant: "primary", fullWidth: false }))}
+            className={cn(button({ variant: "primary" }))}
           >
             Ver resultados
           </button>
