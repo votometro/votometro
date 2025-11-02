@@ -92,6 +92,7 @@ All tokens defined in `frontend/src/styles/tailwind.css`:
 ### CVA Utilities
 
 Located in `frontend/src/lib/styles/variants/`. Only create when pattern repeats 3+ times.
+- **Always use existing style utilities (`cn`, `button`, `card`, etc.) where applicable to maintain consistency and leverage the design system.**
 
 **Button:** Import `button` from `@/lib/styles`
 - Variants: `default` (surface + border), `primary` (yellow), `ghost` (transparent)

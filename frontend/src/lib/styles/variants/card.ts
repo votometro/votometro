@@ -1,12 +1,12 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
 export const card = cva(
-  "rounded-lg border bg-surface text-surface-foreground shadow-sm",
+  "rounded-lg bg-surface text-surface-foreground",
   {
     variants: {
       variant: {
-        default: "border-border",
-        elevated: "border-border-muted shadow-md",
+        default: "",
+        elevated: "border border-border-muted shadow-md",
         outline: "border-2 border-border-muted bg-transparent",
       },
       size: {

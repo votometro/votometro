@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { cn, card } from "../lib/styles";
 import type { PartySubmissionSession } from "../server/data/partyParticipation";
 import type { PartyAnswer } from "../lib/types/party";
 
@@ -145,8 +146,7 @@ export function PartySubmission({ session }: PartySubmissionProps) {
   if (showSuccess) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full text-center space-y-6">
-          <div className="text-6xl">✅</div>
+        <div className={cn(card(), "max-w-2xl w-full text-center space-y-6")}>
           <h1 className="text-3xl font-bold">¡Respuestas Enviadas!</h1>
           <p className="text-gray-600">
             Gracias por completar el cuestionario. Tus respuestas han sido enviadas
@@ -168,8 +168,7 @@ export function PartySubmission({ session }: PartySubmissionProps) {
   if (isSubmitted && !isRevisionRequested) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full text-center space-y-6">
-          <div className="text-6xl">📋</div>
+        <div className={cn(card(), "max-w-2xl w-full text-center space-y-6")}>
           <h1 className="text-3xl font-bold">Respuestas Ya Enviadas</h1>
           <p className="text-gray-600">
             Las respuestas de {session.party.name} ya han sido enviadas y están
@@ -190,7 +189,7 @@ export function PartySubmission({ session }: PartySubmissionProps) {
   if (deadlinePassed && !isRevisionRequested) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full text-center space-y-6">
+        <div className={cn(card(), "max-w-2xl w-full text-center space-y-6")}>
           <div className="text-6xl">⏰</div>
           <h1 className="text-3xl font-bold">Plazo Vencido</h1>
           <p className="text-gray-600">
@@ -255,7 +254,7 @@ export function PartySubmission({ session }: PartySubmissionProps) {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-background rounded-lg shadow-sm p-6 space-y-6">
+        <div className={cn(card({ size: "default" }), "bg-background space-y-6")}>
           {/* Thesis */}
           <div>
             <div className="text-sm text-foreground-muted mb-2">
