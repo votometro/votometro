@@ -203,7 +203,8 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
           onComplete(newAnswers, scrollPosition);
           return;
         }
-        // For non-last thesis, just clear error (user must scroll to see results card button)
+        // For non-last thesis, navigate to next slide
+        navigateToNextSlide(thesisIndex + 1);
         return;
       } else {
         // Validation fails, set error
@@ -212,6 +213,9 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
         // ONLY auto-scroll if interacting with last thesis
         if (isLastThesis) {
           scrollToResultsCard();
+        } else {
+          // For non-last thesis, still navigate to next
+          navigateToNextSlide(thesisIndex + 1);
         }
         return;
       }
@@ -379,23 +383,17 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
               // Invalid state - show error message
               <>
                 <div>
-                  <p className="text-sm leading-0 text-foreground font-bold mb-6">
-                    Resultados
-                  </p>
-
-                  <h2 className="text-2xl md:text-3xl text-foreground mb-4">
+                  <h2 className="text-2xl md:text-3xl text-foreground mb-6">
                     No se pueden calcular los resultados
                   </h2>
 
-                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <p className="text-sm text-red-800">
-                      {getValidationErrorMessage(validationError)}
-                    </p>
-                  </div>
+                  <p className="text-base text-foreground opacity-80 mb-4">
+                    {getValidationErrorMessage(validationError)}
+                  </p>
                 </div>
 
                 <div>
-                  <p className="text-sm text-foreground opacity-70">
+                  <p className="text-sm text-foreground opacity-60">
                     Navega hacia atrás para modificar tus respuestas.
                   </p>
                 </div>
@@ -404,12 +402,8 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
               // Valid state - show button
               <>
                 <div>
-                  <p className="text-sm leading-0 text-foreground font-bold mb-6">
-                    Resultados
-                  </p>
-
                   <h2 className="text-2xl md:text-3xl text-foreground">
-                    Tus resultados están listos
+                    ¿Qué temas son más importantes para ti?
                   </h2>
                 </div>
 
@@ -419,7 +413,7 @@ export function Quiz({ title, theses, initialAnswers, initialScrollPosition, onC
                     disabled={isNavigating}
                     className={button({ variant: "primary" })}
                   >
-                    Ver resultados
+                    Continuar a ponderación
                   </button>
                 </div>
               </>
